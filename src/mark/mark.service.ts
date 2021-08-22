@@ -5,6 +5,9 @@ import { CreateMarkDto, UpdateMarkDto } from 'src/dto/mark.dto';
 import { Exercise, ExerciseDocument } from 'src/schemas/exercise.schema';
 import { Mark, MarkDocument } from 'src/schemas/mark.schema';
 
+//TODO: On create, check if exercise id exist before
+//TODO: On delete, check if mark id exist before
+//TODO: On update, check if mark and exercise id exist before
 @Injectable()
 export class MarkService {
   constructor(

@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ExerciseService } from 'src/exercise/exercise.service';
 import { Exercise, ExerciseSchema } from 'src/schemas/exercise.schema';
 import { Mark, MarkSchema } from 'src/schemas/mark.schema';
 import { MarkController } from './mark.controller';
