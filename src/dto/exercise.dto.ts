@@ -17,11 +17,11 @@ export class CreateExerciseDto {
 
 export class UpdateExerciseDto {
   @IsString()
-  name?: string;
+  name: string;
 
   @IsString()
-  description?: string;
+  description: string;
 
   @IsEnum(MuscleEnum)
-  muscle?: MuscleEnum;
+  muscle: MuscleEnum;
 }

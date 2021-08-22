@@ -25,7 +25,7 @@ export class ExerciseController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Exercise> {
     return this.exerciseService.findOne(id);
   }
 
@@ -38,12 +38,12 @@ export class ExerciseController {
   update(
     @Param('id') id: string,
     @Body() updateExerciseDto: UpdateExerciseDto
-  ) {
+  ): Promise<Exercise> {
     return this.exerciseService.update(id, updateExerciseDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<boolean> {
     return this.exerciseService.delete(id);
   }
 }

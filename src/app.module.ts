@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ExerciseModule } from './exercise/exercise.module';
+import { MarkModule } from './mark/mark.module';
 
 @Module({
   imports: [
@@ -9,6 +10,7 @@ import { ExerciseModule } from './exercise/exercise.module';
       { useCreateIndex: true, useFindAndModify: false }
     ),
     ExerciseModule,
+    MarkModule,
   ],
 })
 export class AppModule {}

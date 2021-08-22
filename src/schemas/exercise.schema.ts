@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { MuscleEnum } from 'src/enums/muscle.enum';
+import { Mark } from './mark.schema';
 
 export type ExerciseDocument = Exercise & Document;
 
@@ -14,6 +15,9 @@ export class Exercise {
 
   @Prop({ type: String, required: true })
   muscle: MuscleEnum;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Mark' }] })
+  marks: Mark[];
 }
 
 export const ExerciseSchema = SchemaFactory.createForClass(Exercise);
