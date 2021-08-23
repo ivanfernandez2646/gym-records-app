@@ -16,7 +16,12 @@ export class Config {
   @Prop({ type: Number })
   bmi: MuscleEnum;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Exercise' }] })
+  @Prop({
+    type: Types.ObjectId,
+    ref: 'Exercise',
+    required: false,
+    name: 'favourite_exercise',
+  })
   favouriteExercise: Exercise;
 }
 
