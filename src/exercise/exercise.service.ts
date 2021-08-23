@@ -39,25 +39,12 @@ export class ExerciseService {
   }
 
   async delete(id: string): Promise<boolean> {
-    const session = await this.exerciseModel.startSession();
-    session.startTransaction();
     try {
       const deleteExercise: ExerciseDocument =
         await this.exerciseModel.findById(id);
-      for (let i = 0; i < deleteExercise.marks.length; i++) {
-        const deleteMark: MarkDocument = await this.markModel.findById(
-          deleteExercise.marks[i]
-        );
-        await deleteMark.delete();
-      }
-      await deleteExercise.delete();
-
-      await session.commitTransaction();
-      session.endSession();
+      await deleteExercise.deleteOne();
       return true;
     } catch (error) {
-      await session.abortTransaction();
-      session.endSession();
       throw error;
     }
   }

@@ -24,7 +24,4 @@ export class UpdateMarkDto {
 
   @IsNumber()
   reps: number;
-
-  @IsNotEmpty()
-  exerciseId: Types.ObjectId;
 }

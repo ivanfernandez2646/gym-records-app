@@ -21,3 +21,7 @@ export class Exercise {
 }
 
 export const ExerciseSchema = SchemaFactory.createForClass(Exercise);
+ExerciseSchema.pre('deleteOne', { document: true }, function (next) {
+  this.model('Mark').deleteMany({ exercise: this._id }).exec();
+  next();
+});

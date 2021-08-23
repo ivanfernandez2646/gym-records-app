@@ -19,8 +19,14 @@ export class Mark {
   @Prop({ type: Date, default: Date.now() })
   date: Date;
 
-  @Prop({ type: Types.ObjectId, ref: 'Exercise', required: false })
+  @Prop({ type: Types.ObjectId, ref: 'Exercise', required: true })
   exercise: Exercise;
 }
 
 export const MarkSchema = SchemaFactory.createForClass(Mark);
+MarkSchema.pre('deleteOne', { document: true }, function (next) {
+  this.model('Exercise')
+    .updateOne({}, { $pull: { marks: this.id } }, { multi: true })
+    .exec();
+  next();
+});

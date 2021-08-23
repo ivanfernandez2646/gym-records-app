@@ -47,47 +47,17 @@ export class MarkService {
   }
 
   async update(id: string, updateMarkDto: UpdateMarkDto): Promise<Mark> {
-    const session = await this.markModel.startSession();
-    session.startTransaction();
-    try {
-      const updateMark = await this.markModel.findById(id);
-      const exercise = await this.exerciseModel.findById(
-        updateMarkDto.exerciseId
-      );
-      updateMark.exercise = exercise._id;
-      exercise.marks.push(updateMark);
-      await exercise.save();
-      const markSaved = await updateMark.save();
-
-      await session.commitTransaction();
-      session.endSession();
-      return markSaved;
-    } catch (error) {
-      await session.abortTransaction();
-      session.endSession();
-      throw error;
-    }
+    return await this.markModel.findByIdAndUpdate(id, updateMarkDto, {
+      new: true,
+    });
   }
 
   async delete(id: string): Promise<boolean> {
-    const session = await this.markModel.startSession();
-    session.startTransaction();
     try {
       const deleteMark = await this.markModel.findById(id);
-      const exercise = await this.exerciseModel.findById(deleteMark.exercise);
-      exercise.marks.splice(
-        exercise.marks.findIndex((m) => m.exercise === deleteMark.id),
-        1
-      );
-      await exercise.save();
-      await deleteMark.remove();
-
-      await session.commitTransaction();
-      session.endSession();
+      await deleteMark.deleteOne();
       return true;
     } catch (error) {
-      await session.abortTransaction();
-      session.endSession();
       throw error;
     }
   }
