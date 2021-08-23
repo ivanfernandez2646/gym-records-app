@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateExerciseDto, UpdateExerciseDto } from 'src/dto/exercise.dto';
+import { CreateExerciseDTO, UpdateExerciseDTO } from 'src/dto/exercise.dto';
 import { Exercise, ExerciseDocument } from 'src/schemas/exercise.schema';
 import { Mark, MarkDocument } from 'src/schemas/mark.schema';
 
@@ -22,18 +22,18 @@ export class ExerciseService {
     return await this.exerciseModel.findById(id);
   }
 
-  async create(createExerciseDto: CreateExerciseDto): Promise<Exercise> {
+  async create(createExerciseDTO: CreateExerciseDTO): Promise<Exercise> {
     const createExercise: ExerciseDocument = new this.exerciseModel(
-      createExerciseDto
+      createExerciseDTO
     );
     return await createExercise.save();
   }
 
   async update(
     id: string,
-    updateExerciseDto: UpdateExerciseDto
+    updateExerciseDTO: UpdateExerciseDTO
   ): Promise<Exercise> {
-    return await this.exerciseModel.findByIdAndUpdate(id, updateExerciseDto, {
+    return await this.exerciseModel.findByIdAndUpdate(id, updateExerciseDTO, {
       new: true,
     });
   }

@@ -1,7 +1,7 @@
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { MuscleEnum } from 'src/enums/muscle.enum';
 
-export class CreateExerciseDto {
+export class CreateExerciseDTO {
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -15,7 +15,7 @@ export class CreateExerciseDto {
   muscle: MuscleEnum;
 }
 
-export class UpdateExerciseDto {
+export class UpdateExerciseDTO {
   @IsString()
   name: string;
 

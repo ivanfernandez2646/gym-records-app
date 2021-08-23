@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { MuscleEnum } from 'src/enums/muscle.enum';
 import { Exercise } from './exercise.schema';
+import { User } from './user.schema';
 
 export type ConfigDocument = Config & Document;
 
@@ -23,6 +24,13 @@ export class Config {
     name: 'favourite_exercise',
   })
   favouriteExercise: Exercise;
+
+  @Prop({
+    type: Types.ObjectId,
+    ref: 'User',
+    required: true,
+  })
+  user: User;
 }
 
 export const ConfigSchema = SchemaFactory.createForClass(Config);

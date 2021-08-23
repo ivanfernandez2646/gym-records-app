@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsNumber } from 'class-validator';
 import { Types } from 'mongoose';
 
-export class CreateMarkDto {
+export class CreateMarkDTO {
   @IsNumber()
   height: number;
 
@@ -15,7 +15,7 @@ export class CreateMarkDto {
   exerciseId: Types.ObjectId;
 }
 
-export class UpdateMarkDto {
+export class UpdateMarkDTO {
   @IsNumber()
   height: number;
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { UpdateConfigDto } from 'src/dto/config.dto';
+import { ClientSession, Model } from 'mongoose';
+import { UpdateConfigDTO } from 'src/dto/config.dto';
 import { Config, ConfigDocument } from 'src/schemas/config.schema';
 import { Exercise, ExerciseDocument } from 'src/schemas/exercise.schema';
 
@@ -20,17 +20,17 @@ export class ConfigService {
     return await this.configModel.findById(id);
   }
 
-  async update(id: string, updateConfigDto: UpdateConfigDto): Promise<Config> {
-    const session = await this.configModel.startSession();
+  async update(id: string, updateConfigDTO: UpdateConfigDTO): Promise<Config> {
+    const session: ClientSession = await this.configModel.startSession();
     session.startTransaction();
     try {
       const updateConfig: ConfigDocument = await this.configModel.findById(id);
       //TODO: Check if favourite exercise exist, otherwise return error message
       const favouriteExercise: ExerciseDocument =
-        await this.exerciseModel.findById(updateConfigDto.favouriteExerciseId);
+        await this.exerciseModel.findById(updateConfigDTO.favouriteExerciseId);
       updateConfig.favouriteExercise = favouriteExercise._id;
       await updateConfig.save();
-      const configSaved = await updateConfig.save();
+      const configSaved: ConfigDocument = await updateConfig.save();
 
       await session.commitTransaction();
       session.endSession();

@@ -8,14 +8,13 @@ import {
   Put,
   UseFilters,
 } from '@nestjs/common';
-import { Query } from 'mongoose';
-import { CreateExerciseDto, UpdateExerciseDto } from 'src/dto/exercise.dto';
-import { MongoExceptionFilter } from 'src/errors/mongo.error';
+import { CreateExerciseDTO, UpdateExerciseDTO } from 'src/dto/exercise.dto';
+import { AllExceptionsFilter } from 'src/errors/all-exception.error';
 import { Exercise } from 'src/schemas/exercise.schema';
 import { ExerciseService } from './exercise.service';
 
 @Controller('exercise')
-@UseFilters(MongoExceptionFilter)
+@UseFilters(AllExceptionsFilter)
 export class ExerciseController {
   constructor(private readonly exerciseService: ExerciseService) {}
 
@@ -30,16 +29,16 @@ export class ExerciseController {
   }
 
   @Post()
-  create(@Body() createExerciseDto: CreateExerciseDto): Promise<Exercise> {
-    return this.exerciseService.create(createExerciseDto);
+  create(@Body() createExerciseDTO: CreateExerciseDTO): Promise<Exercise> {
+    return this.exerciseService.create(createExerciseDTO);
   }
 
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() updateExerciseDto: UpdateExerciseDto
+    @Body() updateExerciseDTO: UpdateExerciseDTO
   ): Promise<Exercise> {
-    return this.exerciseService.update(id, updateExerciseDto);
+    return this.exerciseService.update(id, updateExerciseDTO);
   }
 
   @Delete(':id')

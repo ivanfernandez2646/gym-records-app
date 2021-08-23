@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Put, UseFilters } from '@nestjs/common';
-import { UpdateConfigDto } from 'src/dto/config.dto';
-import { MongoExceptionFilter } from 'src/errors/mongo.error';
+import { UpdateConfigDTO } from 'src/dto/config.dto';
+import { AllExceptionsFilter } from 'src/errors/all-exception.error';
 import { Config } from 'src/schemas/config.schema';
 import { ConfigService } from './config.service';
 
 @Controller('config')
-@UseFilters(MongoExceptionFilter)
+@UseFilters(AllExceptionsFilter)
 export class ConfigController {
   constructor(private readonly configService: ConfigService) {}
 
@@ -22,7 +22,7 @@ export class ConfigController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() updateConfigDto: UpdateConfigDto
+    @Body() updateConfigDto: UpdateConfigDTO
   ): Promise<Config> {
     return this.configService.update(id, updateConfigDto);
   }

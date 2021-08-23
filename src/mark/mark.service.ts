@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateMarkDto, UpdateMarkDto } from 'src/dto/mark.dto';
+import { CreateMarkDTO, UpdateMarkDTO } from 'src/dto/mark.dto';
 import { Exercise, ExerciseDocument } from 'src/schemas/exercise.schema';
 import { Mark, MarkDocument } from 'src/schemas/mark.schema';
 
@@ -23,18 +23,18 @@ export class MarkService {
     return await this.markModel.findById(id);
   }
 
-  async create(createMarkDto: CreateMarkDto): Promise<Mark> {
+  async create(createMarkDTO: CreateMarkDTO): Promise<Mark> {
     const session = await this.markModel.startSession();
     session.startTransaction();
     try {
-      const newMark = new this.markModel(createMarkDto);
-      const exercise = await this.exerciseModel.findById(
-        createMarkDto.exerciseId
+      const newMark: MarkDocument = new this.markModel(createMarkDTO);
+      const exercise: ExerciseDocument = await this.exerciseModel.findById(
+        createMarkDTO.exerciseId
       );
-      newMark.exercise = exercise._id;
+      newMark.exercise = exercise;
       exercise.marks.push(newMark);
       await exercise.save();
-      const markSaved = await newMark.save();
+      const markSaved: MarkDocument = await newMark.save();
 
       await session.commitTransaction();
       session.endSession();
@@ -46,15 +46,15 @@ export class MarkService {
     }
   }
 
-  async update(id: string, updateMarkDto: UpdateMarkDto): Promise<Mark> {
-    return await this.markModel.findByIdAndUpdate(id, updateMarkDto, {
+  async update(id: string, updateMarkDTO: UpdateMarkDTO): Promise<Mark> {
+    return await this.markModel.findByIdAndUpdate(id, updateMarkDTO, {
       new: true,
     });
   }
 
   async delete(id: string): Promise<boolean> {
     try {
-      const deleteMark = await this.markModel.findById(id);
+      const deleteMark: MarkDocument = await this.markModel.findById(id);
       await deleteMark.deleteOne();
       return true;
     } catch (error) {

@@ -8,13 +8,13 @@ import {
   Put,
   UseFilters,
 } from '@nestjs/common';
-import { CreateMarkDto, UpdateMarkDto } from 'src/dto/mark.dto';
-import { MongoExceptionFilter } from 'src/errors/mongo.error';
+import { CreateMarkDTO, UpdateMarkDTO } from 'src/dto/mark.dto';
+import { AllExceptionsFilter } from 'src/errors/all-exception.error';
 import { Mark } from 'src/schemas/mark.schema';
 import { MarkService } from './mark.service';
 
 @Controller('mark')
-@UseFilters(MongoExceptionFilter)
+@UseFilters(AllExceptionsFilter)
 export class MarkController {
   constructor(private readonly markService: MarkService) {}
 
@@ -29,16 +29,16 @@ export class MarkController {
   }
 
   @Post()
-  create(@Body() createExerciseDto: CreateMarkDto): Promise<Mark> {
-    return this.markService.create(createExerciseDto);
+  create(@Body() createMarkDTO: CreateMarkDTO): Promise<Mark> {
+    return this.markService.create(createMarkDTO);
   }
 
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() updateExerciseDto: UpdateMarkDto
+    @Body() updateMarkDTO: UpdateMarkDTO
   ): Promise<Mark> {
-    return this.markService.update(id, updateExerciseDto);
+    return this.markService.update(id, updateMarkDTO);
   }
 
   @Delete(':id')
