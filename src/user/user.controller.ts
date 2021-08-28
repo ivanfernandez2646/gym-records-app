@@ -32,17 +32,4 @@ export class UserController {
   create(@Body() createUserDTO: CreateUserDTO): Promise<User> {
     return this.markService.create(createUserDTO);
   }
-
-  // @Put(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateUserDTO: UpdateUserDTO
-  // ): Promise<User> {
-  //   return this.markService.update(id, updateUserDto);
-  // }
-
-  //   @Delete(':id')
-  //   remove(@Param('id') id: string): Promise<boolean> {
-  //     return this.markService.delete(id);
-  //   }
 }

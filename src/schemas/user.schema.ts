@@ -38,3 +38,8 @@ export class User {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+UserSchema.pre('deleteOne', { document: true }, function (next) {
+  this.model('Mark').deleteMany({ user: this._id }).exec();
+  this.model('Config').deleteOne({ user: this._id }).exec();
+  next();
+});
