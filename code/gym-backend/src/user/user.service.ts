@@ -4,6 +4,8 @@ import { ClientSession, Model } from 'mongoose';
 import { CreateUserDTO } from 'src/dto/user.dto';
 import { Config, ConfigDocument } from 'src/schemas/config.schema';
 import { User, UserDocument } from 'src/schemas/user.schema';
+import * as bcrypt from 'bcrypt';
+import { ENCRYPTION_SALT_ROUNDS } from 'src/utils/generic.constants';
 
 @Injectable()
 export class UserService {
@@ -25,6 +27,10 @@ export class UserService {
     session.startTransaction();
     try {
       const newUser: UserDocument = new this.userModel(createUserDTO);
+      newUser.hashPassword = bcrypt.hashSync(
+        createUserDTO.password,
+        ENCRYPTION_SALT_ROUNDS
+      );
       const newConfig: ConfigDocument = new this.configModel(
         createUserDTO.config
       );
