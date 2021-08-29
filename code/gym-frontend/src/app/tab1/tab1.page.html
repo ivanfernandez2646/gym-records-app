@@ -1,0 +1,20 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title> Tab 1 </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col> Nombre </ion-col>
+      <ion-col> Descripción </ion-col>
+      <ion-col> Músculo </ion-col>
+    </ion-row>
+    <ion-row *ngFor="let exercise of exercises$ | async">
+      <ion-col>{{exercise.name}}</ion-col>
+      <ion-col>{{exercise.description}}</ion-col>
+      <ion-col>{{exercise.muscle}}</ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
