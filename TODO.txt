@@ -1,13 +1,8 @@
-23/08/2021
-
-XXX 1-. Work on User module.
-XXX 2-. Work in relationships around User.
-XXX 3-. Update DIA diagram (relation betwween exercise and config).
-XXX 4-. Control genérico de excepciones.
-
-
-
-MEJORAS
+MEJORAS BACKEND
 
 1-. Controlar cuando un objeto existe o no y devolver un mensaje explicativo.
 2-. Updatear un usuario y poder borrarlo.
+
+FRONTEND
+
+1-. Crear pantalla de registro, login.

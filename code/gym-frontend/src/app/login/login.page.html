@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <img src="../../assets/maybeIcon.png" />
+  <form (ngSubmit)="formSubmit()">
+    <ion-item>
+      <ion-label>Username</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="user.userName"
+        name="userName"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Email</ion-label>
+      <ion-textarea
+        [(ngModel)]="user.email"
+        name="email"
+        inputmode="email"
+      ></ion-textarea>
+    </ion-item>
+    <button ion-button type="submit" block>Add Todo</button>
+  </form>
+</ion-content>
