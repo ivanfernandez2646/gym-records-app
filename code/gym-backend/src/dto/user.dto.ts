@@ -1,9 +1,5 @@
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsNotEmptyObject,
-  IsString,
-} from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsEmail, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 import { CreateConfigDTO } from './config.dto';
 
 export class CreateUserDTO {
@@ -23,6 +19,7 @@ export class CreateUserDTO {
   @IsNotEmpty()
   password: string;
 
-  @IsNotEmptyObject()
+  @ValidateNested()
+  @Type(() => CreateConfigDTO)
   config: CreateConfigDTO;
 }

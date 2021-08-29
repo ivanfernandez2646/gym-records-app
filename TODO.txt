@@ -1,5 +1,6 @@
-MEJORAS BACKEND
+BACKEND
 
+IMPORTANTE: Transacción en la creación de usuario no funciona. Puede crear una configuración sin llegar a crear el usuario
 1-. Controlar cuando un objeto existe o no y devolver un mensaje explicativo.
 2-. Updatear un usuario y poder borrarlo.
 

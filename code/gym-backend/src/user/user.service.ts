@@ -6,6 +6,7 @@ import { Config, ConfigDocument } from 'src/schemas/config.schema';
 import { User, UserDocument } from 'src/schemas/user.schema';
 import * as bcrypt from 'bcrypt';
 import { ENCRYPTION_SALT_ROUNDS } from 'src/utils/generic.constants';
+import { calculateBMI } from 'src/utils/generic.functions';
 
 @Injectable()
 export class UserService {
@@ -34,6 +35,7 @@ export class UserService {
       const newConfig: ConfigDocument = new this.configModel(
         createUserDTO.config
       );
+      newConfig.bmi = calculateBMI(newConfig.weight, newConfig.height);
       newConfig.user = newUser;
       newUser.config = newConfig;
       await newConfig.save();

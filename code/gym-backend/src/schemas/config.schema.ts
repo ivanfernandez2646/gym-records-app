@@ -14,8 +14,8 @@ export class Config {
   @Prop({ type: Number, required: true })
   height: number;
 
-  @Prop({ type: Number })
-  bmi: MuscleEnum;
+  @Prop({ type: Number, required: true })
+  bmi: number;
 
   @Prop({
     type: Types.ObjectId,
