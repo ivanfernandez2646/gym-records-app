@@ -23,3 +23,16 @@ export class CreateUserDTO {
   @Type(() => CreateConfigDTO)
   config: CreateConfigDTO;
 }
+
+export class LoginUserDTO {
+  @IsString()
+  @IsNotEmpty()
+  userName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
+}
+
+
+

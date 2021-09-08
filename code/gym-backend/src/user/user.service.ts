@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ClientSession, Model } from 'mongoose';
-import { CreateUserDTO } from 'src/dto/user.dto';
+import { CreateUserDTO, LoginUserDTO } from 'src/dto/user.dto';
 import { Config, ConfigDocument } from 'src/schemas/config.schema';
 import { User, UserDocument } from 'src/schemas/user.schema';
 import * as bcrypt from 'bcrypt';
@@ -48,6 +48,25 @@ export class UserService {
       await session.abortTransaction();
       session.endSession();
       throw error;
+    }
+  }
+
+  async login(loginUserDTO: LoginUserDTO): Promise<User> {
+    const user = await this.userModel.findOne({
+      userName: loginUserDTO.userName,
+    });
+    if (user) {
+      const isMatch = await bcrypt.compare(
+        loginUserDTO.password,
+        user.hashPassword
+      );
+      if (isMatch) {
+        return user;
+      } else {
+        throw 'Password incorrect';
+      }
+    } else {
+      throw 'User not found';
     }
   }
 }

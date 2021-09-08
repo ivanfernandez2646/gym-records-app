@@ -1,14 +1,5 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  UseFilters,
-} from '@nestjs/common';
-import { CreateUserDTO } from 'src/dto/user.dto';
+import { Body, Controller, Get, Param, Post, UseFilters } from '@nestjs/common';
+import { CreateUserDTO, LoginUserDTO } from 'src/dto/user.dto';
 import { AllExceptionsFilter } from 'src/errors/all-exception.error';
 import { User } from 'src/schemas/user.schema';
 import { UserService } from './user.service';
@@ -16,20 +7,25 @@ import { UserService } from './user.service';
 @Controller('user')
 @UseFilters(AllExceptionsFilter)
 export class UserController {
-  constructor(private readonly markService: UserService) {}
+  constructor(private readonly userService: UserService) {}
 
   @Get()
   findAll(): Promise<User[]> {
-    return this.markService.findAll();
+    return this.userService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string): Promise<User> {
-    return this.markService.findOne(id);
+    return this.userService.findOne(id);
   }
 
   @Post()
   create(@Body() createUserDTO: CreateUserDTO): Promise<User> {
-    return this.markService.create(createUserDTO);
+    return this.userService.create(createUserDTO);
+  }
+
+  @Post('login')
+  login(@Body() loginUserDTO: LoginUserDTO): Promise<User> {
+    return this.userService.login(loginUserDTO);
   }
 }
