@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from '../models/user.model';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -9,11 +11,15 @@ import { User } from '../models/user.model';
 export class LoginPage implements OnInit {
   user: User = {};
 
-  constructor() {}
+  constructor(private router: Router, private userService: UserService) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.userService.loggedUser$.subscribe((res) => {
+      this.router.navigateByUrl('tabs/tab1', { state: { loggedUser: res } });
+    });
+  }
 
   formSubmit() {
-    console.log(this.user);
+    this.userService.login(this.user).then((res) => console.log(res));
   }
 }
