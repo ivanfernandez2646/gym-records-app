@@ -23,7 +23,8 @@ export class Tab1Page implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.exercises$ = this.exerciseService.getExercises();
+    this.exercises$ = this.exerciseService.exercises$;
+    this.exerciseService.loadExercises();
   }
 
   async presentModal() {
@@ -32,6 +33,7 @@ export class Tab1Page implements OnInit {
     });
     modal.onDidDismiss().then((data) => {
       if (data.data.write) {
+        this.exerciseService.loadExercises();
       }
     });
     return await modal.present();
