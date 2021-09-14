@@ -15,4 +15,11 @@ export class ExerciseService {
   getExercises(): Observable<Exercise[]> {
     return this.httpClient.get<Exercise[]>(`${this.apiRoute}/exercise`);
   }
+
+  create(exercise: Exercise): Observable<Exercise> {
+    return this.httpClient.post<Exercise>(
+      `${this.apiRoute}/exercise`,
+      exercise
+    );
+  }
 }

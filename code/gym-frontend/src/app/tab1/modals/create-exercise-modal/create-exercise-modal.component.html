@@ -1,0 +1,41 @@
+<form class="loginForm" (ngSubmit)="formSubmit()">
+  <div class="loginForm-inputs-container">
+    <ion-item>
+      <ion-label>Nombre</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="exercise.name"
+        name="name"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Descripción</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="exercise.description"
+        name="description"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Muscle</ion-label>
+      <ion-select
+        okText="Okay"
+        cancelText="Dismiss"
+        [(ngModel)]="exercise.muscle"
+        name="muscle"
+      >
+        <ion-select-option
+          *ngFor="let muscle of muscleEnum"
+          value="{{ muscle }}"
+          >{{ muscle | titlecase }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+  </div>
+  <div class="loginForm-buttons-container">
+    <ion-button type="submit" expand="block" color="secondary"
+      >Guardar</ion-button
+    >
+    <ion-button expand="block" (click)="dismiss()">Cancelar</ion-button>
+  </div>
+</form>

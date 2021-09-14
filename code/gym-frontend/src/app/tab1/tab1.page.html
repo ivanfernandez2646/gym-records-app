@@ -1,9 +1,3 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Welcome {{loggedUser.userName}}</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
   <ion-grid>
     <ion-row>
@@ -16,5 +10,14 @@
       <ion-col>{{exercise.description}}</ion-col>
       <ion-col>{{exercise.muscle}}</ion-col>
     </ion-row>
+    <div>
+      <ion-button
+        type="submit"
+        expand="block"
+        color="secondary"
+        (click)="presentModal()"
+        >Añadir ejercicio</ion-button
+      >
+    </div>
   </ion-grid>
 </ion-content>
