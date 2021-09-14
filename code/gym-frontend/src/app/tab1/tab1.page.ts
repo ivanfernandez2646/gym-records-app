@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Exercise } from '../models/exercise.model';
 import { User } from '../models/user.model';
 import { ExerciseService } from '../services/exercise.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-tab1',
@@ -15,13 +15,12 @@ export class Tab1Page implements OnInit {
   loggedUser: User;
 
   constructor(
-    private router: Router,
-    private exerciseService: ExerciseService
+    private exerciseService: ExerciseService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
     this.exercises$ = this.exerciseService.getExercises();
-    this.loggedUser =
-      this.router.getCurrentNavigation().extras.state.loggedUser;
+    this.userService.loggedUser$.subscribe((user) => (this.loggedUser = user));
   }
 }

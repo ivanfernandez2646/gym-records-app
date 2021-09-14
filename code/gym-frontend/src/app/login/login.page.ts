@@ -14,12 +14,17 @@ export class LoginPage implements OnInit {
   constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.userService.loggedUser$.subscribe((res) => {
-      this.router.navigateByUrl('tabs/tab1', { state: { loggedUser: res } });
-    });
+    const isAuthenticated = this.userService.isAuthenticated();
+    if (isAuthenticated) {
+      this.router.navigateByUrl('tabs');
+    }
   }
 
   formSubmit() {
-    this.userService.login(this.user).then((res) => console.log(res));
+    this.userService.login(this.user).then((isLogged: boolean) => {
+      if (isLogged) {
+        this.router.navigateByUrl('tabs');
+      }
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, lastValueFrom, ReplaySubject } from 'rxjs';
+import { lastValueFrom, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user.model';
 
@@ -10,6 +10,7 @@ import { User } from '../models/user.model';
 export class UserService {
   private API_ROUTE: string = environment.apiUrl;
   public loggedUser$: ReplaySubject<User> = new ReplaySubject<User>(1);
+  private isUserAuthenticated: boolean;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -18,10 +19,26 @@ export class UserService {
       this.httpClient.post<User>(`${this.API_ROUTE}/user/login`, user)
     );
     if (loggedUser) {
+      localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
       this.loggedUser$.next(loggedUser);
+      this.isUserAuthenticated = true;
       return true;
     }
 
     return false;
+  }
+
+  isAuthenticated(): boolean {
+    return this.isUserAuthenticated;
+  }
+
+  setLoggedUser(): void {
+    const user: User = JSON.parse(localStorage.getItem('loggedUser'));
+    if (user) {
+      this.loggedUser$.next(user);
+      this.isUserAuthenticated = true;
+    } else {
+      this.isUserAuthenticated = false;
+    }
   }
 }
