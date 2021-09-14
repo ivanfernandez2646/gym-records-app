@@ -2,3 +2,8 @@ ion-button {
   width: fit-content;
   margin: 0 auto;
 }
+
+ion-list {
+  height: 85%;
+  overflow-y: auto;
+}
