@@ -28,6 +28,12 @@ export class UserService {
     return false;
   }
 
+  logout(): void {
+    localStorage.removeItem('loggedUser');
+    this.loggedUser$.next(undefined);
+    this.isUserAuthenticated = false;
+  }
+
   isAuthenticated(): boolean {
     return this.isUserAuthenticated;
   }
