@@ -7,11 +7,11 @@ import { ExerciseService } from '../services/exercise.service';
 import { CreateExerciseModalComponent } from './modals/create-exercise-modal/create-exercise-modal.component';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss'],
+  selector: 'app-tab-exercises',
+  templateUrl: 'tab-exercises.page.html',
+  styleUrls: ['tab-exercises.page.scss'],
 })
-export class Tab1Page implements OnInit {
+export class TabExercises implements OnInit {
   exercises$: Observable<Exercise[]>;
 
   @Input()

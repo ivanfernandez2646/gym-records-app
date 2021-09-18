@@ -2,10 +2,10 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Tab1Page } from './tab1.page';
+import { TabExercises } from './tab-exercises.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { Tab1PageRoutingModule } from './tab1-routing.module';
+import { TabExercisesPageRoutingModule } from './tab-exercises-routing.module';
 import { CreateExerciseModalComponent } from './modals/create-exercise-modal/create-exercise-modal.component';
 
 @NgModule({
@@ -14,8 +14,8 @@ import { CreateExerciseModalComponent } from './modals/create-exercise-modal/cre
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    Tab1PageRoutingModule,
+    TabExercisesPageRoutingModule,
   ],
-  declarations: [Tab1Page, CreateExerciseModalComponent],
+  declarations: [TabExercises, CreateExerciseModalComponent],
 })
 export class Tab1PageModule {}
