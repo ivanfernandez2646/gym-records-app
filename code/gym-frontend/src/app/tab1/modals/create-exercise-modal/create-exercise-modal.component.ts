@@ -20,14 +20,11 @@ export class CreateExerciseModalComponent {
   ) {}
 
   formSubmit(): void {
-    this.exerciseService.create(this.exercise).subscribe((res) => {
-      this.dismiss(!!res);
-    });
+    this.exerciseService.create(this.exercise);
+    this.dismiss();
   }
 
-  dismiss(write?: boolean): void {
-    this.modalController.dismiss({
-      write,
-    });
+  dismiss(): void {
+    this.modalController.dismiss();
   }
 }

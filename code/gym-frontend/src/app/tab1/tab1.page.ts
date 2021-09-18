@@ -27,14 +27,13 @@ export class Tab1Page implements OnInit {
     this.exerciseService.loadExercises();
   }
 
+  deleteExercise(id: string): void {
+    this.exerciseService.delete(id);
+  }
+
   async presentModal() {
     const modal = await this.modalController.create({
       component: CreateExerciseModalComponent,
-    });
-    modal.onDidDismiss().then((data) => {
-      if (data.data.write) {
-        this.exerciseService.loadExercises();
-      }
     });
     return await modal.present();
   }
