@@ -5,6 +5,7 @@ import { Exercise } from '../models/exercise.model';
 import { User } from '../models/user.model';
 import { ExerciseService } from '../services/exercise.service';
 import { CreateExerciseModalComponent } from './modals/create-exercise-modal/create-exercise-modal.component';
+import { MarksExerciseModalComponent } from './modals/marks-exercise-modal/marks-exercise-modal.component';
 
 @Component({
   selector: 'app-tab-exercises',
@@ -27,17 +28,30 @@ export class TabExercises implements OnInit {
     this.exerciseService.loadExercises();
   }
 
-  deleteExercise(id: string): void {
+  deleteExercise($event: MouseEvent, id: string): void {
+    if ($event) {
+      $event.stopPropagation();
+    }
     this.exerciseService.delete(id);
   }
 
-  async presentModal(exercise?: Exercise) {
+  async createUpdateExerciseModal($event?: MouseEvent, exercise?: Exercise) {
+    if ($event) {
+      $event.stopPropagation();
+    }
     const modal = await this.modalController.create({
       component: CreateExerciseModalComponent,
       componentProps: {
         exercise: exercise,
         isUpdate: !!exercise,
       },
+    });
+    return await modal.present();
+  }
+
+  async marksForExerciseModal(exercise: Exercise) {
+    const modal = await this.modalController.create({
+      component: MarksExerciseModalComponent,
     });
     return await modal.present();
   }

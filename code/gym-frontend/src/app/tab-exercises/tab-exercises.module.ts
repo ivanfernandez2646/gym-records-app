@@ -7,6 +7,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { TabExercisesPageRoutingModule } from './tab-exercises-routing.module';
 import { CreateExerciseModalComponent } from './modals/create-exercise-modal/create-exercise-modal.component';
+import { MarksExerciseModalComponent } from './modals/marks-exercise-modal/marks-exercise-modal.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,10 @@ import { CreateExerciseModalComponent } from './modals/create-exercise-modal/cre
     ExploreContainerComponentModule,
     TabExercisesPageRoutingModule,
   ],
-  declarations: [TabExercises, CreateExerciseModalComponent],
+  declarations: [
+    TabExercises,
+    CreateExerciseModalComponent,
+    MarksExerciseModalComponent,
+  ],
 })
 export class Tab1PageModule {}

@@ -1,3 +1,7 @@
+Actualmente la aplicación va a ser desarrollada para uso personal, con lo cual no va a hacer uso de registro de usuarios y demás.
+Es una funcionalidad implementada en backend y que será llevada más adelante hacia el frontend. Tratamiento de errores explicativos 
+y validación de formularios pendiente de realizar.
+
 BACKEND
 
 IMPORTANTE: Transacción en la creación de usuario no funciona. Puede crear una configuración sin llegar a crear el usuario
@@ -7,3 +11,4 @@ IMPORTANTE: Transacción en la creación de usuario no funciona. Puede crear una
 FRONTEND
 
 1-. Crear pantalla de registro, login.
+2-. Hacer uso de las configuraciones e implementar.
