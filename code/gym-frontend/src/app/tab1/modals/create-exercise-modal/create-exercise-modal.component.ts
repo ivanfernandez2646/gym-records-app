@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Exercise } from 'src/app/models/exercise.model';
 import { ExerciseService } from 'src/app/services/exercise.service';
@@ -10,8 +10,9 @@ import { MuscleEnum } from 'src/app/utils/MuscleEnum';
   templateUrl: './create-exercise-modal.component.html',
   styleUrls: ['./create-exercise-modal.component.scss'],
 })
-export class CreateExerciseModalComponent {
-  exercise: Exercise = {};
+export class CreateExerciseModalComponent implements OnInit {
+  exercise: Exercise;
+  isUpdate: boolean;
   muscleEnum: string[] = enumToArrayOfValues(MuscleEnum);
 
   constructor(
@@ -19,8 +20,18 @@ export class CreateExerciseModalComponent {
     private exerciseService: ExerciseService
   ) {}
 
+  ngOnInit(): void {
+    if (!this.isUpdate) {
+      this.exercise = {};
+    }
+  }
+
   formSubmit(): void {
-    this.exerciseService.create(this.exercise);
+    if (this.isUpdate) {
+      this.exerciseService.update(this.exercise._id, this.exercise);
+    } else {
+      this.exerciseService.create(this.exercise);
+    }
     this.dismiss();
   }
 

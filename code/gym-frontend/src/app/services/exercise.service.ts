@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Exercise } from '../models/exercise.model';
-import { Observable, ReplaySubject, take } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +29,15 @@ export class ExerciseService {
       .post<Exercise>(`${this.apiRoute}/exercise`, exercise)
       .subscribe((res) => {
         this.exercises.push(res);
+        this.exercises$.next(this.exercises);
+      });
+  }
+  update(id: string, exercise: Exercise) {
+    this.httpClient
+      .put<Exercise>(`${this.apiRoute}/exercise/${id}`, exercise)
+      .subscribe((res) => {
+        const index = this.exercises.findIndex((e) => e._id === id);
+        this.exercises.splice(index, 1, res);
         this.exercises$.next(this.exercises);
       });
   }
