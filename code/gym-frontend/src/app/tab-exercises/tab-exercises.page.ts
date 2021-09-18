@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Exercise } from '../models/exercise.model';
 import { User } from '../models/user.model';
@@ -20,7 +20,8 @@ export class TabExercises implements OnInit {
 
   constructor(
     private exerciseService: ExerciseService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private alertController: AlertController
   ) {}
 
   ngOnInit(): void {
@@ -28,11 +29,29 @@ export class TabExercises implements OnInit {
     this.exerciseService.loadExercises();
   }
 
-  deleteExercise($event: MouseEvent, id: string): void {
+  async deleteExercise($event: MouseEvent, exercise: Exercise): Promise<void> {
     if ($event) {
       $event.stopPropagation();
     }
-    this.exerciseService.delete(id);
+    const alert = await this.alertController.create({
+      header: 'Delete exercise',
+      message: `You're going to delete ${exercise.name}. Are you sure?`,
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.exerciseService.delete(exercise._id);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   async createUpdateExerciseModal($event?: MouseEvent, exercise?: Exercise) {

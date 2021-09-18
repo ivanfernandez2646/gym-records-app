@@ -1,3 +1,9 @@
+NEXT:
+
+Add delete confirmation generic dialog
+Add marks
+
+
 Actualmente la aplicación va a ser desarrollada para uso personal, con lo cual no va a hacer uso de registro de usuarios y demás.
 Es una funcionalidad implementada en backend y que será llevada más adelante hacia el frontend. Tratamiento de errores explicativos 
 y validación de formularios pendiente de realizar.
