@@ -8,7 +8,7 @@ export type MarkDocument = Mark & Document;
 @Schema()
 export class Mark {
   @Prop({ type: Number, required: true })
-  height: number;
+  weight: number;
 
   @Prop({ type: Number, required: true })
   serie: number;

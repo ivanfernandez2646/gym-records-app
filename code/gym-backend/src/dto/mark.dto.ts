@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 
 export class CreateMarkDTO {
   @IsNumber()
-  height: number;
+  weight: number;
 
   @IsNumber()
   serie: number;
@@ -17,7 +17,7 @@ export class CreateMarkDTO {
 
 export class UpdateMarkDTO {
   @IsNumber()
-  height: number;
+  weight: number;
 
   @IsNumber()
   serie: number;
