@@ -6,9 +6,14 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseFilters,
 } from '@nestjs/common';
-import { CreateMarkDTO, UpdateMarkDTO } from 'src/dto/mark.dto';
+import {
+  CreateMarkDTO,
+  FindMarkByUserAndExerciseParams,
+  UpdateMarkDTO,
+} from 'src/dto/mark.dto';
 import { AllExceptionsFilter } from 'src/errors/all-exception.error';
 import { Mark } from 'src/schemas/mark.schema';
 import { MarkService } from './mark.service';
@@ -19,8 +24,13 @@ export class MarkController {
   constructor(private readonly markService: MarkService) {}
 
   @Get()
-  findAll(): Promise<Mark[]> {
-    return this.markService.findAll();
+  findAllByUserAndExercise(
+    @Query() queryParams: FindMarkByUserAndExerciseParams
+  ): Promise<Mark[]> {
+    return this.markService.findAllByUserAndExercise(
+      queryParams.userId,
+      queryParams.exerciseId
+    );
   }
 
   @Get(':id')

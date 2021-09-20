@@ -20,10 +20,10 @@ export class Mark {
   date: Date;
 
   @Prop({ type: Types.ObjectId, ref: 'Exercise', required: true })
-  exercise: Exercise;
+  exercise: Exercise | Types.ObjectId;
 
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-  user: User;
+  user: User | Types.ObjectId;
 }
 
 export const MarkSchema = SchemaFactory.createForClass(Mark);

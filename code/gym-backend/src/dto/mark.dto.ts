@@ -12,6 +12,9 @@ export class CreateMarkDTO {
   reps: number;
 
   @IsNotEmpty()
+  userId: Types.ObjectId;
+
+  @IsNotEmpty()
   exerciseId: Types.ObjectId;
 }
 
@@ -24,4 +27,9 @@ export class UpdateMarkDTO {
 
   @IsNumber()
   reps: number;
+}
+
+export class FindMarkByUserAndExerciseParams {
+  userId: string;
+  exerciseId: string;
 }
