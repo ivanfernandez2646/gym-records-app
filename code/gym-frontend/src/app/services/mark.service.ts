@@ -44,6 +44,17 @@ export class MarkService {
       });
   }
 
+  delete(markId: string, exerciseId: string): void {
+    this.httpClient
+      .delete<boolean>(`${this.apiRoute}/mark/${markId}`)
+      .subscribe(() => {
+        const marks = this.marksMap.get(exerciseId);
+        const index = marks.findIndex((m) => m._id === markId);
+        marks.splice(index, 1);
+        this.marksMap$.get(exerciseId).next(marks);
+      });
+  }
+
   //Helpers
   getMarksObservableFiltered(exerciseId: string): ReplaySubject<Mark[]> {
     if (!this.marksMap$.has(exerciseId)) {

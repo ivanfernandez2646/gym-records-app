@@ -6,4 +6,24 @@ ion-button {
 .list {
   height: 85%;
   overflow-y: auto;
+  background: gainsboro;
+  padding: 1rem;
+
+  .item-wrapper {
+    width: 100%;
+    margin: 1rem;
+
+    .item-info {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .item-description {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.input-wrapper {
+  padding: 1rem;
 }

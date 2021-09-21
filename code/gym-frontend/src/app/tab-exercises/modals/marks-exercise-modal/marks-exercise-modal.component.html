@@ -1,5 +1,5 @@
 <ion-toolbar>
-  <ion-title>{{ exercise.name | titlecase }}</ion-title>
+  <ion-title>{{ exercise.name }}</ion-title>
 </ion-toolbar>
 <div class="container">
   <ion-list class="list">
@@ -7,13 +7,19 @@
       <div *ngFor="let mark of marks$ | async">
         <ion-item-sliding>
           <ion-item-options side="start">
-            <ion-item-option color="danger" expandable>
+            <ion-item-option
+              color="danger"
+              expandable
+              (click)="deleteMark($event, mark)"
+            >
               Delete
             </ion-item-option>
           </ion-item-options>
 
-          <ion-item>
-            <ion-label>{{ mark.date | date: "dd/MM/yyyy" }}</ion-label>
+          <ion-item class="ion-no-padding">
+            <ion-label class="label-date">{{
+              mark.date | date: "dd/MM/yyyy"
+            }}</ion-label>
             <div class="record-wrap">
               <ion-badge color="primary">{{ mark.weight }}kg</ion-badge>
               <ion-badge color="secondary"
@@ -32,11 +38,11 @@
       </div>
     </ng-container>
     <ng-template #noItems>
-      <h4 class="noItems">No items. You can start adding one.</h4>
+      <h4 class="no-items">No items. You can start adding one.</h4>
     </ng-template>
   </ion-list>
-  <form class="loginForm" (ngSubmit)="formSubmit()">
-    <div class="loginFor-inputs-container">
+  <form class="login-form" (ngSubmit)="formSubmit()">
+    <div class="login-form-inputs-container">
       <ion-item class="ion-no-padding">
         <ion-label>Weight</ion-label>
         <ion-input

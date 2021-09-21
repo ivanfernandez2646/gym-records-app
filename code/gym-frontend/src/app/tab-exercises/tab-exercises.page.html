@@ -16,8 +16,16 @@
             </ion-item-option>
           </ion-item-options>
 
-          <ion-item>
-            <ion-label>{{exercise.name}}</ion-label>
+          <ion-item class="ion-no-padding">
+            <div class="item-wrapper">
+              <div class="item-info">
+                <ion-label>{{exercise.name }}</ion-label>
+                <ion-badge color="primary"
+                  >{{ exercise.muscle | titlecase }}</ion-badge
+                >
+              </div>
+              <p class="item-description">{{exercise.description}}</p>
+            </div>
           </ion-item>
 
           <ion-item-options side="end">
@@ -33,7 +41,7 @@
       </div>
     </ng-container>
     <ng-template #noItems>
-      <h4 class="noItems">No items. You can start adding one.</h4>
+      <h4 class="no-items">No items. You can start adding one.</h4>
     </ng-template>
   </ion-list>
 

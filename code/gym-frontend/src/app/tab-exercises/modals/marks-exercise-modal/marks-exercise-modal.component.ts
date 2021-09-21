@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Exercise } from 'src/app/models/exercise.model';
 import { Mark } from 'src/app/models/mark.model';
@@ -19,6 +19,7 @@ export class MarksExerciseModalComponent implements OnInit {
 
   constructor(
     private modalController: ModalController,
+    private alertController: AlertController,
     private markService: MarkService
   ) {}
 
@@ -37,5 +38,31 @@ export class MarksExerciseModalComponent implements OnInit {
 
   dismiss(): void {
     this.modalController.dismiss();
+  }
+
+  /* TODO: Implement delete and set default value in create exercise modal */
+  async deleteMark($event: MouseEvent, mark: Mark): Promise<void> {
+    if ($event) {
+      $event.stopPropagation();
+    }
+    const alert = await this.alertController.create({
+      header: 'Delete mark',
+      message: `You're going to delete the mark. Are you sure?`,
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.markService.delete(mark._id, this.exercise._id);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }
