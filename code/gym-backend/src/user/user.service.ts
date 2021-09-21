@@ -4,7 +4,7 @@ import { ClientSession, Model } from 'mongoose';
 import { CreateUserDTO, LoginUserDTO } from 'src/dto/user.dto';
 import { Config, ConfigDocument } from 'src/schemas/config.schema';
 import { User, UserDocument } from 'src/schemas/user.schema';
-import * as bcrypt from 'bcrypt';
+import * as bcryptjs from 'bcryptjs';
 import { ENCRYPTION_SALT_ROUNDS } from 'src/utils/generic.constants';
 import { calculateBMI } from 'src/utils/generic.functions';
 
@@ -28,7 +28,7 @@ export class UserService {
     session.startTransaction();
     try {
       const newUser: UserDocument = new this.userModel(createUserDTO);
-      newUser.hashPassword = bcrypt.hashSync(
+      newUser.hashPassword = bcryptjs.hashSync(
         createUserDTO.password,
         ENCRYPTION_SALT_ROUNDS
       );
@@ -56,7 +56,7 @@ export class UserService {
       userName: loginUserDTO.userName,
     });
     if (user) {
-      const isMatch = await bcrypt.compare(
+      const isMatch = await bcryptjs.compare(
         loginUserDTO.password,
         user.hashPassword
       );
