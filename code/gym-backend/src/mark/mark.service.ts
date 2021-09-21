@@ -37,16 +37,18 @@ export class MarkService {
     try {
       const newMark: MarkDocument = new this.markModel(createMarkDTO);
       const user: UserDocument = await this.userModel.findById(
-        createMarkDTO.userId
+        createMarkDTO.user
       );
       const exercise: ExerciseDocument = await this.exerciseModel.findById(
-        createMarkDTO.exerciseId
+        createMarkDTO.exercise
       );
-      newMark.user = user;
-      newMark.exercise = exercise;
+      newMark.user = new Types.ObjectId(user.id);
+      user.marks.push(newMark);
+      newMark.exercise = new Types.ObjectId(exercise.id);
       exercise.marks.push(newMark);
-      await exercise.save();
       const markSaved: MarkDocument = await newMark.save();
+      await exercise.save();
+      await user.save();
 
       await session.commitTransaction();
       session.endSession();

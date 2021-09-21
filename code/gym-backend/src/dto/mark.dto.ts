@@ -11,11 +11,14 @@ export class CreateMarkDTO {
   @IsNumber()
   reps: number;
 
-  @IsNotEmpty()
-  userId: Types.ObjectId;
+  @IsNumber()
+  rir: number;
 
   @IsNotEmpty()
-  exerciseId: Types.ObjectId;
+  user: Types.ObjectId;
+
+  @IsNotEmpty()
+  exercise: Types.ObjectId;
 }
 
 export class UpdateMarkDTO {
