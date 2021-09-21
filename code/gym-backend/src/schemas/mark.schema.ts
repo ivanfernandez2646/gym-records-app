@@ -16,6 +16,9 @@ export class Mark {
   @Prop({ type: Number, required: true })
   reps: number;
 
+  @Prop({ type: Number, required: true })
+  rir: number;
+
   @Prop({ type: Date, default: Date.now() })
   date: Date;
 

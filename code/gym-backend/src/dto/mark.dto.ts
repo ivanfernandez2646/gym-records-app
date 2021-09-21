@@ -30,6 +30,9 @@ export class UpdateMarkDTO {
 
   @IsNumber()
   reps: number;
+
+  @IsNumber()
+  rir: number;
 }
 
 export class FindMarkByUserAndExerciseParams {
