@@ -23,13 +23,17 @@ export class MarksExerciseModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.mark.user = this.userId;
+    this.mark.exercise = this.exercise._id;
     this.marks$ = this.markService.getMarksObservableFiltered(
       this.exercise._id
     );
     this.markService.loadMarks(this.userId, this.exercise._id);
   }
 
-  formSubmit(): void {}
+  formSubmit(): void {
+    this.markService.create(this.mark);
+  }
 
   dismiss(): void {
     this.modalController.dismiss();

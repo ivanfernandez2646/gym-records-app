@@ -23,12 +23,12 @@ export class MarkService {
     this.httpClient
       .get<Mark[]>(`${this.apiRoute}/mark`, { params })
       .subscribe((res) => {
-        console.log(params, res);
-        const exerciseId = res[0].exercise.toString();
-        this.marksMap.set(exerciseId, res);
-
-        const replaySubjectMark = this.marksMap$.get(exerciseId);
-        replaySubjectMark.next(res);
+        if (res.length > 0) {
+          const exerciseId = res[0].exercise.toString();
+          this.marksMap.set(exerciseId, res);
+          const replaySubjectMark = this.marksMap$.get(exerciseId);
+          replaySubjectMark.next(res);
+        }
       });
   }
 
@@ -36,14 +36,18 @@ export class MarkService {
     this.httpClient
       .post<Mark>(`${this.apiRoute}/mark`, mark)
       .subscribe((res) => {
-        // this.marks.push(res);
-        // this.marks$.next(this.marks);
+        const exerciseId = res.exercise.toString();
+        const currentMarksArray = this.marksMap.get(exerciseId) || [];
+        const newArrayMarks = [...currentMarksArray, res];
+        this.marksMap.set(exerciseId, newArrayMarks);
+        this.marksMap$.get(exerciseId).next(newArrayMarks);
       });
   }
 
   //Helpers
   getMarksObservableFiltered(exerciseId: string): ReplaySubject<Mark[]> {
     if (!this.marksMap$.has(exerciseId)) {
+      this.marksMap.set(exerciseId, []);
       this.marksMap$.set(exerciseId, new ReplaySubject(1));
     }
     return this.marksMap$.get(exerciseId);

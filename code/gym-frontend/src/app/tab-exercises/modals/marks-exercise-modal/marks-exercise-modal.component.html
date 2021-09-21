@@ -2,7 +2,7 @@
   <ion-title>{{ exercise.name | titlecase }}</ion-title>
 </ion-toolbar>
 <div class="container">
-  <ion-list>
+  <ion-list class="list">
     <ng-container *ngIf="(marks$ | async)?.length > 0; else noItems">
       <div *ngFor="let mark of marks$ | async">
         <ion-item-sliding>
@@ -13,14 +13,21 @@
           </ion-item-options>
 
           <ion-item>
-            <ion-label>{{ mark.weight }}</ion-label>
+            <ion-label>{{ mark.date | date: "dd/MM/yyyy" }}</ion-label>
+            <div class="record-wrap">
+              <ion-badge color="primary">{{ mark.weight }}kg</ion-badge>
+              <ion-badge color="secondary"
+                >{{ mark.serie }}x{{ mark.reps }}</ion-badge
+              >
+              <ion-badge color="tertiary">{{ mark.rir }} RIR</ion-badge>
+            </div>
           </ion-item>
 
-          <ion-item-options side="end">
+          <!-- <ion-item-options side="end">
             <ion-item-option color="tertiary" expandable>
               Edit
             </ion-item-option>
-          </ion-item-options>
+          </ion-item-options> -->
         </ion-item-sliding>
       </div>
     </ng-container>
@@ -33,29 +40,35 @@
       <ion-item class="ion-no-padding">
         <ion-label>Weight</ion-label>
         <ion-input
-          type="text"
+          type="number"
           [(ngModel)]="mark.weight"
-          name="height"
+          name="weight"
         ></ion-input>
       </ion-item>
       <ion-item class="ion-no-padding">
         <ion-label>Serie</ion-label>
         <ion-input
-          type="text"
+          type="number"
           [(ngModel)]="mark.serie"
           name="serie"
         ></ion-input>
       </ion-item>
       <ion-item class="ion-no-padding">
         <ion-label>Reps</ion-label>
-        <ion-input type="text" [(ngModel)]="mark.reps" name="reps"></ion-input>
+        <ion-input
+          type="number"
+          [(ngModel)]="mark.reps"
+          name="reps"
+        ></ion-input>
+      </ion-item>
+      <ion-item class="ion-no-padding">
+        <ion-label>RIR</ion-label>
+        <ion-input type="number" [(ngModel)]="mark.rir" name="rir"></ion-input>
       </ion-item>
     </div>
-    <ion-button expand="block" color="secondary" (click)="dismiss()"
-      >Add</ion-button
-    >
+    <ion-button type="submit" expand="block" color="secondary">Add</ion-button>
   </form>
-</div>
-<div class="buttons-container">
-  <ion-button expand="block" (click)="dismiss()">Back</ion-button>
+  <div class="buttons-container">
+    <ion-button expand="block" (click)="dismiss()">Back</ion-button>
+  </div>
 </div>

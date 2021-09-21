@@ -6,6 +6,8 @@ export interface Mark {
   weight?: number;
   serie?: number;
   reps?: number;
+  rir?: number;
+  date?: Date;
   exercise?: Exercise | string;
   user?: User | string;
 }
