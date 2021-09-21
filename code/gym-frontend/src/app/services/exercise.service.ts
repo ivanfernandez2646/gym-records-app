@@ -32,6 +32,7 @@ export class ExerciseService {
         this.exercises$.next(this.exercises);
       });
   }
+
   update(id: string, exercise: Exercise) {
     this.httpClient
       .put<Exercise>(`${this.apiRoute}/exercise/${id}`, exercise)

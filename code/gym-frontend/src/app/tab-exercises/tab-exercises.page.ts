@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Exercise } from '../models/exercise.model';
 import { User } from '../models/user.model';
 import { ExerciseService } from '../services/exercise.service';
+import { UserService } from '../services/user.service';
 import { CreateExerciseModalComponent } from './modals/create-exercise-modal/create-exercise-modal.component';
 import { MarksExerciseModalComponent } from './modals/marks-exercise-modal/marks-exercise-modal.component';
 
@@ -14,17 +15,17 @@ import { MarksExerciseModalComponent } from './modals/marks-exercise-modal/marks
 })
 export class TabExercises implements OnInit {
   exercises$: Observable<Exercise[]>;
-
-  @Input()
   loggedUser: User;
 
   constructor(
     private exerciseService: ExerciseService,
     private modalController: ModalController,
+    private userService: UserService,
     private alertController: AlertController
   ) {}
 
   ngOnInit(): void {
+    this.userService.loggedUser$.subscribe((res) => (this.loggedUser = res));
     this.exercises$ = this.exerciseService.exercises$;
     this.exerciseService.loadExercises();
   }
@@ -71,6 +72,10 @@ export class TabExercises implements OnInit {
   async marksForExerciseModal(exercise: Exercise) {
     const modal = await this.modalController.create({
       component: MarksExerciseModalComponent,
+      componentProps: {
+        userId: this.loggedUser._id,
+        exercise: exercise,
+      },
     });
     return await modal.present();
   }
