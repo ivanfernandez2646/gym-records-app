@@ -10,7 +10,7 @@ export class Exercise {
   @Prop({ type: String, required: true, index: true, unique: true })
   name: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String })
   description: string;
 
   @Prop({ type: String, required: true })

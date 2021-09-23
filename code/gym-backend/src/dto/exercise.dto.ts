@@ -7,7 +7,6 @@ export class CreateExerciseDTO {
   name: string;
 
   @IsString()
-  @IsNotEmpty()
   description: string;
 
   @IsEnum(MuscleEnum)
