@@ -3,27 +3,40 @@ ion-button {
   margin: 0 auto;
 }
 
-.list {
-  height: 85%;
-  overflow-y: auto;
+.list-wrapper {
+  height: 75%;
   background: gainsboro;
   padding: 1rem;
 
-  .item-wrapper {
-    width: 100%;
-    margin: 1rem;
+  .list {
+    height: fit-content;
+    max-height: 100%;
+    overflow-y: auto;
 
-    .item-info {
-      display: flex;
-      justify-content: space-between;
-    }
+    .item-wrapper {
+      width: 100%;
+      margin: 1rem;
 
-    .item-description {
-      margin-bottom: 0;
+      .item-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        ion-label {
+          max-width: 60%;
+          font-size: 1rem;
+          font-weight: 900;
+        }
+
+        ion-badge {
+          height: fit-content;
+        }
+      }
+
+      .item-description {
+        font-size: 0.8rem;
+        margin-bottom: 0;
+      }
     }
   }
-}
-
-.input-wrapper {
-  padding: 1rem;
 }

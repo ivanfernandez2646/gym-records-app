@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { Exercise } from '../models/exercise.model';
@@ -78,5 +78,18 @@ export class TabExercises implements OnInit {
       },
     });
     return await modal.present();
+  }
+
+  handleSearchBarInput($event: any): void {
+    const items: HTMLDivElement[] = Array.from(
+      document.querySelector('ion-list').children
+    ) as HTMLDivElement[];
+    const query = $event.target.value.toLowerCase();
+    requestAnimationFrame(() => {
+      items.forEach((item) => {
+        const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;
+        item.style.display = shouldShow ? 'block' : 'none';
+      });
+    });
   }
 }

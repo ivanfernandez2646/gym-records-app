@@ -1,49 +1,56 @@
 <ion-content [fullscreen]="true">
-  <ion-list class="list">
-    <ng-container *ngIf="(exercises$ | async)?.length > 0; else noItems">
-      <div
-        *ngFor="let exercise of exercises$ | async"
-        (click)="marksForExerciseModal(exercise)"
-      >
-        <ion-item-sliding>
-          <ion-item-options side="start">
-            <ion-item-option
-              color="danger"
-              expandable
-              (click)="deleteExercise($event, exercise)"
-            >
-              Delete
-            </ion-item-option>
-          </ion-item-options>
+  <ion-searchbar
+    animated
+    (ionInput)="handleSearchBarInput($event)"
+  ></ion-searchbar>
+  <div class="list-wrapper">
+    <ion-list class="list">
+      <ng-container *ngIf="(exercises$ | async)?.length > 0; else noItems">
+        <div
+          *ngFor="let exercise of exercises$ | async"
+          (click)="marksForExerciseModal(exercise)"
+        >
+          <ion-item-sliding>
+            <ion-item-options side="start">
+              <ion-item-option
+                color="danger"
+                expandable
+                (click)="deleteExercise($event, exercise)"
+              >
+                Delete
+              </ion-item-option>
+            </ion-item-options>
 
-          <ion-item class="ion-no-padding">
-            <div class="item-wrapper">
-              <div class="item-info">
-                <ion-label>{{exercise.name }}</ion-label>
-                <ion-badge color="primary"
-                  >{{ exercise.muscle | titlecase }}</ion-badge
-                >
+            <ion-item class="ion-no-padding" button>
+              <div class="item-wrapper">
+                <div class="item-info">
+                  <ion-label text-wrap>{{exercise.name }}</ion-label>
+                  <ion-badge color="primary"
+                    >{{ exercise.muscle | titlecase }}</ion-badge
+                  >
+                </div>
+                <p class="item-description">{{exercise.description}}</p>
               </div>
-              <p class="item-description">{{exercise.description}}</p>
-            </div>
-          </ion-item>
+              <ion-ripple-effect type="bounded"></ion-ripple-effect>
+            </ion-item>
 
-          <ion-item-options side="end">
-            <ion-item-option
-              color="tertiary"
-              expandable
-              (click)="createUpdateExerciseModal($event, exercise)"
-            >
-              Edit
-            </ion-item-option>
-          </ion-item-options>
-        </ion-item-sliding>
-      </div>
-    </ng-container>
-    <ng-template #noItems>
-      <h4 class="no-items">No items. You can start adding one.</h4>
-    </ng-template>
-  </ion-list>
+            <ion-item-options side="end">
+              <ion-item-option
+                color="tertiary"
+                expandable
+                (click)="createUpdateExerciseModal($event, exercise)"
+              >
+                Edit
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </div>
+      </ng-container>
+      <ng-template #noItems>
+        <h4 class="no-items">No items. You can start adding one.</h4>
+      </ng-template>
+    </ion-list>
+  </div>
 
   <div class="buttons-container">
     <ion-button
