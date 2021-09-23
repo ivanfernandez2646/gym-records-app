@@ -5,6 +5,8 @@ import { Exercise } from '../models/exercise.model';
 import { User } from '../models/user.model';
 import { ExerciseService } from '../services/exercise.service';
 import { UserService } from '../services/user.service';
+import { enumToArrayOfValues } from '../utils/GenericUtils';
+import { MuscleEnum } from '../utils/MuscleEnum';
 import { CreateExerciseModalComponent } from './modals/create-exercise-modal/create-exercise-modal.component';
 import { MarksExerciseModalComponent } from './modals/marks-exercise-modal/marks-exercise-modal.component';
 
@@ -16,6 +18,10 @@ import { MarksExerciseModalComponent } from './modals/marks-exercise-modal/marks
 export class TabExercises implements OnInit {
   exercises$: Observable<Exercise[]>;
   loggedUser: User;
+  muscleEnum: string[] = enumToArrayOfValues(MuscleEnum);
+
+  filterSearchBar: string;
+  filterMuscle: string;
 
   constructor(
     private exerciseService: ExerciseService,
@@ -80,14 +86,34 @@ export class TabExercises implements OnInit {
     return await modal.present();
   }
 
-  handleSearchBarInput($event: any): void {
+  handleSearchBarInput($event?: any): void {
     const items: HTMLDivElement[] = Array.from(
       document.querySelector('ion-list').children
     ) as HTMLDivElement[];
-    const query = $event.target.value.toLowerCase();
+    this.filterSearchBar = $event
+      ? $event.target.value.toLowerCase()
+      : this.filterSearchBar;
     requestAnimationFrame(() => {
       items.forEach((item) => {
-        const shouldShow = item.textContent.toLowerCase().indexOf(query) > -1;
+        const shouldShow =
+          item.textContent.toLowerCase().indexOf(this.filterSearchBar) > -1;
+        item.style.display = shouldShow ? 'block' : 'none';
+      });
+    });
+  }
+
+  selectChipMuscle($event?: MouseEvent): void {
+    const items: HTMLDivElement[] = Array.from(
+      document.querySelector('ion-list').children
+    ) as HTMLDivElement[];
+    this.filterMuscle = $event
+      ? ($event.target as HTMLElement).innerText.toLowerCase()
+      : this.filterMuscle;
+
+    requestAnimationFrame(() => {
+      items.forEach((item) => {
+        const muscleOfItem = item.id.split('-').pop().toLowerCase();
+        const shouldShow = muscleOfItem.indexOf(this.filterMuscle) > -1;
         item.style.display = shouldShow ? 'block' : 'none';
       });
     });

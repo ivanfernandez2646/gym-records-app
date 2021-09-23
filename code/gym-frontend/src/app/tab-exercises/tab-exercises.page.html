@@ -3,12 +3,21 @@
     animated
     (ionInput)="handleSearchBarInput($event)"
   ></ion-searchbar>
+  <div class="muscle-filter">
+    <ion-chip
+      *ngFor="let muscle of muscleEnum"
+      (click)="selectChipMuscle($event)"
+    >
+      <ion-label>{{muscle | titlecase}}</ion-label>
+    </ion-chip>
+  </div>
   <div class="list-wrapper">
     <ion-list class="list">
       <ng-container *ngIf="(exercises$ | async)?.length > 0; else noItems">
         <div
           *ngFor="let exercise of exercises$ | async"
           (click)="marksForExerciseModal(exercise)"
+          id="{{exercise._id}}-{{exercise.muscle}}"
         >
           <ion-item-sliding>
             <ion-item-options side="start">

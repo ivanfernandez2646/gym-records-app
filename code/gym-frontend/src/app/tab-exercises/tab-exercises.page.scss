@@ -3,10 +3,18 @@ ion-button {
   margin: 0 auto;
 }
 
+.muscle-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
 .list-wrapper {
-  height: 75%;
+  height: 60%;
   background: gainsboro;
   padding: 1rem;
+  margin-top: 1rem;
 
   .list {
     height: fit-content;
