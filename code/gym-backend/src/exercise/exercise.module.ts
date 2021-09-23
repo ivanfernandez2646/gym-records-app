@@ -10,7 +10,6 @@ import { ExerciseService } from './exercise.service';
     MongooseModule.forFeature([
       { name: Exercise.name, schema: ExerciseSchema },
     ]),
-    MongooseModule.forFeature([{ name: Mark.name, schema: MarkSchema }]),
   ],
   controllers: [ExerciseController],
   providers: [ExerciseService],

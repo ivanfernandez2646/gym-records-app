@@ -10,12 +10,11 @@ import { Mark, MarkDocument } from 'src/schemas/mark.schema';
 @Injectable()
 export class ExerciseService {
   constructor(
-    @InjectModel(Exercise.name) private exerciseModel: Model<ExerciseDocument>,
-    @InjectModel(Mark.name) private markModel: Model<MarkDocument>
+    @InjectModel(Exercise.name) private exerciseModel: Model<ExerciseDocument>
   ) {}
 
   async findAll(): Promise<Exercise[]> {
-    return await this.exerciseModel.find();
+    return await this.exerciseModel.find().sort('muscle');
   }
 
   async findOne(id: string): Promise<Exercise> {
