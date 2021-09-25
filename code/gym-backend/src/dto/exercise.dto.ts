@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { MuscleEnum } from 'src/enums/muscle.enum';
 
 export class CreateExerciseDTO {
@@ -12,6 +12,9 @@ export class CreateExerciseDTO {
   @IsEnum(MuscleEnum)
   @IsNotEmpty()
   muscle: MuscleEnum;
+
+  @IsBoolean()
+  isMonitorized: boolean;
 }
 
 export class UpdateExerciseDTO {
@@ -23,4 +26,7 @@ export class UpdateExerciseDTO {
 
   @IsEnum(MuscleEnum)
   muscle: MuscleEnum;
+
+  @IsBoolean()
+  isMonitorized: boolean;
 }

@@ -1,7 +1,5 @@
 NEXT:
 
-Add delete confirmation generic dialog
-Add marks
 
 
 Actualmente la aplicación va a ser desarrollada para uso personal, con lo cual no va a hacer uso de registro de usuarios y demás.
@@ -13,7 +11,7 @@ BACKEND
 IMPORTANTE: Transacción en la creación de usuario no funciona. Puede crear una configuración sin llegar a crear el usuario
 1-. Controlar cuando un objeto existe o no y devolver un mensaje explicativo.
 2-. Updatear un usuario y poder borrarlo.
-
+3-. Echar vistazo a nombre de las propiedades en mongo(camelCase)
 FRONTEND
 
 1-. Crear pantalla de registro, login.

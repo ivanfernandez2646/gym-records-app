@@ -16,6 +16,9 @@ export class Exercise {
   @Prop({ type: String, required: true })
   muscle: MuscleEnum;
 
+  @Prop({ type: Boolean, default: false, name: 'is_monitorized' })
+  isMonitorized: boolean;
+
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Mark' }] })
   marks: Mark[];
 }

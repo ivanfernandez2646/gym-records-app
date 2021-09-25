@@ -33,7 +33,15 @@
             <ion-item class="ion-no-padding" button>
               <div class="item-wrapper">
                 <div class="item-info">
-                  <ion-label text-wrap>{{exercise.name }}</ion-label>
+                  <ion-label text-wrap
+                    >{{exercise.name }}<span
+                      class="is-monitorized"
+                      *ngIf="exercise.isMonitorized"
+                      ><ion-icon
+                        class="is-monitorized-icon"
+                        name="eye"
+                      ></ion-icon></span
+                  ></ion-label>
                   <ion-badge color="primary"
                     >{{ exercise.muscle | titlecase }}</ion-badge
                   >

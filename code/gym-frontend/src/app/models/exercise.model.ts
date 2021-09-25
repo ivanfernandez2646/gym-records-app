@@ -6,4 +6,5 @@ export interface Exercise {
   name?: string;
   description?: string;
   muscle?: string;
+  isMonitorized?: boolean;
 }

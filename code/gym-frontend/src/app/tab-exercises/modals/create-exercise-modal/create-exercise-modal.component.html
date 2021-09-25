@@ -31,6 +31,15 @@
         >
       </ion-select>
     </ion-item>
+    <ion-item>
+      <ion-label>Is monitorized?</ion-label>
+      <ion-toggle
+        slot="end"
+        [(ngModel)]="exercise.isMonitorized"
+        name="isMonitorized"
+        color="tertiary"
+      ></ion-toggle>
+    </ion-item>
   </div>
   <div class="buttons-container">
     <ion-button type="submit" expand="block" color="secondary">Save</ion-button>
