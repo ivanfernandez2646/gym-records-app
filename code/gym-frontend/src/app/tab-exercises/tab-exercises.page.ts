@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Exercise } from '../models/exercise.model';
 import { User } from '../models/user.model';
 import { ExerciseService } from '../services/exercise.service';
+import { LoaderService } from '../services/loader.service';
 import { UserService } from '../services/user.service';
 import { enumToArrayOfValues } from '../utils/GenericUtils';
 import { MuscleEnum } from '../utils/MuscleEnum';
@@ -17,6 +18,7 @@ import { MarksExerciseModalComponent } from './modals/marks-exercise-modal/marks
 })
 export class TabExercises implements OnInit {
   exercises$: Observable<Exercise[]>;
+  isLoading$: Observable<boolean>;
   loggedUser: User;
   muscleEnum: string[] = enumToArrayOfValues(MuscleEnum);
 
@@ -27,13 +29,20 @@ export class TabExercises implements OnInit {
     private exerciseService: ExerciseService,
     private modalController: ModalController,
     private userService: UserService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
     this.userService.loggedUser$.subscribe((res) => (this.loggedUser = res));
     this.exercises$ = this.exerciseService.exercises$;
-    this.exerciseService.loadExercises();
+    this.isLoading$ = this.loaderService.isLoading$;
+    this.loaderService.showLoader('Loading exercises...').then(() => {
+      this.exerciseService.loadExercises();
+      this.exercises$.subscribe(() => {
+        this.loaderService.hideLoader();
+      });
+    });
   }
 
   async deleteExercise($event: MouseEvent, exercise: Exercise): Promise<void> {
@@ -52,6 +61,7 @@ export class TabExercises implements OnInit {
         {
           text: 'Yes',
           handler: () => {
+            this.loaderService.showLoader('Deleting exercise...');
             this.exerciseService.delete(exercise._id);
           },
         },

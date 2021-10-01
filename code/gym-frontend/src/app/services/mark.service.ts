@@ -23,12 +23,9 @@ export class MarkService {
     this.httpClient
       .get<Mark[]>(`${this.apiRoute}/mark`, { params })
       .subscribe((res) => {
-        if (res.length > 0) {
-          const exerciseId = res[0].exercise.toString();
-          this.marksMap.set(exerciseId, res);
-          const replaySubjectMark = this.marksMap$.get(exerciseId);
-          replaySubjectMark.next(res);
-        }
+        this.marksMap.set(exerciseId, res);
+        const replaySubjectMark = this.marksMap$.get(exerciseId);
+        replaySubjectMark.next(res);
       });
   }
 

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Exercise } from 'src/app/models/exercise.model';
 import { Mark } from 'src/app/models/mark.model';
+import { LoaderService } from 'src/app/services/loader.service';
 import { MarkService } from 'src/app/services/mark.service';
 
 @Component({
@@ -15,12 +16,14 @@ export class MarksExerciseModalComponent implements OnInit {
   exercise: Exercise;
 
   marks$: Observable<Mark[]>;
+  isLoading$: Observable<boolean>;
   mark: Mark = {};
 
   constructor(
     private modalController: ModalController,
     private alertController: AlertController,
-    private markService: MarkService
+    private markService: MarkService,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit() {
@@ -29,10 +32,17 @@ export class MarksExerciseModalComponent implements OnInit {
     this.marks$ = this.markService.getMarksObservableFiltered(
       this.exercise._id
     );
-    this.markService.loadMarks(this.userId, this.exercise._id);
+    this.isLoading$ = this.loaderService.isLoading$;
+    this.loaderService.showLoader('Loading marks...').then(() => {
+      this.markService.loadMarks(this.userId, this.exercise._id);
+      this.marks$.subscribe(() => {
+        this.loaderService.hideLoader();
+      });
+    });
   }
 
   formSubmit(): void {
+    this.loaderService.showLoader('Saving mark...');
     this.markService.create(this.mark);
   }
 
@@ -57,6 +67,7 @@ export class MarksExerciseModalComponent implements OnInit {
         {
           text: 'Yes',
           handler: () => {
+            this.loaderService.showLoader('Deleting mark...');
             this.markService.delete(mark._id, this.exercise._id);
           },
         },
