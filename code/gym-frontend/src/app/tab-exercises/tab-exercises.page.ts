@@ -82,7 +82,7 @@ export class TabExercises implements OnInit {
         isUpdate: !!exercise,
       },
     });
-    return await modal.present();
+    await modal.present();
   }
 
   async marksForExerciseModal(exercise: Exercise) {
@@ -93,7 +93,7 @@ export class TabExercises implements OnInit {
         exercise: exercise,
       },
     });
-    return await modal.present();
+    await modal.present();
   }
 
   handleSearchBarInput($event?: any): void {
