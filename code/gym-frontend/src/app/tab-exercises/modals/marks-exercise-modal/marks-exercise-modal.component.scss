@@ -19,6 +19,9 @@
 
       .label-date {
         margin-left: 1rem;
+        display: flex;
+        align-items: center;
+        grid-gap: 0.3em;
       }
 
       .record-wrap {

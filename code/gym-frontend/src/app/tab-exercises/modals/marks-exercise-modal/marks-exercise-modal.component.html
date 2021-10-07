@@ -23,10 +23,18 @@
                   </ion-item-option>
                 </ion-item-options>
 
-                <ion-item class="ion-no-padding">
-                  <ion-label class="label-date">{{
-                    mark.date | date: "dd/MM/yyyy"
-                  }}</ion-label>
+                <ion-item
+                  class="ion-no-padding"
+                  (click)="mark.notes ? showNote($event, mark.notes) : false"
+                >
+                  <ion-label class="label-date"
+                    ><span>{{ mark.date | date: "dd/MM/yyyy" }}</span
+                    ><span *ngIf="mark.notes">
+                      <ion-icon
+                        name="bookmark"
+                        color="warning"
+                      ></ion-icon> </span
+                  ></ion-label>
                   <div class="record-wrap">
                     <ion-badge color="primary">{{ mark.weight }}kg</ion-badge>
                     <ion-badge color="secondary"
@@ -74,6 +82,14 @@
       <ion-item class="ion-no-padding">
         <ion-label>RIR</ion-label>
         <ion-input type="number" [(ngModel)]="mark.rir" name="rir"></ion-input>
+      </ion-item>
+      <ion-item class="ion-no-padding">
+        <ion-label>Notes</ion-label>
+        <ion-input
+          type="text"
+          [(ngModel)]="mark.notes"
+          name="notes"
+        ></ion-input>
       </ion-item>
     </div>
     <ion-button type="submit" expand="block" color="secondary">Add</ion-button>

@@ -8,6 +8,7 @@ export interface Mark {
   reps?: number;
   rir?: number;
   date?: Date;
+  notes?: string;
   exercise?: Exercise | string;
   user?: User | string;
 }

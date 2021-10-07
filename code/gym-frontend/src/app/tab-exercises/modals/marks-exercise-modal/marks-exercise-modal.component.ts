@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   AlertController,
   IonContent,
+  IonItem,
   IonList,
   ModalController,
 } from '@ionic/angular';
@@ -97,5 +98,17 @@ export class MarksExerciseModalComponent implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async showNote($event: any, notes: string): Promise<void> {
+    const selectedMarkElement: IonItem = $event.currentTarget as IonItem;
+    selectedMarkElement.color = 'selectMark';
+    const alert = await this.alertController.create({
+      header: 'Notes',
+      message: `${notes}`,
+    });
+    await alert.present();
+    await alert.onDidDismiss();
+    selectedMarkElement.color = undefined;
   }
 }

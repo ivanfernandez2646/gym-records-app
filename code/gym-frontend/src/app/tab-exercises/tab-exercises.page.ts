@@ -5,7 +5,7 @@ import {
   IonList,
   ModalController,
 } from '@ionic/angular';
-import { Observable, take } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Exercise } from '../models/exercise.model';
 import { User } from '../models/user.model';
 import { ExerciseService } from '../services/exercise.service';
