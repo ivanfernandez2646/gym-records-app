@@ -9,8 +9,8 @@ export class ToastService {
 
   async showToast(
     message: string,
-    position: 'bottom' | 'top' | 'middle',
-    color: string
+    position: 'bottom' | 'top' | 'middle' = 'bottom',
+    color: string = 'success'
   ) {
     const toast = await this.toastController.create({
       message,
