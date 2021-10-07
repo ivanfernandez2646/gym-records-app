@@ -10,6 +10,7 @@ import { Exercise } from 'src/app/models/exercise.model';
 import { Mark } from 'src/app/models/mark.model';
 import { LoaderService } from 'src/app/services/loader.service';
 import { MarkService } from 'src/app/services/mark.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { CRUDAction } from 'src/app/utils/GenericUtils';
 
 @Component({
@@ -32,7 +33,8 @@ export class MarksExerciseModalComponent implements OnInit {
     private modalController: ModalController,
     private alertController: AlertController,
     private markService: MarkService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit() {
@@ -51,6 +53,7 @@ export class MarksExerciseModalComponent implements OnInit {
     this.markService.marksAction$.subscribe((a) => {
       switch (a) {
         case CRUDAction.CREATE:
+          this.toastService.showToast('Mark created successfully');
           this.mark = { exercise: this.exercise._id, user: this.userId };
           setTimeout(() => this.listWrapper.scrollToBottom(), 500);
           break;

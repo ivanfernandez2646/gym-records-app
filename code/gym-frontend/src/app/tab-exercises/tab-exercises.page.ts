@@ -56,14 +56,14 @@ export class TabExercises implements OnInit {
     this.exerciseService.exercisesAction$.subscribe((a) => {
       switch (a) {
         case CRUDAction.CREATE:
-          this.toastService.showToast('Exercise created');
+          this.toastService.showToast('Exercise created successfully');
           setTimeout(() => this.listWrapper.scrollToBottom(), 500);
           break;
         case CRUDAction.UPDATE:
-          this.toastService.showToast('Exercise updated');
+          this.toastService.showToast('Exercise updated successfully');
           break;
         case CRUDAction.DELETE:
-          this.toastService.showToast('Exercise deleted');
+          this.toastService.showToast('Exercise deleted successfully');
           break;
       }
     });
