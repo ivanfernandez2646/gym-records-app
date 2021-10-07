@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { CreateMarkDTO, UpdateMarkDTO } from 'src/dto/mark.dto';
+import { CreateMarkDTO } from 'src/dto/mark.dto';
 import { Exercise, ExerciseDocument } from 'src/schemas/exercise.schema';
 import { Mark, MarkDocument } from 'src/schemas/mark.schema';
 import { User, UserDocument } from 'src/schemas/user.schema';
@@ -60,11 +60,12 @@ export class MarkService {
     }
   }
 
-  async update(id: string, updateMarkDTO: UpdateMarkDTO): Promise<Mark> {
-    return await this.markModel.findByIdAndUpdate(id, updateMarkDTO, {
-      new: true,
-    });
-  }
+  // TODO: Update mark for now isn't available
+  // async update(id: string, updateMarkDTO: UpdateMarkDTO): Promise<Mark> {
+  //   return await this.markModel.findByIdAndUpdate(id, updateMarkDTO, {
+  //     new: true,
+  //   });
+  // }
 
   async delete(id: string): Promise<boolean> {
     try {

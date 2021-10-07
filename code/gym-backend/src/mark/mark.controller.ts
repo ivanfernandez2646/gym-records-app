@@ -12,7 +12,6 @@ import {
 import {
   CreateMarkDTO,
   FindMarkByUserAndExerciseParams,
-  UpdateMarkDTO,
 } from 'src/dto/mark.dto';
 import { AllExceptionsFilter } from 'src/errors/all-exception.error';
 import { Mark } from 'src/schemas/mark.schema';
@@ -43,13 +42,14 @@ export class MarkController {
     return this.markService.create(createMarkDTO);
   }
 
-  @Put(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateMarkDTO: UpdateMarkDTO
-  ): Promise<Mark> {
-    return this.markService.update(id, updateMarkDTO);
-  }
+  // TODO: Update mark for now isn't available
+  // @Put(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateMarkDTO: UpdateMarkDTO
+  // ): Promise<Mark> {
+  //   return this.markService.update(id, updateMarkDTO);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {

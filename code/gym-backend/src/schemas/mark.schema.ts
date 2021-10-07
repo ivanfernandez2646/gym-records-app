@@ -22,6 +22,9 @@ export class Mark {
   @Prop({ type: Date, default: Date.now() })
   date: Date;
 
+  @Prop({ type: String })
+  notes: string;
+
   @Prop({ type: Types.ObjectId, ref: 'Exercise', required: true })
   exercise: Exercise | Types.ObjectId;
 
