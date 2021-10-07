@@ -14,13 +14,19 @@ ion-button {
 
 .list-wrapper {
   height: 60%;
-  background: gainsboro;
-  padding: 1rem;
-  margin-top: 1rem;
+  flex: none;
+
+  &::part(background) {
+    background-color: gainsboro;
+    margin-top: 1rem;
+  }
+
+  &::part(scroll) {
+    margin: 2rem 1rem 1rem 1rem;
+  }
 
   .list {
     height: fit-content;
-    max-height: 100%;
     overflow-y: auto;
 
     .item-wrapper {
@@ -59,4 +65,8 @@ ion-button {
       }
     }
   }
+}
+
+.buttons-container {
+  padding-bottom: 1rem;
 }

@@ -36,10 +36,10 @@ export class CreateExerciseModalComponent implements OnInit {
       this.loaderService.showLoader('Creating exercise...');
       this.exerciseService.create(this.exercise);
     }
-    this.dismiss();
+    this.dismiss(true);
   }
 
-  dismiss(): void {
-    this.modalController.dismiss();
+  dismiss(isActionPerformed: boolean = false): void {
+    this.modalController.dismiss(isActionPerformed);
   }
 }

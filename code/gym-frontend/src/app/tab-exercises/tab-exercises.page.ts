@@ -1,12 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AlertController,
+  IonContent,
+  IonList,
+  ModalController,
+} from '@ionic/angular';
 import { Observable, take } from 'rxjs';
 import { Exercise } from '../models/exercise.model';
 import { User } from '../models/user.model';
 import { ExerciseService } from '../services/exercise.service';
 import { LoaderService } from '../services/loader.service';
+import { ToastService } from '../services/toast.service';
 import { UserService } from '../services/user.service';
-import { enumToArrayOfValues } from '../utils/GenericUtils';
+import { CRUDAction, enumToArrayOfValues } from '../utils/GenericUtils';
 import { MuscleEnum } from '../utils/MuscleEnum';
 import { CreateExerciseModalComponent } from './modals/create-exercise-modal/create-exercise-modal.component';
 import { MarksExerciseModalComponent } from './modals/marks-exercise-modal/marks-exercise-modal.component';
@@ -25,12 +31,16 @@ export class TabExercises implements OnInit {
   filterSearchBar: string;
   filterMuscle: string;
 
+  @ViewChild('listWrapper', { static: false }) listWrapper: IonContent;
+  @ViewChild('listExercises') exercisesList: IonList;
+
   constructor(
     private exerciseService: ExerciseService,
     private modalController: ModalController,
     private userService: UserService,
     private alertController: AlertController,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +52,20 @@ export class TabExercises implements OnInit {
       this.exercises$.subscribe(() => {
         this.loaderService.hideLoader();
       });
+    });
+    this.exerciseService.exercisesAction$.subscribe((a) => {
+      switch (a) {
+        case CRUDAction.CREATE:
+          this.toastService.showToast('Exercise created');
+          setTimeout(() => this.listWrapper.scrollToBottom(), 500);
+          break;
+        case CRUDAction.UPDATE:
+          this.toastService.showToast('Exercise updated');
+          break;
+        case CRUDAction.DELETE:
+          this.toastService.showToast('Exercise deleted');
+          break;
+      }
     });
   }
 
@@ -57,6 +81,9 @@ export class TabExercises implements OnInit {
           text: 'No',
           role: 'cancel',
           cssClass: 'secondary',
+          handler: () => {
+            this.exercisesList.closeSlidingItems();
+          },
         },
         {
           text: 'Yes',
@@ -75,14 +102,22 @@ export class TabExercises implements OnInit {
     if ($event) {
       $event.stopPropagation();
     }
+
+    const isUpdate: boolean = !!exercise;
     const modal = await this.modalController.create({
       component: CreateExerciseModalComponent,
       componentProps: {
-        exercise: exercise,
-        isUpdate: !!exercise,
+        exercise,
+        isUpdate,
       },
     });
     await modal.present();
+
+    //data is a boolean setted when an action is performed (create or update exercise)
+    const { data } = await modal.onDidDismiss<boolean>();
+    if (!data) {
+      this.exercisesList.closeSlidingItems();
+    }
   }
 
   async marksForExerciseModal(exercise: Exercise) {
@@ -90,7 +125,7 @@ export class TabExercises implements OnInit {
       component: MarksExerciseModalComponent,
       componentProps: {
         userId: this.loggedUser._id,
-        exercise: exercise,
+        exercise,
       },
     });
     await modal.present();
@@ -127,5 +162,6 @@ export class TabExercises implements OnInit {
         item.style.display = shouldShow ? 'block' : 'none';
       });
     });
+    setTimeout(() => this.listWrapper.scrollToTop(), 0);
   }
 }

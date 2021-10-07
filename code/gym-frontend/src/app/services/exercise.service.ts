@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Exercise } from '../models/exercise.model';
 import { ReplaySubject } from 'rxjs';
+import { CRUDAction } from '../utils/GenericUtils';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ export class ExerciseService {
   private exercises: Exercise[];
 
   public exercises$: ReplaySubject<Exercise[]> = new ReplaySubject(1);
+  public exercisesAction$: ReplaySubject<CRUDAction> = new ReplaySubject(1);
 
   constructor(private httpClient: HttpClient) {}
 
@@ -30,6 +32,7 @@ export class ExerciseService {
       .subscribe((res) => {
         this.exercises.push(res);
         this.exercises$.next(this.exercises);
+        this.exercisesAction$.next(CRUDAction.CREATE);
       });
   }
 
@@ -40,6 +43,7 @@ export class ExerciseService {
         const index = this.exercises.findIndex((e) => e._id === id);
         this.exercises.splice(index, 1, res);
         this.exercises$.next(this.exercises);
+        this.exercisesAction$.next(CRUDAction.UPDATE);
       });
   }
 
@@ -50,6 +54,7 @@ export class ExerciseService {
         const index = this.exercises.findIndex((e) => e._id === id);
         this.exercises.splice(index, 1);
         this.exercises$.next(this.exercises);
+        this.exercisesAction$.next(CRUDAction.DELETE);
       });
   }
 }
