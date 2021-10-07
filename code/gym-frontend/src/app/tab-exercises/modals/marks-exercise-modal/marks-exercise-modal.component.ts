@@ -1,10 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController, ModalController } from '@ionic/angular';
-import { Observable, take } from 'rxjs';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  AlertController,
+  IonContent,
+  IonList,
+  ModalController,
+} from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { Exercise } from 'src/app/models/exercise.model';
 import { Mark } from 'src/app/models/mark.model';
 import { LoaderService } from 'src/app/services/loader.service';
 import { MarkService } from 'src/app/services/mark.service';
+import { CRUDAction } from 'src/app/utils/GenericUtils';
 
 @Component({
   selector: 'app-marks-exercise-modal',
@@ -18,6 +24,9 @@ export class MarksExerciseModalComponent implements OnInit {
   marks$: Observable<Mark[]>;
   isLoading$: Observable<boolean>;
   mark: Mark = {};
+
+  @ViewChild('listWrapper', { static: false }) listWrapper: IonContent;
+  @ViewChild('listMarks') listMarks: IonList;
 
   constructor(
     private modalController: ModalController,
@@ -39,6 +48,14 @@ export class MarksExerciseModalComponent implements OnInit {
         this.loaderService.hideLoader();
       });
     });
+    this.markService.marksAction$.subscribe((a) => {
+      switch (a) {
+        case CRUDAction.CREATE:
+          this.mark = { exercise: this.exercise._id, user: this.userId };
+          setTimeout(() => this.listWrapper.scrollToBottom(), 500);
+          break;
+      }
+    });
   }
 
   formSubmit(): void {
@@ -50,7 +67,6 @@ export class MarksExerciseModalComponent implements OnInit {
     this.modalController.dismiss();
   }
 
-  /* TODO: Implement delete and set default value in create exercise modal */
   async deleteMark($event: MouseEvent, mark: Mark): Promise<void> {
     if ($event) {
       $event.stopPropagation();
@@ -63,6 +79,9 @@ export class MarksExerciseModalComponent implements OnInit {
           text: 'No',
           role: 'cancel',
           cssClass: 'secondary',
+          handler: () => {
+            this.listMarks.closeSlidingItems();
+          },
         },
         {
           text: 'Yes',

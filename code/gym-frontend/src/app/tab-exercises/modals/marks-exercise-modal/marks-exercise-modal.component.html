@@ -2,47 +2,49 @@
   <ion-title>{{ exercise.name }}</ion-title>
 </ion-toolbar>
 <div class="container">
-  <ion-list class="list">
-    <ng-container *ngIf="!(isLoading$ | async)">
-      <ng-container *ngIf="(marks$ | async)?.length > 0; else noItems">
-        <div *ngFor="let mark of marks$ | async">
-          <ion-item-sliding>
-            <ion-item-options side="start">
-              <ion-item-option
-                color="danger"
-                expandable
-                (click)="deleteMark($event, mark)"
-              >
-                Delete
-              </ion-item-option>
-            </ion-item-options>
+  <ion-content class="list-wrapper" [scrollEvents]="true" #listWrapper>
+    <ng-container *ngIf="marks$ | async as marks">
+      <ion-list
+        class="list"
+        #listMarks
+        [style.height]="marks.length > 0 ? 'fit-content' : '100%'"
+      >
+        <ng-container *ngIf="!(isLoading$ | async)">
+          <ng-container *ngIf="marks.length > 0; else noItems">
+            <div *ngFor="let mark of marks$ | async">
+              <ion-item-sliding>
+                <ion-item-options side="start">
+                  <ion-item-option
+                    color="danger"
+                    expandable
+                    (click)="deleteMark($event, mark)"
+                  >
+                    Delete
+                  </ion-item-option>
+                </ion-item-options>
 
-            <ion-item class="ion-no-padding">
-              <ion-label class="label-date">{{
-                mark.date | date: "dd/MM/yyyy"
-              }}</ion-label>
-              <div class="record-wrap">
-                <ion-badge color="primary">{{ mark.weight }}kg</ion-badge>
-                <ion-badge color="secondary"
-                  >{{ mark.serie }}x{{ mark.reps }}</ion-badge
-                >
-                <ion-badge color="tertiary">{{ mark.rir }} RIR</ion-badge>
-              </div>
-            </ion-item>
-
-            <!-- <ion-item-options side="end">
-              <ion-item-option color="tertiary" expandable>
-                Edit
-              </ion-item-option>
-            </ion-item-options> -->
-          </ion-item-sliding>
-        </div>
-      </ng-container>
-      <ng-template #noItems>
-        <h4 class="no-items">No items. You can start adding one.</h4>
-      </ng-template>
+                <ion-item class="ion-no-padding">
+                  <ion-label class="label-date">{{
+                    mark.date | date: "dd/MM/yyyy"
+                  }}</ion-label>
+                  <div class="record-wrap">
+                    <ion-badge color="primary">{{ mark.weight }}kg</ion-badge>
+                    <ion-badge color="secondary"
+                      >{{ mark.serie }}x{{ mark.reps }}</ion-badge
+                    >
+                    <ion-badge color="tertiary">{{ mark.rir }} RIR</ion-badge>
+                  </div>
+                </ion-item>
+              </ion-item-sliding>
+            </div>
+          </ng-container>
+          <ng-template #noItems>
+            <h4 class="no-items">No items. You can start adding one.</h4>
+          </ng-template>
+        </ng-container>
+      </ion-list>
     </ng-container>
-  </ion-list>
+  </ion-content>
   <form class="login-form" (ngSubmit)="formSubmit()">
     <div class="login-form-inputs-container">
       <ion-item class="ion-no-padding">

@@ -26,8 +26,9 @@ ion-button {
   }
 
   .list {
-    height: fit-content;
+    height: 100%;
     overflow-y: auto;
+    padding-top: 0;
 
     .item-wrapper {
       width: 100%;

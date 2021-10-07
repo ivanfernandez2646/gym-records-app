@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Mark } from '../models/mark.model';
+import { CRUDAction } from '../utils/GenericUtils';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ export class MarkService {
   private marksMap: Map<string, Mark[]> = new Map();
 
   public marksMap$: Map<string, ReplaySubject<Mark[]>> = new Map();
+  public marksAction$: ReplaySubject<CRUDAction> = new ReplaySubject(1);
 
   constructor(private httpClient: HttpClient) {}
 
@@ -38,6 +40,7 @@ export class MarkService {
         const newArrayMarks = [...currentMarksArray, res];
         this.marksMap.set(exerciseId, newArrayMarks);
         this.marksMap$.get(exerciseId).next(newArrayMarks);
+        this.marksAction$.next(CRUDAction.CREATE);
       });
   }
 
@@ -49,6 +52,7 @@ export class MarkService {
         const index = marks.findIndex((m) => m._id === markId);
         marks.splice(index, 1);
         this.marksMap$.get(exerciseId).next(marks);
+        this.marksAction$.next(CRUDAction.DELETE);
       });
   }
 
