@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import {
   AlertController,
   IonContent,
@@ -29,6 +30,7 @@ export class MarksExerciseModalComponent implements OnInit {
 
   @ViewChild('listWrapper', { static: false }) listWrapper: IonContent;
   @ViewChild('listMarks') listMarks: IonList;
+  @ViewChild('form') form: NgForm;
 
   constructor(
     private modalController: ModalController,
@@ -63,8 +65,16 @@ export class MarksExerciseModalComponent implements OnInit {
   }
 
   formSubmit(): void {
-    this.loaderService.showLoader('Saving mark...');
-    this.markService.create(this.mark);
+    if (this.form.valid) {
+      this.loaderService.showLoader('Saving mark...');
+      this.markService.create(this.mark);
+    } else {
+      this.toastService.showToast(
+        'Check all required fields',
+        undefined,
+        'warning'
+      );
+    }
   }
 
   dismiss(): void {
