@@ -56,7 +56,7 @@
   <form class="form" (ngSubmit)="formSubmit()" #form="ngForm">
     <div class="form-inputs-container">
       <ion-item class="ion-no-padding">
-        <ion-label>Weight <span>*</span></ion-label>
+        <ion-label class="form-label-required">Weight <span>*</span></ion-label>
         <ion-input
           type="number"
           [(ngModel)]="mark.weight"
@@ -65,7 +65,7 @@
         ></ion-input>
       </ion-item>
       <ion-item class="ion-no-padding">
-        <ion-label>Serie <span>*</span></ion-label>
+        <ion-label class="form-label-required">Serie <span>*</span></ion-label>
         <ion-input
           type="number"
           [(ngModel)]="mark.serie"
@@ -74,7 +74,7 @@
         ></ion-input>
       </ion-item>
       <ion-item class="ion-no-padding">
-        <ion-label>Reps <span>*</span></ion-label>
+        <ion-label class="form-label-required">Reps <span>*</span></ion-label>
         <ion-input
           type="number"
           [(ngModel)]="mark.reps"
@@ -83,7 +83,7 @@
         ></ion-input>
       </ion-item>
       <ion-item class="ion-no-padding">
-        <ion-label>RIR <span>*</span></ion-label>
+        <ion-label class="form-label-required">RIR <span>*</span></ion-label>
         <ion-input
           type="number"
           [(ngModel)]="mark.rir"
@@ -92,7 +92,7 @@
         ></ion-input>
       </ion-item>
       <ion-item class="ion-no-padding">
-        <ion-label>Notes</ion-label>
+        <ion-label class="form-label">Notes</ion-label>
         <ion-input
           type="text"
           [(ngModel)]="mark.notes"

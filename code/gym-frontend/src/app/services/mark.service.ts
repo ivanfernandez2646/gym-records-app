@@ -64,4 +64,8 @@ export class MarkService {
     }
     return this.marksMap$.get(exerciseId);
   }
+
+  setMarksActionUndefined(): void {
+    this.marksAction$.next(undefined);
+  }
 }

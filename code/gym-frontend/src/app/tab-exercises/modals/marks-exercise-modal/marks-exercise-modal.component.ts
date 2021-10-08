@@ -7,7 +7,7 @@ import {
   IonList,
   ModalController,
 } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Exercise } from 'src/app/models/exercise.model';
 import { Mark } from 'src/app/models/mark.model';
 import { LoaderService } from 'src/app/services/loader.service';
@@ -26,6 +26,7 @@ export class MarksExerciseModalComponent implements OnInit {
 
   marks$: Observable<Mark[]>;
   isLoading$: Observable<boolean>;
+  marksActionSubscription: Subscription;
   mark: Mark = {};
 
   @ViewChild('listWrapper', { static: false }) listWrapper: IonContent;
@@ -53,15 +54,23 @@ export class MarksExerciseModalComponent implements OnInit {
         this.loaderService.hideLoader();
       });
     });
-    this.markService.marksAction$.subscribe((a) => {
-      switch (a) {
-        case CRUDAction.CREATE:
-          this.toastService.showToast('Mark created successfully');
-          this.mark = { exercise: this.exercise._id, user: this.userId };
-          setTimeout(() => this.listWrapper.scrollToBottom(), 500);
-          break;
+    this.marksActionSubscription = this.markService.marksAction$.subscribe(
+      (a) => {
+        switch (a) {
+          case CRUDAction.CREATE:
+            this.toastService.showToast('Mark created successfully');
+            this.mark = { exercise: this.exercise._id, user: this.userId };
+            this.form.resetForm(this.mark);
+            setTimeout(() => this.listWrapper.scrollToBottom(), 500);
+            break;
+          case CRUDAction.DELETE:
+            this.toastService.showToast('Mark deleted successfully');
+            this.mark = { exercise: this.exercise._id, user: this.userId };
+            this.form.resetForm(this.mark);
+            break;
+        }
       }
-    });
+    );
   }
 
   formSubmit(): void {
@@ -78,6 +87,8 @@ export class MarksExerciseModalComponent implements OnInit {
   }
 
   dismiss(): void {
+    this.markService.setMarksActionUndefined();
+    this.marksActionSubscription.unsubscribe();
     this.modalController.dismiss();
   }
 
