@@ -1,4 +1,10 @@
-import { IsBoolean, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { MuscleEnum } from 'src/enums/muscle.enum';
 
 export class CreateExerciseDTO {
@@ -6,6 +12,7 @@ export class CreateExerciseDTO {
   @IsNotEmpty()
   name: string;
 
+  @IsOptional()
   @IsString()
   description: string;
 
@@ -21,6 +28,7 @@ export class UpdateExerciseDTO {
   @IsString()
   name: string;
 
+  @IsOptional()
   @IsString()
   description: string;
 

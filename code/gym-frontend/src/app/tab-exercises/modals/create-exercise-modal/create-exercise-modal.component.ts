@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Exercise } from 'src/app/models/exercise.model';
 import { ExerciseService } from 'src/app/services/exercise.service';
 import { LoaderService } from 'src/app/services/loader.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { enumToArrayOfValues } from 'src/app/utils/GenericUtils';
 import { MuscleEnum } from 'src/app/utils/MuscleEnum';
 
@@ -16,10 +18,13 @@ export class CreateExerciseModalComponent implements OnInit {
   isUpdate: boolean;
   muscleEnum: string[] = enumToArrayOfValues(MuscleEnum);
 
+  @ViewChild('form') form: NgForm;
+
   constructor(
     private modalController: ModalController,
     private exerciseService: ExerciseService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -29,14 +34,22 @@ export class CreateExerciseModalComponent implements OnInit {
   }
 
   formSubmit(): void {
-    if (this.isUpdate) {
-      this.loaderService.showLoader('Updating exercise...');
-      this.exerciseService.update(this.exercise._id, this.exercise);
+    if (this.form.valid) {
+      if (this.isUpdate) {
+        this.loaderService.showLoader('Updating exercise...');
+        this.exerciseService.update(this.exercise._id, this.exercise);
+      } else {
+        this.loaderService.showLoader('Creating exercise...');
+        this.exerciseService.create(this.exercise);
+      }
+      this.dismiss(true);
     } else {
-      this.loaderService.showLoader('Creating exercise...');
-      this.exerciseService.create(this.exercise);
+      this.toastService.showToast(
+        'Check all required fields',
+        undefined,
+        'warning'
+      );
     }
-    this.dismiss(true);
   }
 
   dismiss(isActionPerformed: boolean = false): void {

@@ -1,11 +1,12 @@
-<form class="form" (ngSubmit)="formSubmit()">
+<form class="form" (ngSubmit)="formSubmit()" #form="ngForm">
   <div class="form-inputs-container">
     <ion-item>
-      <ion-label>Name</ion-label>
+      <ion-label>Name <span>*</span></ion-label>
       <ion-input
         type="text"
         [(ngModel)]="exercise.name"
         name="name"
+        required
       ></ion-input>
     </ion-item>
     <ion-item>
@@ -17,12 +18,13 @@
       ></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Muscle</ion-label>
+      <ion-label>Muscle <span>*</span></ion-label>
       <ion-select
         okText="Okay"
         cancelText="Dismiss"
         [(ngModel)]="exercise.muscle"
         name="muscle"
+        required
       >
         <ion-select-option
           *ngFor="let muscle of muscleEnum"
