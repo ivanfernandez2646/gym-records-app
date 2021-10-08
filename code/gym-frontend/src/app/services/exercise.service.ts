@@ -21,8 +21,7 @@ export class ExerciseService {
     this.httpClient
       .get<Exercise[]>(`${this.apiRoute}/exercise`)
       .subscribe((res) => {
-        //TODO remove filter
-        this.exercises = res.filter((e) => e.name.startsWith('test'));
+        this.exercises = res;
         this.exercises$.next(this.exercises);
       });
   }
