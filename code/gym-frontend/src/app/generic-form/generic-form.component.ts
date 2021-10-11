@@ -18,6 +18,6 @@ export class GenericFormComponent implements OnInit {
   ngOnInit() {}
 
   formSubmit() {
-    this.genericFormData.formSubmit.call(this);
+    this.genericFormData.formSubmit.call(this, this.form);
   }
 }

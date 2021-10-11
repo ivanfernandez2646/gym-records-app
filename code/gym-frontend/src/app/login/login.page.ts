@@ -10,12 +10,13 @@ import { GenericForm, GenericFormInterface } from '../utils/GenericForm';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit, GenericFormInterface {
-  user: User = {};
+  user: User;
   genericForm: GenericForm;
 
   constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
+    this.user = {};
     const isAuthenticated = this.userService.isAuthenticated();
     if (isAuthenticated) {
       this.router.navigateByUrl('tabs');

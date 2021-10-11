@@ -21,16 +21,44 @@
             [required]="formField.isRequired"
           ></ion-input>
         </ng-container>
-        <ng-container *ngSwitchDefault>output2</ng-container>
+        <ng-container *ngSwitchCase="'select'">
+          <ion-select
+            okText="Okay"
+            cancelText="Dismiss"
+            [(ngModel)]="genericFormData.modelData[formField.modelName]"
+            [name]="formField.modelName"
+            [required]="formField.isRequired"
+          >
+            <ion-select-option
+              *ngFor="let option of formField.data"
+              value="{{ option }}"
+              >{{ option | titlecase }}</ion-select-option
+            >
+          </ion-select>
+        </ng-container>
+        <ng-container *ngSwitchCase="'toggle'">
+          <ion-toggle
+            slot="end"
+            [(ngModel)]="genericFormData.modelData[formField.modelName]"
+            [name]="formField.modelName"
+            [required]="formField.isRequired"
+            [color]="formField.color"
+          ></ion-toggle>
+        </ng-container>
       </ng-container>
     </ion-item>
   </div>
   <div class="form-buttons-container">
     <ng-container *ngFor="let button of genericFormData.customButtons">
       <ion-button
-        [type]="button.label"
+        [type]="button.type"
         [expand]="button.expand"
         [color]="button.color"
+        (click)="
+          button.type !== 'submit' && button.callback
+            ? button.callback.call(this)
+            : false
+        "
         >{{ button.label }}</ion-button
       >
     </ng-container>

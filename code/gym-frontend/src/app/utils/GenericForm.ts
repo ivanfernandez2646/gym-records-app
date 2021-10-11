@@ -1,6 +1,8 @@
+import { NgForm } from '@angular/forms';
+
 export interface GenericFormInterface {
   buildGenericForm(): void;
-  formSubmit(): void;
+  formSubmit(ngFormReturned?: NgForm): void;
 }
 
 export class GenericForm {
@@ -20,8 +22,10 @@ export interface CustomFormField {
   component?: string; //ion-input, ion-select...
   type?: string; // if is ion-input you need to specify the type
   modelName?: string; // ngModel and name
+  data?: any; //any type of data that you can include to handle in form
   isRequired?: boolean;
   color?: string;
+  callback?: Function;
 }
 
 export interface CustomFormButton {
@@ -29,4 +33,5 @@ export interface CustomFormButton {
   type?: string;
   expand?: string;
   color?: string;
+  callback?: Function;
 }

@@ -8,7 +8,6 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GenericFormComponent } from './generic-form/generic-form.component';
 import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 import { LoaderService } from './services/loader.service';
 import { ToastService } from './services/toast.service';
