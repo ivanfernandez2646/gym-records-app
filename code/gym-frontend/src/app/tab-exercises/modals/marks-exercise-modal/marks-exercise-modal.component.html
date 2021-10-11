@@ -53,55 +53,7 @@
       </ion-list>
     </ng-container>
   </ion-content>
-  <form class="form" (ngSubmit)="formSubmit()" #form="ngForm">
-    <div class="form-inputs-container">
-      <ion-item class="ion-no-padding">
-        <ion-label class="form-label-required">Weight <span>*</span></ion-label>
-        <ion-input
-          type="number"
-          [(ngModel)]="mark.weight"
-          name="weight"
-          required
-        ></ion-input>
-      </ion-item>
-      <ion-item class="ion-no-padding">
-        <ion-label class="form-label-required">Serie <span>*</span></ion-label>
-        <ion-input
-          type="number"
-          [(ngModel)]="mark.serie"
-          name="serie"
-          required
-        ></ion-input>
-      </ion-item>
-      <ion-item class="ion-no-padding">
-        <ion-label class="form-label-required">Reps <span>*</span></ion-label>
-        <ion-input
-          type="number"
-          [(ngModel)]="mark.reps"
-          name="reps"
-          required
-        ></ion-input>
-      </ion-item>
-      <ion-item class="ion-no-padding">
-        <ion-label class="form-label-required">RIR <span>*</span></ion-label>
-        <ion-input
-          type="number"
-          [(ngModel)]="mark.rir"
-          name="rir"
-          required
-        ></ion-input>
-      </ion-item>
-      <ion-item class="ion-no-padding">
-        <ion-label class="form-label">Notes</ion-label>
-        <ion-input
-          type="text"
-          [(ngModel)]="mark.notes"
-          name="notes"
-        ></ion-input>
-      </ion-item>
-    </div>
-    <ion-button type="submit" expand="block" color="secondary">Add</ion-button>
-  </form>
+  <app-generic-form [genericFormData]="genericForm"></app-generic-form>
   <div class="buttons-container">
     <ion-button expand="block" (click)="dismiss()">Back</ion-button>
   </div>

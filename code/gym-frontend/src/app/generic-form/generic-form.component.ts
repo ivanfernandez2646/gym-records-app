@@ -20,4 +20,11 @@ export class GenericFormComponent implements OnInit {
   formSubmit() {
     this.genericFormData.formSubmit.call(this, this.form);
   }
+
+  transformToNumber($event: any) {
+    if ($event.target.value !== '') {
+      this.genericFormData.modelData[$event.target.name] =
+        $event.target.value * 1;
+    }
+  }
 }

@@ -13,6 +13,7 @@ import { Mark } from 'src/app/models/mark.model';
 import { LoaderService } from 'src/app/services/loader.service';
 import { MarkService } from 'src/app/services/mark.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { GenericForm, GenericFormInterface } from 'src/app/utils/GenericForm';
 import { CRUDAction } from 'src/app/utils/GenericUtils';
 
 @Component({
@@ -20,18 +21,21 @@ import { CRUDAction } from 'src/app/utils/GenericUtils';
   templateUrl: './marks-exercise-modal.component.html',
   styleUrls: ['./marks-exercise-modal.component.scss'],
 })
-export class MarksExerciseModalComponent implements OnInit {
+export class MarksExerciseModalComponent
+  implements OnInit, GenericFormInterface
+{
   userId: string;
   exercise: Exercise;
 
   marks$: Observable<Mark[]>;
   isLoading$: Observable<boolean>;
   marksActionSubscription: Subscription;
-  mark: Mark = {};
+  mark: Mark;
+  genericForm: GenericForm;
+  ngFormReturned: NgForm;
 
   @ViewChild('listWrapper', { static: false }) listWrapper: IonContent;
   @ViewChild('listMarks') listMarks: IonList;
-  @ViewChild('form') form: NgForm;
 
   constructor(
     private modalController: ModalController,
@@ -42,8 +46,8 @@ export class MarksExerciseModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.mark.user = this.userId;
-    this.mark.exercise = this.exercise._id;
+    this.mark = { user: this.userId, exercise: this.exercise._id };
+    this.buildGenericForm();
     this.marks$ = this.markService.getMarksObservableFiltered(
       this.exercise._id
     );
@@ -59,22 +63,75 @@ export class MarksExerciseModalComponent implements OnInit {
         switch (a) {
           case CRUDAction.CREATE:
             this.toastService.showToast('Mark created successfully');
-            this.mark = { exercise: this.exercise._id, user: this.userId };
-            this.form.resetForm(this.mark);
+            this.mark = {
+              exercise: this.exercise._id,
+              user: this.userId,
+              rir: undefined,
+            };
+            this.ngFormReturned.resetForm(this.mark);
             setTimeout(() => this.listWrapper.scrollToBottom(), 500);
             break;
           case CRUDAction.DELETE:
             this.toastService.showToast('Mark deleted successfully');
             this.mark = { exercise: this.exercise._id, user: this.userId };
-            this.form.resetForm(this.mark);
+            if (this.ngFormReturned) {
+              this.ngFormReturned.resetForm(this.mark);
+            }
             break;
         }
       }
     );
   }
 
-  formSubmit(): void {
-    if (this.form.valid) {
+  buildGenericForm(): void {
+    this.genericForm = new GenericForm(this.mark);
+    this.genericForm.customFormFields.push({
+      label: 'Weight',
+      component: 'input',
+      type: 'number',
+      modelName: 'weight',
+      isRequired: true,
+    });
+    this.genericForm.customFormFields.push({
+      label: 'Serie',
+      component: 'input',
+      type: 'number',
+      modelName: 'serie',
+      isRequired: true,
+    });
+    this.genericForm.customFormFields.push({
+      label: 'Reps',
+      component: 'input',
+      type: 'number',
+      modelName: 'reps',
+      isRequired: true,
+    });
+    this.genericForm.customFormFields.push({
+      label: 'RIR',
+      component: 'input',
+      type: 'number',
+      modelName: 'rir',
+      isRequired: true,
+    });
+    this.genericForm.customFormFields.push({
+      label: 'Notes',
+      component: 'input',
+      type: 'text',
+      modelName: 'notes',
+    });
+    this.genericForm.customButtons.push({
+      label: 'Add',
+      type: 'submit',
+      expand: 'block',
+      color: 'secondary',
+    });
+    this.genericForm.formSubmit = (ngFormReturned: NgForm) =>
+      this.formSubmit(ngFormReturned);
+  }
+
+  formSubmit(ngFormReturned?: NgForm): void {
+    this.ngFormReturned = ngFormReturned;
+    if (this.ngFormReturned.valid) {
       this.loaderService.showLoader('Saving mark...');
       this.markService.create(this.mark);
     } else {

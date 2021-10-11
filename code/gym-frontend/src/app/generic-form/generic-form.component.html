@@ -16,6 +16,9 @@
         <ng-container *ngSwitchCase="'input'">
           <ion-input
             [type]="formField.type"
+            (ionChange)="
+              formField.type === 'number' ? transformToNumber($event) : false
+            "
             [(ngModel)]="genericFormData.modelData[formField.modelName]"
             [name]="formField.modelName"
             [required]="formField.isRequired"
