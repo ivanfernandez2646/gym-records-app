@@ -1,0 +1,38 @@
+<form
+  class="{{ genericFormData.class }}"
+  (ngSubmit)="formSubmit()"
+  #form="ngForm"
+>
+  <div class="form-inputs-container">
+    <ion-item *ngFor="let formField of genericFormData.customFormFields">
+      <ion-label
+        [className]="
+          formField.isRequired ? 'form-label-required' : 'form-label'
+        "
+        >{{ formField.label }}
+        <span *ngIf="formField.isRequired">*</span></ion-label
+      >
+      <ng-container [ngSwitch]="formField.component">
+        <ng-container *ngSwitchCase="'input'">
+          <ion-input
+            [type]="formField.type"
+            [(ngModel)]="genericFormData.modelData[formField.modelName]"
+            [name]="formField.modelName"
+            [required]="formField.isRequired"
+          ></ion-input>
+        </ng-container>
+        <ng-container *ngSwitchDefault>output2</ng-container>
+      </ng-container>
+    </ion-item>
+  </div>
+  <div class="form-buttons-container">
+    <ng-container *ngFor="let button of genericFormData.customButtons">
+      <ion-button
+        [type]="button.label"
+        [expand]="button.expand"
+        [color]="button.color"
+        >{{ button.label }}</ion-button
+      >
+    </ng-container>
+  </div>
+</form>

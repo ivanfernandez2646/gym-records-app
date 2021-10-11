@@ -1,29 +1,4 @@
 <ion-content>
   <img src="../../assets/maybeIcon.png" />
-  <form class="loginForm" (ngSubmit)="formSubmit()">
-    <div class="loginForm-inputs-container">
-      <ion-item>
-        <ion-label>Username</ion-label>
-        <ion-input
-          type="text"
-          [(ngModel)]="user.userName"
-          name="userName"
-        ></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Password</ion-label>
-        <ion-input
-          type="password"
-          [(ngModel)]="user.password"
-          name="password"
-        ></ion-input>
-      </ion-item>
-    </div>
-    <div class="loginForm-buttons-container">
-      <ion-button type="submit" expand="block" color="secondary"
-        >Register</ion-button
-      >
-      <ion-button type="submit" expand="block">Login</ion-button>
-    </div>
-  </form>
+  <app-generic-form [genericFormData]="genericForm"></app-generic-form>
 </ion-content>

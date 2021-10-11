@@ -10,7 +10,9 @@ const routes: Routes = [
       {
         path: 'tab-exercises',
         loadChildren: () =>
-          import('../tab-exercises/tab-exercises.module').then((m) => m.Tab1PageModule),
+          import('../tab-exercises/tab-exercises.module').then(
+            (m) => m.TabExercisesPageModule
+          ),
       },
       {
         path: 'tab-config',

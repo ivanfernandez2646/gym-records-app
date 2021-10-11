@@ -21,4 +21,4 @@ import { MarksExerciseModalComponent } from './modals/marks-exercise-modal/marks
     MarksExerciseModalComponent,
   ],
 })
-export class Tab1PageModule {}
+export class TabExercisesPageModule {}

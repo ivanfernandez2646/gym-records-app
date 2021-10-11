@@ -2,24 +2,3 @@ img {
   width: 100%;
   height: 50%;
 }
-
-.loginForm {
-  height: 50%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-
-  & > div {
-    padding: 2rem;
-  }
-
-  &-buttons-container {
-    position: relative;
-    bottom: 10%;
-
-    ion-button {
-      margin: 0.5rem;
-    }
-  }
-}
