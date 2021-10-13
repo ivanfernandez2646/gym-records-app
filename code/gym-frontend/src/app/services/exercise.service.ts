@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Exercise } from '../models/exercise.model';
+import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { Exercise } from '../models/exercise.model';
 import { CRUDAction } from '../utils/GenericUtils';
 
 @Injectable({

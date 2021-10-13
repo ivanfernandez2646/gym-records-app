@@ -13,9 +13,6 @@ ion-button {
 }
 
 .list-wrapper {
-  height: 60%;
-  flex: none;
-
   &::part(background) {
     background-color: gainsboro;
     margin-top: 1rem;
@@ -26,7 +23,6 @@ ion-button {
   }
 
   .list {
-    height: 100%;
     overflow-y: auto;
     padding-top: 0;
 

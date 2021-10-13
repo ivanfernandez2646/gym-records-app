@@ -12,7 +12,11 @@
 </div>
 <ion-content class="list-wrapper" [scrollEvents]="true" #listWrapper>
   <ng-container *ngIf="(exercises$ | async) as exercises">
-    <ion-list class="list" #listExercises>
+    <ion-list
+      class="list"
+      [style.height]="exercises.length > 0 ? 'fit-content' : '100%'"
+      #listExercises
+    >
       <ng-container *ngIf="!(isLoading$ | async)">
         <ng-container *ngIf="exercises.length > 0; else noItems">
           <div
