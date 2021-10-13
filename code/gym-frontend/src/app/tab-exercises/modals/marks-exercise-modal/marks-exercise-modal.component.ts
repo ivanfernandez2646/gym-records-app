@@ -85,12 +85,14 @@ export class MarksExerciseModalComponent
 
   buildGenericForm(): void {
     this.genericForm = new GenericForm(this.mark);
+    this.genericForm.class = 'marks-form';
     this.genericForm.customFormFields.push({
-      label: 'Weight',
+      label: 'Weight (kg)',
       component: 'input',
       type: 'number',
       modelName: 'weight',
       isRequired: true,
+      class: 'ion-text-right',
     });
     this.genericForm.customFormFields.push({
       label: 'Serie',
@@ -98,6 +100,7 @@ export class MarksExerciseModalComponent
       type: 'number',
       modelName: 'serie',
       isRequired: true,
+      class: 'ion-text-right',
     });
     this.genericForm.customFormFields.push({
       label: 'Reps',
@@ -105,6 +108,7 @@ export class MarksExerciseModalComponent
       type: 'number',
       modelName: 'reps',
       isRequired: true,
+      class: 'ion-text-right',
     });
     this.genericForm.customFormFields.push({
       label: 'RIR',
@@ -112,12 +116,14 @@ export class MarksExerciseModalComponent
       type: 'number',
       modelName: 'rir',
       isRequired: true,
+      class: 'ion-text-right',
     });
     this.genericForm.customFormFields.push({
       label: 'Notes',
       component: 'input',
       type: 'text',
       modelName: 'notes',
+      class: 'ion-text-right',
     });
     this.genericForm.customButtons.push({
       label: 'Add',

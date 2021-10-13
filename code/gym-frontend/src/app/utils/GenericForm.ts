@@ -25,6 +25,7 @@ export interface CustomFormField {
   data?: any; //any type of data that you can include to handle in form
   isRequired?: boolean;
   color?: string;
+  class?: string;
   callback?: Function;
 }
 
@@ -33,5 +34,6 @@ export interface CustomFormButton {
   type?: string;
   expand?: string;
   color?: string;
+  class?: string;
   callback?: Function;
 }

@@ -22,6 +22,7 @@
             [(ngModel)]="genericFormData.modelData[formField.modelName]"
             [name]="formField.modelName"
             [required]="formField.isRequired"
+            [classList]="formField.class"
           ></ion-input>
         </ng-container>
         <ng-container *ngSwitchCase="'select'">
@@ -31,6 +32,7 @@
             [(ngModel)]="genericFormData.modelData[formField.modelName]"
             [name]="formField.modelName"
             [required]="formField.isRequired"
+            [classList]="formField.class"
           >
             <ion-select-option
               *ngFor="let option of formField.data"
@@ -46,6 +48,7 @@
             [name]="formField.modelName"
             [required]="formField.isRequired"
             [color]="formField.color"
+            [classList]="formField.class"
           ></ion-toggle>
         </ng-container>
       </ng-container>
@@ -57,6 +60,7 @@
         [type]="button.type"
         [expand]="button.expand"
         [color]="button.color"
+        [classList]="button.class"
         (click)="
           button.type !== 'submit' && button.callback
             ? button.callback.call(this)

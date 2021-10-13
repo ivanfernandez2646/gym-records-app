@@ -25,7 +25,8 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
-.buttons-container {
+/* Mixins */
+@mixin buttons-container-mixin {
   margin-top: 1rem;
 
   ion-button {
@@ -37,6 +38,10 @@
       margin-top: 0.5rem;
     }
   }
+}
+
+.buttons-container {
+  @include buttons-container-mixin();
 }
 
 .no-items {
@@ -67,12 +72,27 @@
     padding: 2rem;
   }
 
-  &-buttons-container {
+  .form-buttons-container {
     position: relative;
     bottom: 10%;
 
     ion-button {
       margin: 0.5rem;
     }
+  }
+}
+
+.marks-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 75%;
+  margin: 0 auto;
+}
+
+.exercises-form {
+  .form-buttons-container {
+    @include buttons-container-mixin();
   }
 }

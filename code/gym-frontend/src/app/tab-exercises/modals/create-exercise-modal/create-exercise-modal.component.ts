@@ -38,6 +38,7 @@ export class CreateExerciseModalComponent
 
   buildGenericForm(): void {
     this.genericForm = new GenericForm(this.exercise);
+    this.genericForm.class = 'exercises-form';
     this.genericForm.customFormFields.push({
       label: 'Name',
       component: 'input',
