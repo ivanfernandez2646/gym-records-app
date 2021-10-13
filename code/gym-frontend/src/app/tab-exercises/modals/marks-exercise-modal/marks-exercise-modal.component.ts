@@ -63,20 +63,12 @@ export class MarksExerciseModalComponent
         switch (a) {
           case CRUDAction.CREATE:
             this.toastService.showToast('Mark created successfully');
-            this.mark = {
-              exercise: this.exercise._id,
-              user: this.userId,
-              rir: undefined,
-            };
-            this.ngFormReturned.resetForm(this.mark);
+            this.ngFormReturned.resetForm();
             setTimeout(() => this.listWrapper.scrollToBottom(), 500);
             break;
           case CRUDAction.DELETE:
             this.toastService.showToast('Mark deleted successfully');
-            this.mark = { exercise: this.exercise._id, user: this.userId };
-            if (this.ngFormReturned) {
-              this.ngFormReturned.resetForm(this.mark);
-            }
+            this.ngFormReturned.resetForm();
             break;
         }
       }
