@@ -40,6 +40,10 @@
   }
 }
 
+ion-item.ion-invalid.ion-touched {
+  --border-color: red;
+}
+
 .buttons-container {
   @include buttons-container-mixin();
 }
