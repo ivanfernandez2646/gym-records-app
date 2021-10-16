@@ -25,6 +25,9 @@ export class Mark {
   @Prop({ type: String })
   notes: string;
 
+  @Prop({ type: Boolean, default: false, name: 'is_latest_used' })
+  isLatestUsed: boolean;
+
   @Prop({ type: Types.ObjectId, ref: 'Exercise', required: true })
   exercise: Exercise | Types.ObjectId;
 

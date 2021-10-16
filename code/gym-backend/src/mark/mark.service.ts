@@ -8,7 +8,6 @@ import { User, UserDocument } from 'src/schemas/user.schema';
 
 //TODO: On create, check if exercise id exist before
 //TODO: On delete, check if mark id exist before
-//TODO: On update, check if mark and exercise id exist before
 @Injectable()
 export class MarkService {
   constructor(
@@ -60,19 +59,38 @@ export class MarkService {
     }
   }
 
-  // TODO: Update mark for now isn't available
-  // async update(id: string, updateMarkDTO: UpdateMarkDTO): Promise<Mark> {
-  //   return await this.markModel.findByIdAndUpdate(id, updateMarkDTO, {
-  //     new: true,
-  //   });
-  // }
-
   async delete(id: string): Promise<boolean> {
     try {
       const deleteMark: MarkDocument = await this.markModel.findById(id);
       await deleteMark.deleteOne();
       return true;
     } catch (error) {
+      throw error;
+    }
+  }
+
+  async setMarkAsLatestUsed(id: string): Promise<Mark> {
+    const session = await this.markModel.startSession();
+    session.startTransaction();
+    try {
+      const oldMarkUsed: MarkDocument = await this.markModel.findOne({
+        isLatestUsed: true,
+      });
+      if (oldMarkUsed) {
+        oldMarkUsed.isLatestUsed = false;
+        await oldMarkUsed.save();
+      }
+      const newMarkUsed: MarkDocument = await this.markModel.findById(id);
+      newMarkUsed.isLatestUsed = true;
+      await newMarkUsed.save();
+
+      await session.commitTransaction();
+      session.endSession();
+      return newMarkUsed;
+    } catch (error) {
+      console.log(error);
+      await session.abortTransaction();
+      session.endSession();
       throw error;
     }
   }

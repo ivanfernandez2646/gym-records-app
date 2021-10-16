@@ -42,17 +42,13 @@ export class MarkController {
     return this.markService.create(createMarkDTO);
   }
 
-  // TODO: Update mark for now isn't available
-  // @Put(':id')
-  // update(
-  //   @Param('id') id: string,
-  //   @Body() updateMarkDTO: UpdateMarkDTO
-  // ): Promise<Mark> {
-  //   return this.markService.update(id, updateMarkDTO);
-  // }
-
   @Delete(':id')
   remove(@Param('id') id: string): Promise<boolean> {
     return this.markService.delete(id);
+  }
+
+  @Put('/latest-used/:id')
+  setMarkAsLatestUsed(@Param('id') id: string): Promise<Mark> {
+    return this.markService.setMarkAsLatestUsed(id);
   }
 }

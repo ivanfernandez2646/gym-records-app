@@ -8,8 +8,7 @@ y validación de formularios pendiente de realizar.
 
 BACKEND
 
-IMPORTANTE: Transacción en la creación de usuario no funciona. Puede crear una configuración sin llegar a crear el usuario
-1-. Controlar cuando un objeto existe o no y devolver un mensaje explicativo.
+IMPORTANTE: Replica set para utilizar las transacciones. De lo contrario, no funcionará. Remover todos los métodos .save() de las transacciones excepto el commitTransaction()
 2-. Updatear un usuario y poder borrarlo.
 3-. Echar vistazo a nombre de las propiedades en mongo(camelCase)
 FRONTEND

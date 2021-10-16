@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { Types } from 'mongoose';
 
 export class CreateMarkDTO {
@@ -18,6 +24,9 @@ export class CreateMarkDTO {
   @IsString()
   @IsNotEmpty()
   notes: string;
+
+  @IsBoolean()
+  isLatestUsed: boolean;
 
   @IsNotEmpty()
   user: Types.ObjectId;
