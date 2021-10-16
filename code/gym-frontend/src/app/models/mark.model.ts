@@ -9,6 +9,7 @@ export interface Mark {
   rir?: number;
   date?: Date;
   notes?: string;
+  isLatestUsed?: boolean;
   exercise?: Exercise | string;
   user?: User | string;
 }

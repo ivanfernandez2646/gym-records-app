@@ -56,6 +56,22 @@ export class MarkService {
       });
   }
 
+  setMarkAsLatestUsed(markId: string, exerciseId: string): void {
+    this.httpClient
+      .put<Mark[]>(`${this.apiRoute}/mark/latest-used/${markId}`, undefined)
+      .subscribe((res) => {
+        const marks = this.marksMap.get(exerciseId);
+
+        res.forEach((mark) => {
+          const index = marks.findIndex((m) => m._id === mark._id);
+          marks.splice(index, 1, mark);
+        });
+
+        this.marksMap$.get(exerciseId).next(marks);
+        this.marksAction$.next(CRUDAction.UPDATE);
+      });
+  }
+
   //Helpers
   getMarksObservableFiltered(exerciseId: string): ReplaySubject<Mark[]> {
     if (!this.marksMap$.has(exerciseId)) {

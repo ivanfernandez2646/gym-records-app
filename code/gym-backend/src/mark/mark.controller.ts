@@ -48,7 +48,7 @@ export class MarkController {
   }
 
   @Put('/latest-used/:id')
-  setMarkAsLatestUsed(@Param('id') id: string): Promise<Mark> {
+  setMarkAsLatestUsed(@Param('id') id: string): Promise<Mark[]> {
     return this.markService.setMarkAsLatestUsed(id);
   }
 }

@@ -68,8 +68,7 @@ export class MarkService {
       throw error;
     }
   }
-
-  async setMarkAsLatestUsed(id: string): Promise<Mark> {
+  async setMarkAsLatestUsed(id: string): Promise<Mark[]> {
     const session = await this.markModel.startSession();
     session.startTransaction();
     try {
@@ -86,7 +85,7 @@ export class MarkService {
 
       await session.commitTransaction();
       session.endSession();
-      return newMarkUsed;
+      return [oldMarkUsed, newMarkUsed];
     } catch (error) {
       console.log(error);
       await session.abortTransaction();

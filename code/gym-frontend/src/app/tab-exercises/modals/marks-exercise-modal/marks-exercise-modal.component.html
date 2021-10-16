@@ -30,10 +30,10 @@
                   <ion-label class="label-date"
                     ><span>{{ mark.date | date: "dd/MM/yyyy" }}</span
                     ><span *ngIf="mark.notes">
-                      <ion-icon
-                        name="bookmark"
-                        color="warning"
-                      ></ion-icon> </span
+                      <ion-icon name="bookmark" color="warning"></ion-icon>
+                    </span>
+                    <span *ngIf="mark.isLatestUsed">
+                      <ion-icon name="timer" color="warning"></ion-icon> </span
                   ></ion-label>
                   <div class="record-wrap">
                     <ion-badge color="primary">{{ mark.weight }}kg</ion-badge>
@@ -43,6 +43,16 @@
                     <ion-badge color="tertiary">{{ mark.rir }} RIR</ion-badge>
                   </div>
                 </ion-item>
+
+                <ion-item-options side="end" *ngIf="!mark.isLatestUsed">
+                  <ion-item-option
+                    color="tertiary"
+                    expandable
+                    (click)="setMarkAsLatestUsed($event, mark)"
+                  >
+                    Latest used
+                  </ion-item-option>
+                </ion-item-options>
               </ion-item-sliding>
             </div>
           </ng-container>

@@ -70,6 +70,9 @@ export class MarksExerciseModalComponent
             this.toastService.showToast('Mark deleted successfully');
             this.ngFormReturned.resetForm();
             break;
+          case CRUDAction.UPDATE:
+            this.toastService.showToast('Mark updated successfully');
+            break;
         }
       }
     );
@@ -168,6 +171,35 @@ export class MarksExerciseModalComponent
           handler: () => {
             this.loaderService.showLoader('Deleting mark...');
             this.markService.delete(mark._id, this.exercise._id);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  async setMarkAsLatestUsed($event: MouseEvent, mark: Mark): Promise<void> {
+    if ($event) {
+      $event.stopPropagation();
+    }
+    const alert = await this.alertController.create({
+      header: 'Set mark as latest used',
+      message: `You're going to set the mark selected as the lastest used. Are you sure?`,
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            this.listMarks.closeSlidingItems();
+          },
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.loaderService.showLoader('Setting mark as latest used...');
+            this.markService.setMarkAsLatestUsed(mark._id, this.exercise._id);
           },
         },
       ],
