@@ -4,10 +4,19 @@
 ></ion-searchbar>
 <div class="muscle-filter">
   <ion-chip
-    *ngFor="let muscle of muscleEnum"
+    outline
+    *ngFor="let muscle of muscleFilterEnum"
+    id="{{muscle}}"
     (click)="selectChipMuscle($event)"
+    class="{{filterMuscles.includes(muscle.toLowerCase()) ? 'ion-chip-selected' : ''}}"
   >
-    <ion-label>{{muscle | titlecase}}</ion-label>
+    <ion-label
+      ><ng-container *ngIf="muscle === muscleMonitorized; else muscleText"
+        ><span class="is-monitorized"
+          ><ion-icon class="is-monitorized-icon" name="eye"></ion-icon></span
+      ></ng-container>
+      <ng-template #muscleText>{{muscle | titlecase}}</ng-template>
+    </ion-label>
   </ion-chip>
 </div>
 <ion-content class="list-wrapper" [scrollEvents]="true" #listWrapper>
@@ -22,7 +31,7 @@
           <div
             *ngFor="let exercise of exercises"
             (click)="marksForExerciseModal(exercise)"
-            id="{{exercise._id}}-{{exercise.muscle}}"
+            id="{{exercise._id}}-{{exercise.muscle}}-{{exercise.isMonitorized}}"
           >
             <ion-item-sliding>
               <ion-item-options side="start">

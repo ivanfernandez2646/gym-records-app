@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   AlertController,
+  IonChip,
   IonContent,
   IonList,
   ModalController,
@@ -13,7 +14,7 @@ import { LoaderService } from '../services/loader.service';
 import { ToastService } from '../services/toast.service';
 import { UserService } from '../services/user.service';
 import { CRUDAction, enumToArrayOfValues } from '../utils/GenericUtils';
-import { MuscleEnum } from '../utils/MuscleEnum';
+import { MuscleFilterEnum } from '../utils/MuscleEnum';
 import { CreateExerciseModalComponent } from './modals/create-exercise-modal/create-exercise-modal.component';
 import { MarksExerciseModalComponent } from './modals/marks-exercise-modal/marks-exercise-modal.component';
 
@@ -26,10 +27,11 @@ export class TabExercises implements OnInit {
   exercises$: Observable<Exercise[]>;
   isLoading$: Observable<boolean>;
   loggedUser: User;
-  muscleEnum: string[] = enumToArrayOfValues(MuscleEnum);
+  muscleFilterEnum: string[] = enumToArrayOfValues(MuscleFilterEnum);
+  muscleMonitorized: MuscleFilterEnum = MuscleFilterEnum.MONITORIZED;
 
-  filterSearchBar: string;
-  filterMuscle: string;
+  filterSearchBar: string = '';
+  filterMuscles: string[] = [];
 
   @ViewChild('listWrapper', { static: false }) listWrapper: IonContent;
   @ViewChild('listExercises') exercisesList: IonList;
@@ -147,19 +149,71 @@ export class TabExercises implements OnInit {
     });
   }
 
-  selectChipMuscle($event?: MouseEvent): void {
+  selectChipMuscle($event?: any): void {
     const items: HTMLDivElement[] = Array.from(
       document.querySelector('ion-list').children
     ) as HTMLDivElement[];
-    this.filterMuscle = $event
-      ? ($event.target as HTMLElement).innerText.toLowerCase()
-      : this.filterMuscle;
+    if ($event) {
+      const muscleSelected = (
+        $event.currentTarget as HTMLElement
+      ).id.toLowerCase();
+
+      if (muscleSelected === MuscleFilterEnum.ALL.toLowerCase()) {
+        this.filterMuscles.length = 0;
+        $event.currentTarget.parentNode.childNodes.forEach(
+          (n: IonChip) => (n.color = undefined)
+        );
+      } else {
+        if (!this.filterMuscles.includes(muscleSelected)) {
+          this.filterMuscles.push(muscleSelected);
+          ($event.currentTarget as IonChip).color = 'secondary';
+          ($event.currentTarget as HTMLElement).classList.add(
+            'ion-chip-selected'
+          );
+        } else {
+          const index = this.filterMuscles.findIndex(
+            (m) => m === muscleSelected
+          );
+          this.filterMuscles.splice(index, 1);
+          ($event.currentTarget as IonChip).color = undefined;
+        }
+      }
+    }
 
     requestAnimationFrame(() => {
       items.forEach((item) => {
-        const muscleOfItem = item.id.split('-').pop().toLowerCase();
-        const shouldShow = muscleOfItem.indexOf(this.filterMuscle) > -1;
-        item.style.display = shouldShow ? 'block' : 'none';
+        const muscleOfItem = item.id.split('-')[1].toLowerCase();
+        const itemIsMonitorized = item.id.split('-')[2];
+        if (this.filterMuscles.length > 0) {
+          for (let i = 0; i < this.filterMuscles.length; i++) {
+            const muscle = this.filterMuscles[i];
+            let shouldShow: boolean;
+            if (
+              this.filterMuscles.includes(
+                MuscleFilterEnum.MONITORIZED.toLowerCase()
+              )
+            ) {
+              if (this.filterMuscles.length > 1) {
+                shouldShow =
+                  itemIsMonitorized === 'true' &&
+                  muscleOfItem.indexOf(muscle) > -1;
+              } else {
+                shouldShow = itemIsMonitorized === 'true';
+              }
+            } else {
+              shouldShow = muscleOfItem.indexOf(muscle) > -1;
+            }
+
+            if (shouldShow) {
+              item.style.display = 'block';
+              break;
+            } else {
+              item.style.display = 'none';
+            }
+          }
+        } else {
+          item.style.display = 'block';
+        }
       });
     });
     setTimeout(() => this.listWrapper.scrollToTop(), 0);

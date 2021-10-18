@@ -10,6 +10,10 @@ ion-button {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+
+  .ion-chip-selected {
+    background-color: rgba(var(--ion-color-secondary-rgb), 0.16);
+  }
 }
 
 .list-wrapper {
@@ -45,15 +49,10 @@ ion-button {
         ion-badge {
           height: fit-content;
         }
+      }
 
-        .is-monitorized {
-          margin-left: 0.5rem;
-
-          &-icon {
-            color: var(--ion-color-tertiary);
-            zoom: 1.5;
-          }
-        }
+      .is-monitorized {
+        margin-left: 0.5rem;
       }
 
       .item-description {
@@ -61,6 +60,13 @@ ion-button {
         margin-bottom: 0;
       }
     }
+  }
+}
+
+.is-monitorized {
+  &-icon {
+    color: var(--ion-color-tertiary);
+    zoom: 1.5;
   }
 }
 

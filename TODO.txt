@@ -1,7 +1,5 @@
 NEXT:
 
-
-
 Actualmente la aplicación va a ser desarrollada para uso personal, con lo cual no va a hacer uso de registro de usuarios y demás.
 Es una funcionalidad implementada en backend y que será llevada más adelante hacia el frontend. Tratamiento de errores explicativos 
 y validación de formularios pendiente de realizar.
@@ -11,7 +9,8 @@ BACKEND
 IMPORTANTE: Replica set para utilizar las transacciones. De lo contrario, no funcionará. Remover todos los métodos .save() de las transacciones excepto el commitTransaction()
 2-. Updatear un usuario y poder borrarlo.
 3-. Echar vistazo a nombre de las propiedades en mongo(camelCase)
-FRONTEND
 
-1-. Crear pantalla de registro, login.
-2-. Hacer uso de las configuraciones e implementar.
+
+FRONTEND
+1-. Filtro tras guardar cambios.
+2-. Implementar registro dieta.
