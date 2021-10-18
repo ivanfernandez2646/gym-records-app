@@ -12,13 +12,16 @@ import { GenericForm, GenericFormInterface } from '../utils/GenericForm';
 export class LoginPage implements OnInit, GenericFormInterface {
   user: User;
   genericForm: GenericForm;
+  isAuthenticated: boolean;
 
   constructor(private router: Router, private userService: UserService) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  ionViewWillEnter(): void {
     this.user = {};
-    const isAuthenticated = this.userService.isAuthenticated();
-    if (isAuthenticated) {
+    this.isAuthenticated = this.userService.isAuthenticated();
+    if (this.isAuthenticated) {
       this.router.navigateByUrl('tabs');
     } else {
       this.buildGenericForm();

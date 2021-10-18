@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content *ngIf="!isAuthenticated">
   <img src="../../assets/maybeIcon.png" />
   <app-generic-form [genericFormData]="genericForm"></app-generic-form>
 </ion-content>

@@ -1,4 +1,5 @@
 <form
+  *ngIf="genericFormData"
   class="{{ genericFormData.class }}"
   (ngSubmit)="formSubmit()"
   #form="ngForm"
