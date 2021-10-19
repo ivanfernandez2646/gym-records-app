@@ -46,7 +46,11 @@ export class MarksExerciseModalComponent
   ) {}
 
   ngOnInit() {
-    this.mark = { user: this.userId, exercise: this.exercise._id };
+    this.mark = {
+      user: this.userId,
+      exercise: this.exercise._id,
+      isLatestUsed: false,
+    };
     this.buildGenericForm();
     this.marks$ = this.markService.getMarksObservableFiltered(
       this.exercise._id
