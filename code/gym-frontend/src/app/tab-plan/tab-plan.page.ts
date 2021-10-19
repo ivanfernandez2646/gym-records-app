@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Exercise } from '../models/exercise.model';
-import { ExerciseService } from '../services/exercise.service';
+import { PlanAttachment } from '../models/plan-attachment.model';
+import { User } from '../models/user.model';
 import { LoaderService } from '../services/loader.service';
+import { PlanAttachmentService } from '../services/plan-attachment.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-tab-plan',
@@ -10,24 +12,21 @@ import { LoaderService } from '../services/loader.service';
   styleUrls: ['./tab-plan.page.scss'],
 })
 export class TabPlanPage implements OnInit {
-  // TODO: Remove exercises observable. It's only for test component visualisation until
-  // plan attachment service has been developed
-  exercises$: Observable<Exercise[]>;
+  planAttachments$: Observable<PlanAttachment[]>;
   isLoading$: Observable<boolean>;
+  loggedUser: User;
 
   currDate: Date;
   minDate: Date;
   maxDate: Date;
-
   showPdf: boolean;
   pdfSrc = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
 
   constructor(
-    private exerciseService: ExerciseService,
+    private planAttachmentService: PlanAttachmentService,
+    private userService: UserService,
     private loaderService: LoaderService
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.currDate = new Date(Date.now());
     this.minDate = new Date(
       this.currDate.getFullYear() - 5,
@@ -37,9 +36,22 @@ export class TabPlanPage implements OnInit {
       this.currDate.getFullYear() + 5,
       this.currDate.getMonth()
     );
+  }
 
-    this.exercises$ = this.exerciseService.exercises$;
+  ngOnInit() {
+    this.userService.loggedUser$.subscribe((res) => (this.loggedUser = res));
+    this.planAttachments$ = this.planAttachmentService.planAttachments$;
     this.isLoading$ = this.loaderService.isLoading$;
+    this.loaderService.showLoader('Loading plans...').then(() => {
+      this.planAttachmentService.loadPlanAttachments(
+        this.loggedUser._id,
+        this.currDate.getMonth() + 1,
+        this.currDate.getFullYear()
+      );
+      this.planAttachments$.subscribe(() => {
+        this.loaderService.hideLoader();
+      });
+    });
   }
 
   toggleShowPdf(): void {

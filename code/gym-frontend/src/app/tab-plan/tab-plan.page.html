@@ -13,18 +13,15 @@
       <h2>Listado de documentos</h2>
     </ion-text>
     <ion-content class="list-wrapper" [scrollEvents]="true" #listWrapper>
-      <ng-container *ngIf="(exercises$ | async) as exercises">
+      <ng-container *ngIf="(planAttachments$ | async) as planAttachments">
         <ion-list
           class="list"
-          [style.height]="exercises.length > 0 ? 'fit-content' : '100%'"
+          [style.height]="planAttachments.length > 0 ? 'fit-content' : '100%'"
           #listExercises
         >
           <ng-container *ngIf="!(isLoading$ | async)">
-            <ng-container *ngIf="exercises.length > 0; else noItems">
-              <div
-                *ngFor="let exercise of exercises"
-                id="{{exercise._id}}-{{exercise.muscle}}-{{exercise.isMonitorized}}"
-              >
+            <ng-container *ngIf="planAttachments.length > 0; else noItems">
+              <div *ngFor="let planAttachment of planAttachments">
                 <ion-item-sliding>
                   <ion-item-options side="start">
                     <ion-item-option color="danger" expandable>
@@ -40,19 +37,15 @@
                     <div class="item-wrapper">
                       <div class="item-info">
                         <ion-label text-wrap
-                          >{{exercise.name }}<span
+                          >{{planAttachment.name }}<span
                             class="is-monitorized"
-                            *ngIf="exercise.isMonitorized"
+                            *ngIf="planAttachment.month"
                             ><ion-icon
                               class="is-monitorized-icon"
                               name="eye"
                             ></ion-icon></span
                         ></ion-label>
-                        <ion-badge color="primary"
-                          >{{ exercise.muscle | titlecase }}</ion-badge
-                        >
                       </div>
-                      <p class="item-description">{{exercise.description}}</p>
                     </div>
                     <ion-ripple-effect type="bounded"></ion-ripple-effect>
                   </ion-item>
