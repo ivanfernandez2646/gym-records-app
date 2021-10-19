@@ -44,3 +44,20 @@
     }
   }
 }
+
+.ng2-pdf-viewer-container {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+:host ::ng-deep .pdfViewer .page .canvasWrapper {
+  width: auto !important;
+}
+
+.buttons-container {
+  margin-bottom: 1rem;
+}

@@ -19,6 +19,9 @@ export class TabPlanPage implements OnInit {
   minDate: Date;
   maxDate: Date;
 
+  showPdf: boolean;
+  pdfSrc = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+
   constructor(
     private exerciseService: ExerciseService,
     private loaderService: LoaderService
@@ -37,5 +40,9 @@ export class TabPlanPage implements OnInit {
 
     this.exercises$ = this.exerciseService.exercises$;
     this.isLoading$ = this.loaderService.isLoading$;
+  }
+
+  toggleShowPdf(): void {
+    this.showPdf = !this.showPdf;
   }
 }

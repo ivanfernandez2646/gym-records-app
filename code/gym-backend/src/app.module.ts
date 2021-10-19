@@ -6,6 +6,7 @@ import { MarkModule } from './mark/mark.module';
 import { PlanAttachmentModule } from './plan-attachment/plan-attachment.module';
 import { UserModule } from './user/user.module';
 
+
 @Module({
   imports: [
     MongooseModule.forRoot(
@@ -17,6 +18,5 @@ import { UserModule } from './user/user.module';
     ConfigModule,
     UserModule,
     PlanAttachmentModule,
-  ],
 })
 export class AppModule {}
