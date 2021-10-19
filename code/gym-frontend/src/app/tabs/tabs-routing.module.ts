@@ -15,6 +15,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'tab-plan',
+        loadChildren: () =>
+          import('../tab-plan/tab-plan.module').then(
+            (m) => m.TabPlanPageModule
+          ),
+      },
+      {
         path: 'tab-config',
         loadChildren: () =>
           import('../tab-config/tab-config.module').then(

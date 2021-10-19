@@ -1,0 +1,73 @@
+<ion-item>
+  <ion-label>Mes y año</ion-label>
+  <ion-datetime
+    displayFormat="MMM YYYY"
+    min="{{minDate | date:'YYYY-MM-dd' }}"
+    max="{{maxDate | date:'YYYY-MM-dd'}}"
+    value="{{currDate}}"
+  ></ion-datetime>
+</ion-item>
+<ion-text class="ion-text-center" color="secondary">
+  <h2>Listado de documentos</h2>
+</ion-text>
+<ion-content class="list-wrapper" [scrollEvents]="true" #listWrapper>
+  <ng-container *ngIf="(exercises$ | async) as exercises">
+    <ion-list
+      class="list"
+      [style.height]="exercises.length > 0 ? 'fit-content' : '100%'"
+      #listExercises
+    >
+      <ng-container *ngIf="!(isLoading$ | async)">
+        <ng-container *ngIf="exercises.length > 0; else noItems">
+          <div
+            *ngFor="let exercise of exercises"
+            id="{{exercise._id}}-{{exercise.muscle}}-{{exercise.isMonitorized}}"
+          >
+            <ion-item-sliding>
+              <ion-item-options side="start">
+                <ion-item-option color="danger" expandable>
+                  Delete
+                </ion-item-option>
+              </ion-item-options>
+
+              <ion-item class="ion-no-padding" button>
+                <div class="item-wrapper">
+                  <div class="item-info">
+                    <ion-label text-wrap
+                      >{{exercise.name }}<span
+                        class="is-monitorized"
+                        *ngIf="exercise.isMonitorized"
+                        ><ion-icon
+                          class="is-monitorized-icon"
+                          name="eye"
+                        ></ion-icon></span
+                    ></ion-label>
+                    <ion-badge color="primary"
+                      >{{ exercise.muscle | titlecase }}</ion-badge
+                    >
+                  </div>
+                  <p class="item-description">{{exercise.description}}</p>
+                </div>
+                <ion-ripple-effect type="bounded"></ion-ripple-effect>
+              </ion-item>
+
+              <ion-item-options side="end">
+                <ion-item-option color="tertiary" expandable>
+                  Edit
+                </ion-item-option>
+              </ion-item-options>
+            </ion-item-sliding>
+          </div>
+        </ng-container>
+        <ng-template #noItems>
+          <h4 class="no-items">No documents. You can start adding one.</h4>
+        </ng-template>
+      </ng-container>
+    </ion-list>
+  </ng-container>
+</ion-content>
+<div class="buttons-container">
+  <ion-button type="submit" expand="block" color="secondary"
+    >Add document</ion-button
+  >
+</div>

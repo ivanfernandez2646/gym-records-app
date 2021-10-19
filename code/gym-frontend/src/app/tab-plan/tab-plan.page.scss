@@ -1,0 +1,46 @@
+.list-wrapper {
+  &::part(background) {
+    background-color: red;
+    margin-top: 1rem;
+  }
+
+  &::part(scroll) {
+    margin: 2rem 1rem 1rem 1rem;
+  }
+
+  .list {
+    overflow-y: auto;
+    padding-top: 0;
+
+    .item-wrapper {
+      width: 100%;
+      margin: 1rem;
+
+      .item-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        ion-label {
+          display: flex;
+          max-width: 60%;
+          font-size: 1rem;
+          font-weight: 900;
+        }
+
+        ion-badge {
+          height: fit-content;
+        }
+      }
+
+      .is-monitorized {
+        margin-left: 0.5rem;
+      }
+
+      .item-description {
+        font-size: 0.8rem;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
