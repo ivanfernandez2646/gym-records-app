@@ -59,9 +59,13 @@ export class PlanAttachmentService {
     );
   }
 
-  delete(id: string): void {
+  delete(id: string, path: string): void {
+    let params = new HttpParams();
+    params = params.append('id', id);
+    params = params.append('path', path);
+
     this.httpClient
-      .delete<boolean>(`${this.apiRoute}/plan-attachment/${id}`)
+      .delete<boolean>(`${this.apiRoute}/plan-attachment`, { params })
       .subscribe(() => {
         const index = this.planAttachments.findIndex((pA) => pA._id === id);
         this.planAttachments.splice(index, 1);

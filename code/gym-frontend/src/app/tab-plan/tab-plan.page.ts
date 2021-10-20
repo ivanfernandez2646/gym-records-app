@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AlertController, IonContent, IonList } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { PlanAttachment } from '../models/plan-attachment.model';
 import { User } from '../models/user.model';
 import { LoaderService } from '../services/loader.service';
 import { PlanAttachmentService } from '../services/plan-attachment.service';
+import { ToastService } from '../services/toast.service';
 import { UserService } from '../services/user.service';
+import { CRUDAction } from '../utils/GenericUtils';
 
 @Component({
   selector: 'app-tab-plan',
@@ -22,10 +25,15 @@ export class TabPlanPage implements OnInit {
   showPdf: boolean;
   pdfData: Uint8Array;
 
+  @ViewChild('listWrapper', { static: false }) listWrapper: IonContent;
+  @ViewChild('listPlanAttachments') planAttachmentsList: IonList;
+
   constructor(
     private planAttachmentService: PlanAttachmentService,
     private userService: UserService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private toastService: ToastService,
+    private alertController: AlertController
   ) {
     this.currDate = new Date(Date.now());
     this.minDate = new Date(
@@ -52,6 +60,17 @@ export class TabPlanPage implements OnInit {
         this.loaderService.hideLoader();
       });
     });
+    this.planAttachmentService.planAttachmentsAction$.subscribe((a) => {
+      switch (a) {
+        case CRUDAction.CREATE:
+          this.toastService.showToast('Plan attachment created successfully');
+          setTimeout(() => this.listWrapper.scrollToBottom(), 500);
+          break;
+        case CRUDAction.DELETE:
+          this.toastService.showToast('Plan attachment deleted successfully');
+          break;
+      }
+    });
   }
 
   toggleShowPdf(path: string = undefined): void {
@@ -64,5 +83,40 @@ export class TabPlanPage implements OnInit {
     } else {
       this.showPdf = false;
     }
+  }
+
+  async deletePlanAttachment(
+    $event: MouseEvent,
+    planAttachment: PlanAttachment
+  ): Promise<void> {
+    if ($event) {
+      $event.stopPropagation();
+    }
+    const alert = await this.alertController.create({
+      header: 'Delete plan attachment',
+      message: `You're going to delete ${planAttachment.name}. Are you sure?`,
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            this.planAttachmentsList.closeSlidingItems();
+          },
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.loaderService.showLoader('Deleting plan attachment...');
+            this.planAttachmentService.delete(
+              planAttachment._id,
+              planAttachment.path
+            );
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }
