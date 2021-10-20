@@ -1,8 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { PlanAttachment } from '../models/plan-attachment.model';
+import {
+  DownloadedFileDTO,
+  PlanAttachment,
+} from '../models/plan-attachment.model';
 import { CRUDAction } from '../utils/GenericUtils';
 
 @Injectable({
@@ -26,7 +29,6 @@ export class PlanAttachmentService {
     params = params.append('userId', userId);
     params = params.append('month', month);
     params = params.append('year', year);
-    console.log(params);
 
     this.httpClient
       .get<PlanAttachment[]>(`${this.apiRoute}/plan-attachment`, { params })
@@ -44,6 +46,17 @@ export class PlanAttachmentService {
         this.planAttachments$.next(this.planAttachments);
         this.planAttachmentsAction$.next(CRUDAction.CREATE);
       });
+  }
+
+  downloadFile(path: string): Observable<DownloadedFileDTO> {
+    let params = new HttpParams();
+    params = params.append('path', path);
+    return this.httpClient.get<DownloadedFileDTO>(
+      `${this.apiRoute}/plan-attachment/download`,
+      {
+        params,
+      }
+    );
   }
 
   delete(id: string): void {

@@ -10,3 +10,10 @@ export interface PlanAttachment {
   uploadDate?: Date;
   user?: User | string;
 }
+
+export interface DownloadedFileDTO {
+  fileName: string;
+  size: number;
+  data: Uint8Array;
+  user: string;
+}

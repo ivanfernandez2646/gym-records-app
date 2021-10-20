@@ -20,7 +20,7 @@ export class TabPlanPage implements OnInit {
   minDate: Date;
   maxDate: Date;
   showPdf: boolean;
-  pdfSrc = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
+  pdfData: Uint8Array;
 
   constructor(
     private planAttachmentService: PlanAttachmentService,
@@ -54,7 +54,15 @@ export class TabPlanPage implements OnInit {
     });
   }
 
-  toggleShowPdf(): void {
-    this.showPdf = !this.showPdf;
+  toggleShowPdf(path: string = undefined): void {
+    if (!this.showPdf && path) {
+      this.planAttachmentService.downloadFile(path).subscribe((res) => {
+        console.log(res.data);
+        this.pdfData = res.data;
+        this.showPdf = !this.showPdf;
+      });
+    } else {
+      this.showPdf = false;
+    }
   }
 }
