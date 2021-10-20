@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from './config/config.module';
+import { OwnConfigModule } from './config/config.module';
 import { ExerciseModule } from './exercise/exercise.module';
 import { MarkModule } from './mark/mark.module';
 import { PlanAttachmentModule } from './plan-attachment/plan-attachment.module';
@@ -14,9 +15,10 @@ import { UserModule } from './user/user.module';
     ),
     ExerciseModule,
     MarkModule,
-    ConfigModule,
+    OwnConfigModule,
     UserModule,
     PlanAttachmentModule,
+    ConfigModule.forRoot({ isGlobal: true }),
   ],
 })
 export class AppModule {}

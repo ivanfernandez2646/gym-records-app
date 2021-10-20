@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { MulterModule } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
 import {
   PlanAttachment,
   PlanAttachmentSchema,
@@ -14,6 +16,9 @@ import { PlanAttachmentService } from './plan-attachment.service';
       { name: PlanAttachment.name, schema: PlanAttachmentSchema },
     ]),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MulterModule.register({
+      storage: memoryStorage(),
+    }),
   ],
   controllers: [PlanAttachmentController],
   providers: [PlanAttachmentService],

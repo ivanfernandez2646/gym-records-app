@@ -3,13 +3,17 @@ import {
   Controller,
   Delete,
   Get,
-  Param,
   Post,
   Query,
+  UploadedFile,
   UseFilters,
+  UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import {
-  CreatePlanAttachmentDTO,
+  DeletePlanAttachmentParams,
+  DownloadedFileDTO,
+  DownloadPlanAttachmentParams,
   FindPlanAttachmentsByUserAndDate,
 } from 'src/dto/plan-attachment.dto';
 import { AllExceptionsFilter } from 'src/errors/all-exception.error';
@@ -33,14 +37,23 @@ export class PlanAttachmentController {
   }
 
   @Post()
+  @UseInterceptors(FileInterceptor('file'))
   create(
-    @Body() createPlanAttachmentDTO: CreatePlanAttachmentDTO
+    @UploadedFile() file: Express.Multer.File,
+    @Body() createPlanAttachmentDTO
   ): Promise<PlanAttachment> {
-    return this.planAttachmentService.create(createPlanAttachmentDTO);
+    return this.planAttachmentService.create(createPlanAttachmentDTO, file);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string): Promise<boolean> {
-    return this.planAttachmentService.delete(id);
+  @Get('download')
+  downloadFile(
+    @Query() queryParams: DownloadPlanAttachmentParams
+  ): Promise<DownloadedFileDTO> {
+    return this.planAttachmentService.downloadFile(queryParams.path);
+  }
+
+  @Delete()
+  remove(@Query() queryParams: DeletePlanAttachmentParams): Promise<boolean> {
+    return this.planAttachmentService.delete(queryParams.id, queryParams.path);
   }
 }
