@@ -72,22 +72,22 @@ export class MarkService {
     const session = await this.markModel.startSession();
     session.startTransaction();
     try {
+      const newMarkUsed: MarkDocument = await this.markModel.findById(id);
+      newMarkUsed.isLatestUsed = true;
       const oldMarkUsed: MarkDocument = await this.markModel.findOne({
         isLatestUsed: true,
+        exercise: newMarkUsed.exercise,
       });
       if (oldMarkUsed) {
         oldMarkUsed.isLatestUsed = false;
         await oldMarkUsed.save();
       }
-      const newMarkUsed: MarkDocument = await this.markModel.findById(id);
-      newMarkUsed.isLatestUsed = true;
       await newMarkUsed.save();
 
       await session.commitTransaction();
       session.endSession();
-      return [oldMarkUsed, newMarkUsed];
+      return oldMarkUsed ? [oldMarkUsed, newMarkUsed] : [newMarkUsed];
     } catch (error) {
-      console.log(error);
       await session.abortTransaction();
       session.endSession();
       throw error;
