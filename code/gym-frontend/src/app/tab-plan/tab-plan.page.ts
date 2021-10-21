@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AlertController, IonContent, IonList } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import {
+  AlertController,
+  IonContent,
+  IonList,
+  ModalController,
+} from '@ionic/angular';
+import { Observable, take } from 'rxjs';
 import { PlanAttachment } from '../models/plan-attachment.model';
 import { User } from '../models/user.model';
 import { LoaderService } from '../services/loader.service';
@@ -8,6 +13,7 @@ import { PlanAttachmentService } from '../services/plan-attachment.service';
 import { ToastService } from '../services/toast.service';
 import { UserService } from '../services/user.service';
 import { CRUDAction } from '../utils/GenericUtils';
+import { CreatePlanAttachmentModalComponent } from './modals/create-plan-attachment-modal/create-plan-attachment-modal.component';
 
 @Component({
   selector: 'app-tab-plan',
@@ -30,6 +36,7 @@ export class TabPlanPage implements OnInit {
 
   constructor(
     private planAttachmentService: PlanAttachmentService,
+    private modalController: ModalController,
     private userService: UserService,
     private loaderService: LoaderService,
     private toastService: ToastService,
@@ -56,7 +63,7 @@ export class TabPlanPage implements OnInit {
         this.currDate.getMonth() + 1,
         this.currDate.getFullYear()
       );
-      this.planAttachments$.subscribe(() => {
+      this.planAttachments$.pipe(take(1)).subscribe(() => {
         this.loaderService.hideLoader();
       });
     });
@@ -64,10 +71,12 @@ export class TabPlanPage implements OnInit {
       switch (a) {
         case CRUDAction.CREATE:
           this.toastService.showToast('Plan attachment created successfully');
+          this.loaderService.hideLoader();
           setTimeout(() => this.listWrapper.scrollToBottom(), 500);
           break;
         case CRUDAction.DELETE:
           this.toastService.showToast('Plan attachment deleted successfully');
+          this.loaderService.hideLoader();
           break;
       }
     });
@@ -76,7 +85,6 @@ export class TabPlanPage implements OnInit {
   toggleShowPdf(path: string = undefined): void {
     if (!this.showPdf && path) {
       this.planAttachmentService.downloadFile(path).subscribe((res) => {
-        console.log(res.data);
         this.pdfData = res.data;
         this.showPdf = !this.showPdf;
       });
@@ -118,5 +126,29 @@ export class TabPlanPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  async createPlanAttachmentModal() {
+    const modal = await this.modalController.create({
+      component: CreatePlanAttachmentModalComponent,
+      componentProps: {
+        userId: this.loggedUser._id,
+        monthYearS: this.currDate.toISOString().slice(0, 7),
+        planMinDateS: this.minDate.toISOString().slice(0, 7),
+        planMaxDateS: this.maxDate.toISOString().slice(0, 7),
+      },
+    });
+    await modal.present();
+  }
+
+  doRefresh($event: any): void {
+    this.planAttachmentService.loadPlanAttachments(
+      this.loggedUser._id,
+      this.currDate.getMonth() + 1,
+      this.currDate.getFullYear()
+    );
+    this.planAttachments$.pipe(take(1)).subscribe(() => {
+      $event.target.complete();
+    });
   }
 }

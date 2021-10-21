@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
 import { UserService } from '../services/user.service';
-import { GenericForm, GenericFormInterface } from '../utils/GenericForm';
+import {
+  CustomFormFieldInput,
+  GenericForm,
+  GenericFormInterface,
+} from '../utils/GenericForm';
 
 @Component({
   selector: 'app-login',
@@ -30,21 +34,13 @@ export class LoginPage implements OnInit, GenericFormInterface {
 
   buildGenericForm(): void {
     this.genericForm = new GenericForm(this.user);
-    this.genericForm.class = 'login-form';
-    this.genericForm.customFormFields.push({
-      label: 'Username',
-      component: 'input',
-      type: 'text',
-      modelName: 'userName',
-      isRequired: true,
-    });
-    this.genericForm.customFormFields.push({
-      label: 'Password',
-      component: 'input',
-      type: 'password',
-      modelName: 'password',
-      isRequired: true,
-    });
+    this.genericForm.cssClass = 'login-form';
+    this.genericForm.customFormFields.push(
+      new CustomFormFieldInput('Username', 'userName', 'text', true)
+    );
+    this.genericForm.customFormFields.push(
+      new CustomFormFieldInput('Password', 'password', 'password', true)
+    );
     this.genericForm.customButtons.push({
       label: 'Register',
       type: 'submit',

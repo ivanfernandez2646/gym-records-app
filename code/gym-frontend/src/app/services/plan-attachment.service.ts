@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {
+  CreatePlanAttachmentDTO,
   DownloadedFileDTO,
   PlanAttachment,
 } from '../models/plan-attachment.model';
@@ -38,9 +39,17 @@ export class PlanAttachmentService {
       });
   }
 
-  create(planAttachment: PlanAttachment): void {
+  create(createPlanAttachmentDTO: CreatePlanAttachmentDTO): void {
+    const formData = new FormData();
+    formData.append('month', createPlanAttachmentDTO.month.toString());
+    formData.append('year', createPlanAttachmentDTO.year.toString());
+    formData.append('type', createPlanAttachmentDTO.type);
+    formData.append('name', createPlanAttachmentDTO.name);
+    formData.append('user', createPlanAttachmentDTO.user);
+    formData.append('file', createPlanAttachmentDTO.file);
+
     this.httpClient
-      .post<PlanAttachment>(`${this.apiRoute}/plan-attachment`, planAttachment)
+      .post<PlanAttachment>(`${this.apiRoute}/plan-attachment`, formData)
       .subscribe((res) => {
         this.planAttachments.push(res);
         this.planAttachments$.next(this.planAttachments);

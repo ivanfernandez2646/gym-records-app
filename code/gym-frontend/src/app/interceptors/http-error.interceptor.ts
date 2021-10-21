@@ -1,14 +1,12 @@
 import {
-  HttpEvent,
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
   HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
 } from '@angular/common/http';
-
 import { Observable, throwError } from 'rxjs';
-
-import { retry, catchError } from 'rxjs/operators';
+import { catchError, retry } from 'rxjs/operators';
 import { LoaderService } from '../services/loader.service';
 import { ToastService } from '../services/toast.service';
 
@@ -36,6 +34,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
             error.error.exception.response.message.forEach((m: string) => {
               errorMessage += m + '\n';
             });
+          } else if (error.status === 500) {
+            errorMessage = error.error.exception;
           }
         }
 

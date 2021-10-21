@@ -12,6 +12,9 @@
     <h2>Listado de documentos</h2>
   </ion-text>
   <ion-content class="list-wrapper" [scrollEvents]="true" #listWrapper>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <ng-container *ngIf="(planAttachments$ | async) as planAttachments">
       <ion-list
         class="list"
@@ -69,8 +72,12 @@
     </ng-container>
   </ion-content>
   <div class="buttons-container">
-    <ion-button type="submit" expand="block" color="secondary"
-      >Add document</ion-button
+    <ion-button
+      type="submit"
+      expand="block"
+      color="secondary"
+      (click)="createPlanAttachmentModal()"
+      >Add plan attachment</ion-button
     >
   </div>
 </ng-container>

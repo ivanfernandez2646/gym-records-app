@@ -11,6 +11,23 @@ export interface PlanAttachment {
   user?: User | string;
 }
 
+export interface CreatePlanAttachmentForm {
+  monthYear?: string;
+  type?: string;
+  name?: string;
+  user?: string;
+  file?: File;
+}
+
+export interface CreatePlanAttachmentDTO {
+  month?: number;
+  year?: number;
+  type?: string;
+  name?: string;
+  user?: string;
+  file?: File;
+}
+
 export interface DownloadedFileDTO {
   fileName: string;
   size: number;
