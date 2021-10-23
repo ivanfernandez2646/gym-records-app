@@ -87,13 +87,20 @@
       >Back</ion-button
     >
   </div>
+  <div class="zoom-buttons-container">
+    <ion-button expand="block" color="secondary" (click)="incrementZoom(0.5)"
+      >+<ion-icon name="search-circle"></ion-icon
+    ></ion-button>
+    <ion-button expand="block" color="secondary" (click)="incrementZoom(-0.5)"
+      >-<ion-icon name="search-circle"></ion-icon>
+    </ion-button>
+  </div>
   <pdf-viewer
     [src]="pdfData"
     [fit-to-page]="true"
-    [original-size]="true"
     [render-text]="true"
     [show-borders]="true"
     class="pdf-viewer"
-  >
-  </pdf-viewer>
+    [zoom]="currZoom"
+  ></pdf-viewer>
 </ng-template>

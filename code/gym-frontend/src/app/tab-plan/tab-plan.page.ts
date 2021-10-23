@@ -30,6 +30,7 @@ export class TabPlanPage implements OnInit {
   maxDate: Date;
   showPdf: boolean;
   pdfData: Uint8Array;
+  currZoom: number;
 
   @ViewChild('listWrapper', { static: false }) listWrapper: IonContent;
   @ViewChild('listPlanAttachments') planAttachmentsList: IonList;
@@ -51,6 +52,7 @@ export class TabPlanPage implements OnInit {
       this.currDate.getFullYear() + 5,
       this.currDate.getMonth()
     );
+    this.currZoom = 1;
   }
 
   ngOnInit() {
@@ -84,12 +86,15 @@ export class TabPlanPage implements OnInit {
 
   toggleShowPdf(path: string = undefined): void {
     if (!this.showPdf && path) {
+      this.loaderService.showLoader('Loading...');
       this.planAttachmentService.downloadFile(path).subscribe((res) => {
+        this.loaderService.hideLoader();
         this.pdfData = res.data;
         this.showPdf = !this.showPdf;
       });
     } else {
       this.showPdf = false;
+      this.currZoom = 1;
     }
   }
 
@@ -150,5 +155,14 @@ export class TabPlanPage implements OnInit {
     this.planAttachments$.pipe(take(1)).subscribe(() => {
       $event.target.complete();
     });
+  }
+
+  incrementZoom(zoom: number): void {
+    const tmpZoom = (this.currZoom += zoom);
+    if (tmpZoom < 1) {
+      this.currZoom = 1;
+    } else {
+      this.currZoom += zoom;
+    }
   }
 }
