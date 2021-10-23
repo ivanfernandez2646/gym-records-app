@@ -12,34 +12,47 @@
     overflow-y: auto;
     padding-top: 0;
 
-    .item-wrapper {
-      width: 100%;
-      margin: 1rem;
+    ion-item-sliding {
+      border-top: 0px;
+      border-right: 1px;
+      border-bottom: 1px;
+      border-left: 1px;
+      border-style: solid;
+      border-color: black;
 
-      .item-info {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      &:first-child {
+        border: 1px solid black;
+      }
 
-        ion-label {
+      .item-wrapper {
+        width: 100%;
+        margin: 1rem;
+
+        .item-info {
           display: flex;
-          max-width: 60%;
-          font-size: 1rem;
-          font-weight: 900;
+          flex-direction: column;
+          justify-content: space-between;
+
+          ion-label {
+            display: flex;
+            max-width: 60%;
+            font-size: 1rem;
+            font-weight: 900;
+          }
+
+          ion-badge {
+            height: fit-content;
+          }
         }
 
-        ion-badge {
-          height: fit-content;
+        .type-plan {
+          margin-left: 0.5rem;
         }
-      }
 
-      .is-monitorized {
-        margin-left: 0.5rem;
-      }
-
-      .item-description {
-        font-size: 0.8rem;
-        margin-bottom: 0;
+        .item-description {
+          font-size: 0.8rem;
+          margin-bottom: 0;
+        }
       }
     }
   }

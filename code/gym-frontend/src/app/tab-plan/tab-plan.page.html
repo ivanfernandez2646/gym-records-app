@@ -5,7 +5,8 @@
       displayFormat="MMM YYYY"
       min="{{minDate | date:'YYYY-MM-dd' }}"
       max="{{maxDate | date:'YYYY-MM-dd'}}"
-      value="{{currDate}}"
+      value="{{selectedDate}}"
+      (ionChange)="changeSelectedDate($event)"
     ></ion-datetime>
   </ion-item>
   <ion-text class="ion-text-center" color="secondary">
@@ -23,46 +24,45 @@
       >
         <ng-container *ngIf="!(isLoading$ | async)">
           <ng-container *ngIf="planAttachments.length > 0; else noItems">
-            <div *ngFor="let planAttachment of planAttachments">
-              <ion-item-sliding>
-                <ion-item-options side="start">
-                  <ion-item-option
-                    color="danger"
-                    expandable
-                    (click)="deletePlanAttachment($event, planAttachment)"
-                  >
-                    Delete
-                  </ion-item-option>
-                </ion-item-options>
-
-                <ion-item
-                  class="ion-no-padding"
-                  button
-                  (click)="toggleShowPdf(planAttachment.path)"
+            <ion-item-sliding *ngFor="let planAttachment of planAttachments">
+              <ion-item-options side="start">
+                <ion-item-option
+                  color="danger"
+                  expandable
+                  (click)="deletePlanAttachment($event, planAttachment)"
                 >
-                  <div class="item-wrapper">
-                    <div class="item-info">
-                      <ion-label text-wrap
-                        >{{planAttachment.name }}<span
-                          class="is-monitorized"
-                          *ngIf="planAttachment.month"
-                          ><ion-icon
-                            class="is-monitorized-icon"
-                            name="eye"
-                          ></ion-icon></span
-                      ></ion-label>
-                    </div>
-                  </div>
-                  <ion-ripple-effect type="bounded"></ion-ripple-effect>
-                </ion-item>
+                  Delete
+                </ion-item-option>
+              </ion-item-options>
 
-                <!-- <ion-item-options side="end">
+              <ion-item
+                class="ion-no-padding"
+                button
+                color="{{planAttachment.type.toString() === planNutritional ? 'nutritionalPlan' : 'workoutPlan'}}"
+                (click)="toggleShowPdf(planAttachment.path)"
+              >
+                <div class="item-wrapper">
+                  <div class="item-info">
+                    <ion-label text-wrap
+                      >{{planAttachment.name + '.pdf'}}<span class="type-plan"
+                        ><ion-icon
+                          name="{{planAttachment.type.toString() === planNutritional ? 'nutrition' : 'barbell'}}"
+                        ></ion-icon></span
+                    ></ion-label>
+                    <span>
+                      {{planAttachment.uploadDate | date:'YYYY-MM-dd'}}</span
+                    >
+                  </div>
+                </div>
+                <ion-ripple-effect type="bounded"></ion-ripple-effect>
+              </ion-item>
+
+              <!-- <ion-item-options side="end">
                   <ion-item-option color="tertiary" expandable>
                     Edit
                   </ion-item-option>
                 </ion-item-options> -->
-              </ion-item-sliding>
-            </div>
+            </ion-item-sliding>
           </ng-container>
           <ng-template #noItems>
             <h4 class="no-items">No documents. You can start adding one.</h4>

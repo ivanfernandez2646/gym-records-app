@@ -13,6 +13,7 @@ import { PlanAttachmentService } from '../services/plan-attachment.service';
 import { ToastService } from '../services/toast.service';
 import { UserService } from '../services/user.service';
 import { CRUDAction } from '../utils/GenericUtils';
+import { PlanAttachmentEnum } from '../utils/PlanAttachmentEnum';
 import { CreatePlanAttachmentModalComponent } from './modals/create-plan-attachment-modal/create-plan-attachment-modal.component';
 
 @Component({
@@ -24,8 +25,9 @@ export class TabPlanPage implements OnInit {
   planAttachments$: Observable<PlanAttachment[]>;
   isLoading$: Observable<boolean>;
   loggedUser: User;
+  planNutritional: PlanAttachmentEnum = PlanAttachmentEnum.NUTRITIONAL;
 
-  currDate: Date;
+  selectedDate: Date;
   minDate: Date;
   maxDate: Date;
   showPdf: boolean;
@@ -43,14 +45,14 @@ export class TabPlanPage implements OnInit {
     private toastService: ToastService,
     private alertController: AlertController
   ) {
-    this.currDate = new Date(Date.now());
+    this.selectedDate = new Date(Date.now());
     this.minDate = new Date(
-      this.currDate.getFullYear() - 5,
-      this.currDate.getMonth()
+      this.selectedDate.getFullYear() - 5,
+      this.selectedDate.getMonth()
     );
     this.maxDate = new Date(
-      this.currDate.getFullYear() + 5,
-      this.currDate.getMonth()
+      this.selectedDate.getFullYear() + 5,
+      this.selectedDate.getMonth()
     );
     this.currZoom = 1;
   }
@@ -59,16 +61,7 @@ export class TabPlanPage implements OnInit {
     this.userService.loggedUser$.subscribe((res) => (this.loggedUser = res));
     this.planAttachments$ = this.planAttachmentService.planAttachments$;
     this.isLoading$ = this.loaderService.isLoading$;
-    this.loaderService.showLoader('Loading plans...').then(() => {
-      this.planAttachmentService.loadPlanAttachments(
-        this.loggedUser._id,
-        this.currDate.getMonth() + 1,
-        this.currDate.getFullYear()
-      );
-      this.planAttachments$.pipe(take(1)).subscribe(() => {
-        this.loaderService.hideLoader();
-      });
-    });
+    this.loadPlanAttachments(this.selectedDate);
     this.planAttachmentService.planAttachmentsAction$.subscribe((a) => {
       switch (a) {
         case CRUDAction.CREATE:
@@ -82,6 +75,23 @@ export class TabPlanPage implements OnInit {
           break;
       }
     });
+  }
+
+  loadPlanAttachments(date: Date): void {
+    this.loaderService.showLoader('Loading plans...').then(() => {
+      this.planAttachmentService.loadPlanAttachments(
+        this.loggedUser._id,
+        date.getMonth() + 1,
+        date.getFullYear()
+      );
+      this.planAttachments$.pipe(take(1)).subscribe(() => {
+        this.loaderService.hideLoader();
+      });
+    });
+  }
+
+  changeSelectedDate($event: any): void {
+    this.loadPlanAttachments(new Date($event.detail.value));
   }
 
   toggleShowPdf(path: string = undefined): void {
@@ -138,7 +148,7 @@ export class TabPlanPage implements OnInit {
       component: CreatePlanAttachmentModalComponent,
       componentProps: {
         userId: this.loggedUser._id,
-        monthYearS: this.currDate.toISOString().slice(0, 7),
+        monthYearS: this.selectedDate.toISOString().slice(0, 7),
         planMinDateS: this.minDate.toISOString().slice(0, 7),
         planMaxDateS: this.maxDate.toISOString().slice(0, 7),
       },
@@ -149,8 +159,8 @@ export class TabPlanPage implements OnInit {
   doRefresh($event: any): void {
     this.planAttachmentService.loadPlanAttachments(
       this.loggedUser._id,
-      this.currDate.getMonth() + 1,
-      this.currDate.getFullYear()
+      this.selectedDate.getMonth() + 1,
+      this.selectedDate.getFullYear()
     );
     this.planAttachments$.pipe(take(1)).subscribe(() => {
       $event.target.complete();
