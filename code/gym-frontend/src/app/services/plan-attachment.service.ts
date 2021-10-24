@@ -44,7 +44,11 @@ export class PlanAttachmentService {
     formData.append('month', createPlanAttachmentDTO.month.toString());
     formData.append('year', createPlanAttachmentDTO.year.toString());
     formData.append('type', createPlanAttachmentDTO.type);
-    formData.append('name', createPlanAttachmentDTO.name);
+
+    if (createPlanAttachmentDTO.name) {
+      formData.append('name', createPlanAttachmentDTO.name);
+    }
+
     formData.append('user', createPlanAttachmentDTO.user);
     formData.append('file', createPlanAttachmentDTO.file);
 
