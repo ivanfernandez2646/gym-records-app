@@ -42,6 +42,9 @@ export class PlanAttachmentController {
     @UploadedFile() file: Express.Multer.File,
     @Body() createPlanAttachmentDTO
   ): Promise<PlanAttachment> {
+    if (createPlanAttachmentDTO.name === undefined) {
+      createPlanAttachmentDTO.name = file.originalname.split('.')[0];
+    }
     return this.planAttachmentService.create(createPlanAttachmentDTO, file);
   }
 
