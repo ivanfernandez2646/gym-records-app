@@ -42,31 +42,42 @@ export class PlanAttachmentService {
       const dbx: Dropbox = new Dropbox({
         accessToken: this.configService.get<string>('DROPBOX_ACCESS_TOKEN'),
       });
-      const fileUploaded: DropboxResponse<files.FileMetadata> =
-        await dbx.filesUpload({
-          path: `/${createPlanAttachmentDTO.user}/${
-            createPlanAttachmentDTO.name
-          }.${file.originalname.split('.')[1]}`,
-          contents: file.buffer,
-        });
+      const path: string = `/${createPlanAttachmentDTO.user}/${
+        createPlanAttachmentDTO.name
+      }.${file.originalname.split('.')[1]}`;
 
-      const session = await this.planAttachmentModel.startSession();
-      session.startTransaction();
-      const newPlanAttachment: PlanAttachmentDocument =
-        new this.planAttachmentModel(createPlanAttachmentDTO);
-      newPlanAttachment.path = fileUploaded.result.path_display;
-      const user: UserDocument = await this.userModel.findById(
-        createPlanAttachmentDTO.user
-      );
-      newPlanAttachment.user = new Types.ObjectId(user.id);
-      user.planAttachments.push(newPlanAttachment);
-      const planAttachmentSaved: PlanAttachmentDocument =
-        await newPlanAttachment.save();
-      await user.save();
-
-      await session.commitTransaction();
-      session.endSession();
-      return planAttachmentSaved;
+      //To check if file exist
+      try {
+        await dbx.filesGetMetadata({ path: path });
+        throw 'The file already exists';
+      } catch (err) {
+        //If status of the error is 409 is that the file not exist and then, we create the new file
+        if (err.status === 409) {
+          const fileUploaded: DropboxResponse<files.FileMetadata> =
+            await dbx.filesUpload({
+              path: path,
+              contents: file.buffer,
+            });
+          const session = await this.planAttachmentModel.startSession();
+          session.startTransaction();
+          const newPlanAttachment: PlanAttachmentDocument =
+            new this.planAttachmentModel(createPlanAttachmentDTO);
+          newPlanAttachment.path = fileUploaded.result.path_display;
+          const user: UserDocument = await this.userModel.findById(
+            createPlanAttachmentDTO.user
+          );
+          newPlanAttachment.user = new Types.ObjectId(user.id);
+          user.planAttachments.push(newPlanAttachment);
+          const planAttachmentSaved: PlanAttachmentDocument =
+            await newPlanAttachment.save();
+          await user.save();
+          await session.commitTransaction();
+          session.endSession();
+          return planAttachmentSaved;
+        } else {
+          throw err;
+        }
+      }
     } catch (err) {
       throw err;
     }
