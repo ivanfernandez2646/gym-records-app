@@ -39,3 +39,7 @@ export class FindMarkByUserAndExerciseParams {
   userId: string;
   exerciseId: string;
 }
+
+export class UpdateNotesForMarkParams {
+  notes: string;
+}

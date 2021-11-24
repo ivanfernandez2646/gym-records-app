@@ -68,6 +68,7 @@ export class MarkService {
       throw error;
     }
   }
+
   async setMarkAsLatestUsed(id: string): Promise<Mark[]> {
     const session = await this.markModel.startSession();
     session.startTransaction();
@@ -87,6 +88,24 @@ export class MarkService {
       await session.commitTransaction();
       session.endSession();
       return oldMarkUsed ? [oldMarkUsed, newMarkUsed] : [newMarkUsed];
+    } catch (error) {
+      await session.abortTransaction();
+      session.endSession();
+      throw error;
+    }
+  }
+
+  async updateNotesForMark(id: string, notes: string): Promise<Mark> {
+    const session = await this.markModel.startSession();
+    session.startTransaction();
+    try {
+      const markDb: MarkDocument = await this.markModel.findById(id);
+      markDb.notes = notes;
+      await markDb.save();
+
+      await session.commitTransaction();
+      session.endSession();
+      return markDb;
     } catch (error) {
       await session.abortTransaction();
       session.endSession();

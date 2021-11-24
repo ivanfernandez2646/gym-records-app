@@ -12,6 +12,7 @@ import {
 import {
   CreateMarkDTO,
   FindMarkByUserAndExerciseParams,
+  UpdateNotesForMarkParams,
 } from 'src/dto/mark.dto';
 import { AllExceptionsFilter } from 'src/errors/all-exception.error';
 import { Mark } from 'src/schemas/mark.schema';
@@ -50,5 +51,13 @@ export class MarkController {
   @Put('/latest-used/:id')
   setMarkAsLatestUsed(@Param('id') id: string): Promise<Mark[]> {
     return this.markService.setMarkAsLatestUsed(id);
+  }
+
+  @Put('/update-notes/:id')
+  updateNotesForMark(
+    @Param('id') id: string,
+    @Query() queryParams: UpdateNotesForMarkParams
+  ): Promise<Mark> {
+    return this.markService.updateNotesForMark(id, queryParams.notes);
   }
 }
