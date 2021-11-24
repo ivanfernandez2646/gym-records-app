@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { CreatePlanAttachmentForm } from '../models/plan-attachment.model';
 import { GenericForm } from '../utils/GenericForm';
 
 @Component({
@@ -25,6 +26,14 @@ export class GenericFormComponent implements OnInit {
     if ($event.target.value !== '') {
       this.genericFormData.modelData[$event.target.name] =
         $event.target.value * 1;
+    }
+  }
+
+  onFileSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      (this.genericFormData.modelData as CreatePlanAttachmentForm).file =
+        target.files[0];
     }
   }
 }

@@ -5,7 +5,13 @@ import { Exercise } from 'src/app/models/exercise.model';
 import { ExerciseService } from 'src/app/services/exercise.service';
 import { LoaderService } from 'src/app/services/loader.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { GenericForm, GenericFormInterface } from 'src/app/utils/GenericForm';
+import {
+  CustomFormFieldInput,
+  CustomFormFieldSelect,
+  CustomFormFieldToggle,
+  GenericForm,
+  GenericFormInterface,
+} from 'src/app/utils/GenericForm';
 import { enumToArrayOfValues } from 'src/app/utils/GenericUtils';
 import { MuscleEnum } from 'src/app/utils/MuscleEnum';
 
@@ -38,34 +44,24 @@ export class CreateExerciseModalComponent
 
   buildGenericForm(): void {
     this.genericForm = new GenericForm(this.exercise);
-    this.genericForm.class = 'exercises-form';
-    this.genericForm.customFormFields.push({
-      label: 'Name',
-      component: 'input',
-      type: 'text',
-      modelName: 'name',
-      isRequired: true,
-    });
-    this.genericForm.customFormFields.push({
-      label: 'Description',
-      component: 'input',
-      type: 'text',
-      modelName: 'description',
-    });
-    this.genericForm.customFormFields.push({
-      label: 'Muscle',
-      component: 'select',
-      modelName: 'muscle',
-      data: this.muscleEnum,
-      isRequired: true,
-    });
-    this.genericForm.customFormFields.push({
-      label: 'Is monitorized?',
-      component: 'toggle',
-      modelName: 'isMonitorized',
-      color: 'tertiary',
-      isRequired: true,
-    });
+    this.genericForm.cssClass = 'exercises-form';
+    this.genericForm.customFormFields.push(
+      new CustomFormFieldInput('Name', 'name', 'text', true)
+    );
+    this.genericForm.customFormFields.push(
+      new CustomFormFieldInput('Description', 'description', 'text')
+    );
+    this.genericForm.customFormFields.push(
+      new CustomFormFieldSelect('Muscle', 'muscle', this.muscleEnum, true)
+    );
+    this.genericForm.customFormFields.push(
+      new CustomFormFieldToggle(
+        'Is monitorized?',
+        'isMonitorized',
+        'tertiary',
+        true
+      )
+    );
     this.genericForm.customButtons.push({
       label: 'Save',
       type: 'submit',

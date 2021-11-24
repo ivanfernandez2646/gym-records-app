@@ -20,6 +20,9 @@
   </ion-chip>
 </div>
 <ion-content class="list-wrapper" [scrollEvents]="true" #listWrapper>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ng-container *ngIf="(exercises$ | async) as exercises">
     <ion-list
       class="list"

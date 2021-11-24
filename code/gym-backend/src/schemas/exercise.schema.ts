@@ -19,7 +19,7 @@ export class Exercise {
   @Prop({ type: Boolean, default: false, name: 'is_monitorized' })
   isMonitorized: boolean;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Mark' }] })
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Marks' }] })
   marks: Mark[];
 }
 

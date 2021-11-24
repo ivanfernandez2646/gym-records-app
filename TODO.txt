@@ -10,7 +10,5 @@ IMPORTANTE: Replica set para utilizar las transacciones. De lo contrario, no fun
 2-. Updatear un usuario y poder borrarlo.
 3-. Echar vistazo a nombre de las propiedades en mongo(camelCase)
 
-
-FRONTEND
-1-. Filtro tras guardar cambios.
-2-. Implementar registro dieta.
+MODIFICAR CONFIG MODULE POR OTRO NOMBRE SIMILAR EN BACKEND PARA EVITAR CONFUSIÓN CON EL PROPIO MÓDULO DE CONFIGURAACIÓN
+INTEGRADO EN NESTJS

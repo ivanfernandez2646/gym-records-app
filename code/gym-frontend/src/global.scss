@@ -95,7 +95,8 @@ ion-item.ion-invalid.ion-touched {
   margin: 0 auto;
 }
 
-.exercises-form {
+.exercises-form,
+.plan-attachments-form {
   .form-buttons-container {
     @include buttons-container-mixin();
   }

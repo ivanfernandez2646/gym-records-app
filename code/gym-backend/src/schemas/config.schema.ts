@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { MuscleEnum } from 'src/enums/muscle.enum';
 import { Exercise } from './exercise.schema';
 import { User } from './user.schema';
 

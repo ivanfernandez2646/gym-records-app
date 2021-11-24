@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { Config } from './config.schema';
 import { Mark } from './mark.schema';
+import { PlanAttachment } from './plan-attachment.schema';
 
 export type UserDocument = User & Document;
 
@@ -26,9 +27,20 @@ export class User {
   hashPassword: string;
 
   @Prop({
-    type: [{ type: Types.ObjectId, ref: 'Marks', name: 'favourite_exercise' }],
+    type: [{ type: Types.ObjectId, ref: 'Marks' }],
   })
   marks: Mark[];
+
+  @Prop({
+    type: [
+      {
+        type: Types.ObjectId,
+        ref: 'PlanAttachments',
+        name: 'plan_attachments',
+      },
+    ],
+  })
+  planAttachments: PlanAttachment[];
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Config', required: true }] })
   config: Config;
@@ -38,5 +50,6 @@ export const UserSchema = SchemaFactory.createForClass(User);
 UserSchema.pre('deleteOne', { document: true }, function (next) {
   this.model('Mark').deleteMany({ user: this._id }).exec();
   this.model('Config').deleteOne({ user: this._id }).exec();
+  this.model('PlanAttachment').deleteMany({ user: this._id }).exec();
   next();
 });

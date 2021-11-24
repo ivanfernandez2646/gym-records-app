@@ -1,0 +1,106 @@
+<ng-container *ngIf="!showPdf;else pdfView">
+  <ion-item>
+    <ion-label>Mes y año</ion-label>
+    <ion-datetime
+      displayFormat="MMM YYYY"
+      min="{{minDate | date:'YYYY-MM-dd' }}"
+      max="{{maxDate | date:'YYYY-MM-dd'}}"
+      value="{{selectedDate}}"
+      (ionChange)="changeSelectedDate($event)"
+    ></ion-datetime>
+  </ion-item>
+  <ion-text class="ion-text-center" color="secondary">
+    <h2>Listado de documentos</h2>
+  </ion-text>
+  <ion-content class="list-wrapper" [scrollEvents]="true" #listWrapper>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ng-container *ngIf="(planAttachments$ | async) as planAttachments">
+      <ion-list
+        class="list"
+        [style.height]="planAttachments.length > 0 ? 'fit-content' : '100%'"
+        #listPlanAttachments
+      >
+        <ng-container *ngIf="!(isLoading$ | async)">
+          <ng-container *ngIf="planAttachments.length > 0; else noItems">
+            <ion-item-sliding *ngFor="let planAttachment of planAttachments">
+              <ion-item-options side="start">
+                <ion-item-option
+                  color="danger"
+                  expandable
+                  (click)="deletePlanAttachment($event, planAttachment)"
+                >
+                  Delete
+                </ion-item-option>
+              </ion-item-options>
+
+              <ion-item
+                class="ion-no-padding"
+                button
+                color="{{planAttachment.type.toString() === planNutritional ? 'nutritionalPlan' : 'workoutPlan'}}"
+                (click)="toggleShowPdf(planAttachment.path)"
+              >
+                <div class="item-wrapper">
+                  <div class="item-info">
+                    <ion-label text-wrap
+                      >{{planAttachment.name + '.pdf'}}<span class="type-plan"
+                        ><ion-icon
+                          name="{{planAttachment.type.toString() === planNutritional ? 'nutrition' : 'barbell'}}"
+                        ></ion-icon></span
+                    ></ion-label>
+                    <span>
+                      {{planAttachment.uploadDate | date:'YYYY-MM-dd'}}</span
+                    >
+                  </div>
+                </div>
+                <ion-ripple-effect type="bounded"></ion-ripple-effect>
+              </ion-item>
+
+              <!-- <ion-item-options side="end">
+                  <ion-item-option color="tertiary" expandable>
+                    Edit
+                  </ion-item-option>
+                </ion-item-options> -->
+            </ion-item-sliding>
+          </ng-container>
+          <ng-template #noItems>
+            <h4 class="no-items">No documents. You can start adding one.</h4>
+          </ng-template>
+        </ng-container>
+      </ion-list>
+    </ng-container>
+  </ion-content>
+  <div class="buttons-container">
+    <ion-button
+      type="submit"
+      expand="block"
+      color="secondary"
+      (click)="createPlanAttachmentModal()"
+      >Add plan attachment</ion-button
+    >
+  </div>
+</ng-container>
+<ng-template #pdfView>
+  <div class="buttons-container">
+    <ion-button expand="block" color="primary" (click)="toggleShowPdf()"
+      >Back</ion-button
+    >
+  </div>
+  <div class="zoom-buttons-container">
+    <ion-button expand="block" color="secondary" (click)="incrementZoom(0.5)"
+      >+<ion-icon name="search-circle"></ion-icon
+    ></ion-button>
+    <ion-button expand="block" color="secondary" (click)="incrementZoom(-0.5)"
+      >-<ion-icon name="search-circle"></ion-icon>
+    </ion-button>
+  </div>
+  <pdf-viewer
+    [src]="pdfData"
+    [fit-to-page]="true"
+    [render-text]="true"
+    [show-borders]="true"
+    class="pdf-viewer"
+    [zoom]="currZoom"
+  ></pdf-viewer>
+</ng-template>

@@ -6,7 +6,7 @@ import {
   IonList,
   ModalController,
 } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { Exercise } from '../models/exercise.model';
 import { User } from '../models/user.model';
 import { ExerciseService } from '../services/exercise.service';
@@ -51,7 +51,7 @@ export class TabExercises implements OnInit {
     this.isLoading$ = this.loaderService.isLoading$;
     this.loaderService.showLoader('Loading exercises...').then(() => {
       this.exerciseService.loadExercises();
-      this.exercises$.subscribe(() => {
+      this.exercises$.pipe(take(1)).subscribe(() => {
         this.loaderService.hideLoader();
       });
     });
@@ -59,13 +59,16 @@ export class TabExercises implements OnInit {
       switch (a) {
         case CRUDAction.CREATE:
           this.toastService.showToast('Exercise created successfully');
+          this.loaderService.hideLoader();
           setTimeout(() => this.listWrapper.scrollToBottom(), 500);
           break;
         case CRUDAction.UPDATE:
           this.toastService.showToast('Exercise updated successfully');
+          this.loaderService.hideLoader();
           break;
         case CRUDAction.DELETE:
           this.toastService.showToast('Exercise deleted successfully');
+          this.loaderService.hideLoader();
           break;
       }
     });
@@ -217,5 +220,12 @@ export class TabExercises implements OnInit {
       });
     });
     setTimeout(() => this.listWrapper.scrollToTop(), 0);
+  }
+
+  doRefresh($event: any): void {
+    this.exerciseService.loadExercises();
+    this.exercises$.pipe(take(1)).subscribe(() => {
+      $event.target.complete();
+    });
   }
 }

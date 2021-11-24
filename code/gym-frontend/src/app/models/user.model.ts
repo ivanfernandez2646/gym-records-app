@@ -1,5 +1,6 @@
 import { Config } from './config.model';
 import { Mark } from './mark.model';
+import { PlanAttachment } from './plan-attachment.model';
 
 export interface User {
   _id?: string;
@@ -8,5 +9,6 @@ export interface User {
   email?: string;
   password?: string;
   marks?: Mark[];
+  planAttachments?: PlanAttachment[];
   config?: Config;
 }

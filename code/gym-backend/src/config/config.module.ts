@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from './config.service';
-import { ConfigController } from './config.controller';
-import { Config, ConfigSchema } from 'src/schemas/config.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { Config, ConfigSchema } from 'src/schemas/config.schema';
 import { Exercise, ExerciseSchema } from 'src/schemas/exercise.schema';
+import { ConfigController } from './config.controller';
+import { ConfigService } from './config.service';
 
 @Module({
   imports: [
@@ -15,4 +15,4 @@ import { Exercise, ExerciseSchema } from 'src/schemas/exercise.schema';
   providers: [ConfigService],
   controllers: [ConfigController],
 })
-export class ConfigModule {}
+export class OwnConfigModule {}

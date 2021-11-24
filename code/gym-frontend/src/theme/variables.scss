@@ -242,3 +242,21 @@
   --ion-color-shade: #e0e000;
   --ion-color-tint: #ffff1a;
 }
+
+.ion-color-nutritionalPlan {
+  --ion-color-base: rgb(7, 218, 7);
+  --ion-color-base-rgb: 255, 255, 0;
+  --ion-color-contrast: #000000;
+  --ion-color-contrast-rgb: 0, 0, 0;
+  --ion-color-shade: #00e013;
+  --ion-color-tint: #5bff1a;
+}
+
+.ion-color-workoutPlan {
+  --ion-color-base: rgb(255, 168, 7);
+  --ion-color-base-rgb: 255, 255, 0;
+  --ion-color-contrast: #000000;
+  --ion-color-contrast-rgb: 0, 0, 0;
+  --ion-color-shade: #e0b700;
+  --ion-color-tint: #d18f00;
+}

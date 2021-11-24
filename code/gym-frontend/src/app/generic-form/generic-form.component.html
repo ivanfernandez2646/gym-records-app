@@ -1,6 +1,6 @@
 <form
   *ngIf="genericFormData"
-  class="{{ genericFormData.class }}"
+  class="{{ genericFormData.cssClass }}"
   (ngSubmit)="formSubmit()"
   #form="ngForm"
 >
@@ -16,14 +16,26 @@
       <ng-container [ngSwitch]="formField.component">
         <ng-container *ngSwitchCase="'input'">
           <ion-input
-            [type]="formField.type"
+            [type]="$any(formField).type"
             (ionChange)="
-              formField.type === 'number' ? transformToNumber($event) : false
+              $any(formField).type === 'number'
+                ? transformToNumber($event)
+                : false
             "
             [(ngModel)]="genericFormData.modelData[formField.modelName]"
             [name]="formField.modelName"
             [required]="formField.isRequired"
-            [classList]="formField.class"
+            [classList]="formField.cssClass"
+            [min]="$any(formField).min"
+            [max]="$any(formField).max"
+            [accept]="
+              $any(formField).type === 'file'
+                ? $any(formField).accept
+                : undefined
+            "
+            (change)="
+              $any(formField).type === 'file' ? onFileSelected($event) : false
+            "
           ></ion-input>
         </ng-container>
         <ng-container *ngSwitchCase="'select'">
@@ -33,10 +45,10 @@
             [(ngModel)]="genericFormData.modelData[formField.modelName]"
             [name]="formField.modelName"
             [required]="formField.isRequired"
-            [classList]="formField.class"
+            [classList]="formField.cssClass"
           >
             <ion-select-option
-              *ngFor="let option of formField.data"
+              *ngFor="let option of $any(formField).data"
               value="{{ option }}"
               >{{ option | titlecase }}</ion-select-option
             >
@@ -48,8 +60,8 @@
             [(ngModel)]="genericFormData.modelData[formField.modelName]"
             [name]="formField.modelName"
             [required]="formField.isRequired"
-            [color]="formField.color"
-            [classList]="formField.class"
+            [color]="$any(formField).color"
+            [classList]="formField.cssClass"
           ></ion-toggle>
         </ng-container>
       </ng-container>
@@ -61,7 +73,7 @@
         [type]="button.type"
         [expand]="button.expand"
         [color]="button.color"
-        [classList]="button.class"
+        [classList]="button.cssClass"
         (click)="
           button.type !== 'submit' && button.callback
             ? button.callback.call(this)

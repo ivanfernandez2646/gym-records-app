@@ -1,0 +1,77 @@
+.list-wrapper {
+  &::part(background) {
+    background-color: gainsboro;
+    margin-top: 1rem;
+  }
+
+  &::part(scroll) {
+    margin: 2rem 1rem 1rem 1rem;
+  }
+
+  .list {
+    overflow-y: auto;
+    padding-top: 0;
+
+    ion-item-sliding {
+      border-top: 0px;
+      border-right: 1px;
+      border-bottom: 1px;
+      border-left: 1px;
+      border-style: solid;
+      border-color: black;
+
+      &:first-child {
+        border: 1px solid black;
+      }
+
+      .item-wrapper {
+        width: 100%;
+        margin: 1rem;
+
+        .item-info {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+
+          ion-label {
+            display: flex;
+            max-width: 60%;
+            font-size: 1rem;
+            font-weight: 900;
+          }
+
+          ion-badge {
+            height: fit-content;
+          }
+        }
+
+        .type-plan {
+          margin-left: 0.5rem;
+        }
+
+        .item-description {
+          font-size: 0.8rem;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+}
+
+.pdf-viewer {
+  display: flex;
+  height: 100%;
+}
+
+:host ::ng-deep .pdfViewer .page .canvasWrapper {
+  width: auto !important;
+}
+
+.buttons-container {
+  margin-bottom: 1rem;
+}
+
+.zoom-buttons-container {
+  display: flex;
+  justify-content: center;
+}
