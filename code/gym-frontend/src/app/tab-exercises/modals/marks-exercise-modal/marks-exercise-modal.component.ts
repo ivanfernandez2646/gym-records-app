@@ -228,12 +228,36 @@ export class MarksExerciseModalComponent
     await alert.present();
   }
 
-  async showNote($event: any, notes: string): Promise<void> {
+  async showNote($event: any, notes: string, markId: string): Promise<void> {
     const selectedMarkElement: IonItem = $event.currentTarget as IonItem;
     selectedMarkElement.color = 'selectMark';
     const alert = await this.alertController.create({
       header: 'Notes',
-      message: `${notes}`,
+      message: 'View or edit your note',
+      inputs: [
+        {
+          name: 'notes',
+          value: notes,
+          type: 'textarea',
+          cssClass: 'notesTextArea',
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Confirm',
+          handler: (data) => {
+            this.markService.updateNotesForMark(
+              markId,
+              this.exercise._id,
+              data.notes
+            );
+          },
+        },
+      ],
     });
     await alert.present();
     await alert.onDidDismiss();

@@ -101,3 +101,7 @@ ion-item.ion-invalid.ion-touched {
     @include buttons-container-mixin();
   }
 }
+
+.notesTextArea {
+  min-height: 150px !important;
+}

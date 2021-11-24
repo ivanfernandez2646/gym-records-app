@@ -25,7 +25,9 @@
 
                 <ion-item
                   class="ion-no-padding"
-                  (click)="mark.notes ? showNote($event, mark.notes) : false"
+                  (click)="
+                    mark.notes ? showNote($event, mark.notes, mark._id) : false
+                  "
                 >
                   <ion-label class="label-date"
                     ><span>{{ mark.date | date: "dd/MM/yyyy" }}</span

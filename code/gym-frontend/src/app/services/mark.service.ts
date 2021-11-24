@@ -72,6 +72,24 @@ export class MarkService {
       });
   }
 
+  updateNotesForMark(markId: string, exerciseId: string, notes: string): void {
+    this.httpClient
+      .put<Mark>(
+        `${this.apiRoute}/mark/update-notes/${markId}?notes=${notes}`,
+        undefined
+      )
+      .subscribe((res) => {
+        const marks = this.marksMap.get(exerciseId);
+        marks.splice(
+          marks.findIndex((m) => m._id === markId),
+          1,
+          res
+        );
+        this.marksMap$.get(exerciseId).next(marks);
+        this.marksAction$.next(CRUDAction.UPDATE);
+      });
+  }
+
   //Helpers
   getMarksObservableFiltered(exerciseId: string): ReplaySubject<Mark[]> {
     if (!this.marksMap$.has(exerciseId)) {
