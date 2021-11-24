@@ -250,6 +250,7 @@ export class MarksExerciseModalComponent
         {
           text: 'Confirm',
           handler: (data) => {
+            this.loaderService.showLoader('Saving mark...');
             this.markService.updateNotesForMark(
               markId,
               this.exercise._id,
