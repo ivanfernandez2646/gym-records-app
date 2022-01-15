@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseFilters } from '@nestjs/common';
-import { CreateUserDTO, LoginUserDTO } from 'src/dto/user.dto';
-import { AllExceptionsFilter } from 'src/errors/all-exception.error';
-import { User } from 'src/schemas/user.schema';
+import { CreateUserDTO, LoginUserDTO } from '../dto/user.dto';
+import { AllExceptionsFilter } from '../errors/all-exception.error';
+import { User } from '../schemas/user.schema';
 import { UserService } from './user.service';
 
 @Controller('user')

@@ -8,9 +8,9 @@ import {
   Put,
   UseFilters,
 } from '@nestjs/common';
-import { CreateExerciseDTO, UpdateExerciseDTO } from 'src/dto/exercise.dto';
-import { AllExceptionsFilter } from 'src/errors/all-exception.error';
-import { Exercise } from 'src/schemas/exercise.schema';
+import { CreateExerciseDTO, UpdateExerciseDTO } from '../dto/exercise.dto';
+import { AllExceptionsFilter } from '../errors/all-exception.error';
+import { Exercise } from '../schemas/exercise.schema';
 import { ExerciseService } from './exercise.service';
 
 @Controller('exercise')

@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ClientSession, Model } from 'mongoose';
-import { CreateUserDTO, LoginUserDTO } from 'src/dto/user.dto';
-import { Config, ConfigDocument } from 'src/schemas/config.schema';
-import { User, UserDocument } from 'src/schemas/user.schema';
 import * as bcryptjs from 'bcryptjs';
-import { ENCRYPTION_SALT_ROUNDS } from 'src/utils/generic.constants';
-import { calculateBMI } from 'src/utils/generic.functions';
+import { ClientSession, Model } from 'mongoose';
+import { CreateUserDTO, LoginUserDTO } from '../dto/user.dto';
+import { Config, ConfigDocument } from '../schemas/config.schema';
+import { User, UserDocument } from '../schemas/user.schema';
+import { ENCRYPTION_SALT_ROUNDS } from '../utils/generic.constants';
+import { calculateBMI } from '../utils/generic.functions';
 
 @Injectable()
 export class UserService {

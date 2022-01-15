@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { ClientSession, Model } from 'mongoose';
-import { UpdateConfigDTO } from 'src/dto/config.dto';
-import { Config, ConfigDocument } from 'src/schemas/config.schema';
-import { Exercise, ExerciseDocument } from 'src/schemas/exercise.schema';
+import { UpdateConfigDTO } from '../dto/config.dto';
+import { Config, ConfigDocument } from '../schemas/config.schema';
+import { Exercise, ExerciseDocument } from '../schemas/exercise.schema';
 
 @Injectable()
 export class ConfigService {

@@ -13,9 +13,9 @@ import {
   CreateMarkDTO,
   FindMarkByUserAndExerciseParams,
   UpdateNotesForMarkParams,
-} from 'src/dto/mark.dto';
-import { AllExceptionsFilter } from 'src/errors/all-exception.error';
-import { Mark } from 'src/schemas/mark.schema';
+} from '../dto/mark.dto';
+import { AllExceptionsFilter } from '../errors/all-exception.error';
+import { Mark } from '../schemas/mark.schema';
 import { MarkService } from './mark.service';
 
 @Controller('mark')

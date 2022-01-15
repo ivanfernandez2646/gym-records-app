@@ -5,7 +5,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { MuscleEnum } from 'src/enums/muscle.enum';
+import { MuscleEnum } from '../enums/muscle.enum';
 
 export class CreateExerciseDTO {
   @IsString()

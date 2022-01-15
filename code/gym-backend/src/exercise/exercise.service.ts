@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateExerciseDTO, UpdateExerciseDTO } from 'src/dto/exercise.dto';
-import { Exercise, ExerciseDocument } from 'src/schemas/exercise.schema';
+import { CreateExerciseDTO, UpdateExerciseDTO } from '../dto/exercise.dto';
+import { Exercise, ExerciseDocument } from '../schemas/exercise.schema';
 
 //TODO: On delete, check if id exist before
 //TODO: On update, check if id exist before

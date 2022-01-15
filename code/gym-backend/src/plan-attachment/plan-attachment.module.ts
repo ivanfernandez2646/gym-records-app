@@ -5,8 +5,8 @@ import { memoryStorage } from 'multer';
 import {
   PlanAttachment,
   PlanAttachmentSchema,
-} from 'src/schemas/plan-attachment.schema';
-import { User, UserSchema } from 'src/schemas/user.schema';
+} from '../schemas/plan-attachment.schema';
+import { User, UserSchema } from '../schemas/user.schema';
 import { PlanAttachmentController } from './plan-attachment.controller';
 import { PlanAttachmentService } from './plan-attachment.service';
 

@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Put, UseFilters } from '@nestjs/common';
-import { UpdateConfigDTO } from 'src/dto/config.dto';
-import { AllExceptionsFilter } from 'src/errors/all-exception.error';
-import { Config } from 'src/schemas/config.schema';
+import { UpdateConfigDTO } from '../dto/config.dto';
+import { AllExceptionsFilter } from '../errors/all-exception.error';
+import { Config } from '../schemas/config.schema';
 import { ConfigService } from './config.service';
 
 @Controller('config')

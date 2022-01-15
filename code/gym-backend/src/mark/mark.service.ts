@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
-import { CreateMarkDTO } from 'src/dto/mark.dto';
-import { Exercise, ExerciseDocument } from 'src/schemas/exercise.schema';
-import { Mark, MarkDocument } from 'src/schemas/mark.schema';
-import { User, UserDocument } from 'src/schemas/user.schema';
+import { CreateMarkDTO } from '../dto/mark.dto';
+import { Exercise, ExerciseDocument } from '../schemas/exercise.schema';
+import { Mark, MarkDocument } from '../schemas/mark.schema';
+import { User, UserDocument } from '../schemas/user.schema';
 
 //TODO: On create, check if exercise id exist before
 //TODO: On delete, check if mark id exist before

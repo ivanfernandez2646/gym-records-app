@@ -10,7 +10,7 @@ import { UserModule } from './user/user.module';
 @Module({
   imports: [
     MongooseModule.forRoot(
-      'mongodb+srv://gymUser:gymUser@cluster0.ew7po.gcp.mongodb.net/gym_records_backup?retryWrites=true&w=majority',
+      'mongodb+srv://gymUser:gymUser@cluster0.ew7po.gcp.mongodb.net/gym_records?retryWrites=true&w=majority',
       { useCreateIndex: true, useFindAndModify: false }
     ),
     ExerciseModule,

@@ -6,12 +6,12 @@ import { Model, Types } from 'mongoose';
 import {
   CreatePlanAttachmentDTO,
   DownloadedFileDTO,
-} from 'src/dto/plan-attachment.dto';
+} from '../dto/plan-attachment.dto';
 import {
   PlanAttachment,
   PlanAttachmentDocument,
-} from 'src/schemas/plan-attachment.schema';
-import { User, UserDocument } from 'src/schemas/user.schema';
+} from '../schemas/plan-attachment.schema';
+import { User, UserDocument } from '../schemas/user.schema';
 
 @Injectable()
 export class PlanAttachmentService {

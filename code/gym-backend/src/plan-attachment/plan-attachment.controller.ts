@@ -15,9 +15,9 @@ import {
   DownloadedFileDTO,
   DownloadPlanAttachmentParams,
   FindPlanAttachmentsByUserAndDate,
-} from 'src/dto/plan-attachment.dto';
-import { AllExceptionsFilter } from 'src/errors/all-exception.error';
-import { PlanAttachment } from 'src/schemas/plan-attachment.schema';
+} from '../dto/plan-attachment.dto';
+import { AllExceptionsFilter } from '../errors/all-exception.error';
+import { PlanAttachment } from '../schemas/plan-attachment.schema';
 import { PlanAttachmentService } from './plan-attachment.service';
 
 @Controller('plan-attachment')

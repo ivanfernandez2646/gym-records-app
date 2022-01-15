@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Config, ConfigSchema } from 'src/schemas/config.schema';
-import { Exercise, ExerciseSchema } from 'src/schemas/exercise.schema';
+import { Config, ConfigSchema } from '../schemas/config.schema';
+import { Exercise, ExerciseSchema } from '../schemas/exercise.schema';
 import { ConfigController } from './config.controller';
 import { ConfigService } from './config.service';
 

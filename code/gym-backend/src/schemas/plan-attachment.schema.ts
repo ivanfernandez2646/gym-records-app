@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { PlanAttachmentEnum } from 'src/enums/plan-attachment.enum';
+import { PlanAttachmentEnum } from '../enums/plan-attachment.enum';
 import { User } from './user.schema';
 
 export type PlanAttachmentDocument = PlanAttachment & Document;

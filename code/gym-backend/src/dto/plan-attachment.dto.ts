@@ -8,7 +8,7 @@ import {
   Min,
 } from 'class-validator';
 import { Types } from 'mongoose';
-import { PlanAttachmentEnum } from 'src/enums/plan-attachment.enum';
+import { PlanAttachmentEnum } from '../enums/plan-attachment.enum';
 
 export class CreatePlanAttachmentDTO {
   @IsNumber()
