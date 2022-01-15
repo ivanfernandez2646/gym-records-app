@@ -7,6 +7,7 @@ import {
   IonList,
   ModalController,
 } from '@ionic/angular';
+import { cloneDeep } from 'lodash';
 import { Observable, Subscription } from 'rxjs';
 import { Exercise } from 'src/app/models/exercise.model';
 import { Mark } from 'src/app/models/mark.model';
@@ -71,12 +72,12 @@ export class MarksExerciseModalComponent
         switch (a) {
           case CRUDAction.CREATE:
             this.toastService.showToast('Mark created successfully');
-            this.ngFormReturned.resetForm();
+            this.resetForm();
             setTimeout(() => this.listWrapper.scrollToBottom(), 500);
             break;
           case CRUDAction.DELETE:
             this.toastService.showToast('Mark deleted successfully');
-            this.ngFormReturned.resetForm();
+            this.resetForm();
             break;
           case CRUDAction.UPDATE:
             this.toastService.showToast('Mark updated successfully');
@@ -92,7 +93,6 @@ export class MarksExerciseModalComponent
     this.genericForm.customFormFields.push(
       new CustomFormFieldInput(
         'Weight (kg)',
-
         'weight',
         'number',
         true,
@@ -199,27 +199,25 @@ export class MarksExerciseModalComponent
     await alert.present();
   }
 
-  async setMarkAsLatestUsed($event: MouseEvent, mark: Mark): Promise<void> {
+  async showOptions($event: MouseEvent, mark: Mark): Promise<void> {
     if ($event) {
       $event.stopPropagation();
     }
     const alert = await this.alertController.create({
-      header: 'Set mark as latest used',
-      message: `You're going to set the mark selected as the lastest used. Are you sure?`,
+      header: 'More options',
+      message: `Select one of these options`,
       buttons: [
         {
-          text: 'No',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            this.listMarks.closeSlidingItems();
-          },
-        },
-        {
-          text: 'Yes',
+          text: 'Latest used',
           handler: () => {
             this.loaderService.showLoader('Setting mark as latest used...');
             this.markService.setMarkAsLatestUsed(mark._id, this.exercise._id);
+          },
+        },
+        {
+          text: 'Copy mark',
+          handler: () => {
+            this.resetForm(mark);
           },
         },
       ],
@@ -263,5 +261,14 @@ export class MarksExerciseModalComponent
     await alert.present();
     await alert.onDidDismiss();
     selectedMarkElement.color = undefined;
+  }
+
+  resetForm(mark?: Mark): void {
+    if (this.ngFormReturned) {
+      this.genericForm.modelData = cloneDeep(mark);
+      this.ngFormReturned.setValue(cloneDeep(mark) ?? {});
+    } else {
+      this.genericForm.modelData = cloneDeep(mark) ?? {};
+    }
   }
 }

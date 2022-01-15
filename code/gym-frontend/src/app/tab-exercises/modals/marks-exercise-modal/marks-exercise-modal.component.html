@@ -46,13 +46,13 @@
                   </div>
                 </ion-item>
 
-                <ion-item-options side="end" *ngIf="!mark.isLatestUsed">
+                <ion-item-options side="end">
                   <ion-item-option
                     color="tertiary"
                     expandable
-                    (click)="setMarkAsLatestUsed($event, mark)"
+                    (click)="showOptions($event, mark)"
                   >
-                    Latest used
+                    Options
                   </ion-item-option>
                 </ion-item-options>
               </ion-item-sliding>
