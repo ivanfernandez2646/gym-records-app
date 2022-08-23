@@ -22,6 +22,9 @@ export class PlanAttachmentService {
     private configService: ConfigService
   ) {}
 
+  accessToken =
+    'sl.BN6hXunba4ViW6OKsiMhA1GuJYhleKItIxlsz5RrZHh4rGXgsfqjHZ3WnX1tgvU6Lm7PmnPM3gfl9g_-iso6dmAXhaJvysGH704xz5wUlFmh1_Zk4cRNVESUKt2Za2G591Kgsxs';
+
   async findAllByUserAndDate(
     userId: string,
     month: number,
@@ -40,7 +43,7 @@ export class PlanAttachmentService {
   ): Promise<PlanAttachment> {
     try {
       const dbx: Dropbox = new Dropbox({
-        accessToken: this.configService.get<string>('DROPBOX_ACCESS_TOKEN'),
+        accessToken: this.accessToken,
       });
       const path: string = `/${createPlanAttachmentDTO.user}/${
         createPlanAttachmentDTO.name
@@ -87,10 +90,11 @@ export class PlanAttachmentService {
   async downloadFile(path: string): Promise<DownloadedFileDTO> {
     try {
       const dbx: Dropbox = new Dropbox({
-        accessToken: this.configService.get<string>('DROPBOX_ACCESS_TOKEN'),
+        accessToken: this.accessToken,
       });
       const fileDownload: DropboxResponse<files.FileMetadata> =
         await dbx.filesDownload({ path: path });
+
       const downloadedFileDTO = new DownloadedFileDTO(
         fileDownload.result.name,
         fileDownload.result.size,
@@ -99,6 +103,7 @@ export class PlanAttachmentService {
       );
       return downloadedFileDTO;
     } catch (err) {
+      console.log(this.configService.get<string>('DROPBOX_ACCESS_TOKEN'));
       throw err;
     }
   }
@@ -106,7 +111,7 @@ export class PlanAttachmentService {
   async delete(id: string, path: string): Promise<boolean> {
     try {
       const dbx: Dropbox = new Dropbox({
-        accessToken: this.configService.get<string>('DROPBOX_ACCESS_TOKEN'),
+        accessToken: this.accessToken,
       });
       await dbx.filesDeleteV2({
         path: path,
